@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <soap:Body>
+        <ViewCasePartyResponse xmlns="http://services.ws.appeal.courts.gov.bc.ca">
+            <ViewCasePartyResult>
+                <CaseId>67890</CaseId>
+                <CaseNumber>CA12345</CaseNumber>
+                <CaseStatus>Active</CaseStatus>
+                <CaseType>Civil</CaseType>
+                <FilingDate>2011-05-13T09:00:00</FilingDate>
+                <Parties>
+                    <Party>
+                        <FirstName>Max</FirstName>
+                        <InPerson>false</InPerson>
+                        <LastName>FREE</LastName>
+                        <LegalRepresentation>
+                            <Lawyer>
+                                <Cell null="true"/>
+                                <Email null="true"/>
+                                <Firm>
+                                    <Address1>123 - Nice Street</Address1>
+                                    <Address2>B201</Address2>
+                                    <City>Here</City>
+                                    <Fax>111-222-3333</Fax>
+                                    <FirmName>Firm name</FirmName>
+                                    <Phone>111-222-3333</Phone>
+                                    <PostalCode>V1V 0M0</PostalCode>
+                                    <Province>British Columbia</Province>
+                                </Firm>
+                                <FirstName>John</FirstName>
+                                <LastName>Smith</LastName>
+                                <Phone>111-222-3333</Phone>
+                                <QueensCounsel>false</QueensCounsel>
+                            </Lawyer>
+                        </LegalRepresentation>
+                        <Organization>FREE Inc.</Organization>
+                        <PartyID>666666</PartyID>
+                        <PartyRole>Appellant</PartyRole>
+                        <RoleInPreviousCourt>Other</RoleInPreviousCourt>
+                    </Party>
+                    <Party>
+                        <FirstName>MAX</FirstName>
+                        <InPerson>false</InPerson>
+                        <LastName>SUPERFREE</LastName>
+                        <LegalRepresentation>
+                            <Lawyer>
+                                <Cell null="true"/>
+                                <Email null="true"/>
+                                <Firm>
+                                    <Address1>123 - Nice Street</Address1>
+                                    <Address2>B201</Address2>
+                                    <City>Here</City>
+                                    <Fax>111-222-3333</Fax>
+                                    <FirmName>Firm name</FirmName>
+                                    <Phone>111-222-3333</Phone>
+                                    <PostalCode>V1V 0M0</PostalCode>
+                                    <Province>British Columbia</Province>
+                                </Firm>
+                                <FirstName>John</FirstName>
+                                <LastName>Smith</LastName>
+                                <Phone>111-222-3333</Phone>
+                                <QueensCounsel>false</QueensCounsel>
+                            </Lawyer>
+                        </LegalRepresentation>
+                        <Organization>FREE Inc.</Organization>
+                        <PartyID>666666</PartyID>
+                        <PartyRole>Appellant</PartyRole>
+                        <RoleInPreviousCourt>Other</RoleInPreviousCourt>
+                    </Party>
+                    <Party>
+                        <FirstName>Bob</FirstName>
+                        <InPerson>false</InPerson>
+                        <LastName>NOT SO FREE</LastName>
+                        <LegalRepresentation>
+                            <Lawyer>
+                                <Cell null="true"/>
+                                <Email null="true"/>
+                                <Firm>
+                                    <Address1>456 - Near Street</Address1>
+                                    <Address2>A2</Address2>
+                                    <City>Far</City>
+                                    <Fax>111-222-3333</Fax>
+                                    <FirmName>Another firm</FirmName>
+                                    <Phone>111-222-3333</Phone>
+                                    <PostalCode>V2V 0M0</PostalCode>
+                                    <Province>British Columbia</Province>
+                                </Firm>
+                                <FirstName>Jane</FirstName>
+                                <LastName>Doe</LastName>
+                                <Phone>111-222-3333</Phone>
+                                <QueensCounsel>false</QueensCounsel>
+                            </Lawyer>
+                        </LegalRepresentation>
+                        <Organization>NOT FREE Inc.</Organization>
+                        <PartyID>777777</PartyID>
+                        <PartyRole>Respondent</PartyRole>
+                        <RoleInPreviousCourt>Other</RoleInPreviousCourt>
+                    </Party>
+                    <Party>
+                        <FirstName>BOB</FirstName>
+                        <InPerson>false</InPerson>
+                        <LastName>NOT FREE</LastName>
+                        <LegalRepresentation>
+                            <Lawyer>
+                                <Cell null="true"/>
+                                <Email null="true"/>
+                                <Firm>
+                                    <Address1>456 - Near Street</Address1>
+                                    <Address2>A2</Address2>
+                                    <City>Far</City>
+                                    <Fax>111-222-3333</Fax>
+                                    <FirmName>Another firm</FirmName>
+                                    <Phone>111-222-3333</Phone>
+                                    <PostalCode>V2V 0M0</PostalCode>
+                                    <Province>British Columbia</Province>
+                                </Firm>
+                                <FirstName>Jane</FirstName>
+                                <LastName>Doe</LastName>
+                                <Phone>111-222-3333</Phone>
+                                <QueensCounsel>false</QueensCounsel>
+                            </Lawyer>
+                        </LegalRepresentation>
+                        <Organization>NOT FREE Inc.</Organization>
+                        <PartyID>777777</PartyID>
+                        <PartyRole>Respondent</PartyRole>
+                        <RoleInPreviousCourt>Other</RoleInPreviousCourt>
+                    </Party>
+                </Parties>
+                <StyleOfCauseA>E-Filing Deployment</StyleOfCauseA>
+                <StyleOfCauseAppellantA>true</StyleOfCauseAppellantA>
+                <StyleOfCauseB>Test Case</StyleOfCauseB>
+            </ViewCasePartyResult>
+        </ViewCasePartyResponse>
+    </soap:Body>
+</soap:Envelope>

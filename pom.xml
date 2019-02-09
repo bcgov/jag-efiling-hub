@@ -151,8 +151,36 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>against-fake-cso</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.6.0</version>
+                        <configuration>
+                            <classpathScope>test</classpathScope>
+                            <mainClass>hub.support.Hub</mainClass>
+                            <systemProperties>
+                                <systemProperty>
+                                    <key>COA_NAMESPACE</key><value>anything</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>COA_SEARCH_ENDPOINT</key><value>http4://localhost:5005/search</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>COA_SEARCH_SOAP_ACTION</key><value>anything</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>COA_VIEW_CASE_PARTY_SOAP_ACTION</key><value>second-call</value>
+                                </systemProperty>
+                            </systemProperties>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
-
-
 
 </project>
