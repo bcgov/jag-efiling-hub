@@ -4,8 +4,15 @@ addons:
     organization: "bcgov-github"
     token:
       secure: $SONAR_TOKEN
-install: mvn compile -Dmaven.javadoc.skip=true -B -V -Popenshift
+install:
+  - cd $TRAVIS_BUILD_DIR/src/test/support/fake.cso
+  - yarn
+  - cd $TRAVIS_BUILD_DIR
+  - mvn compile -Dmaven.javadoc.skip=true -B -V -Popenshift
 script:
+  - cd $TRAVIS_BUILD_DIR/src/test/support/fake.cso
+  - npm run test
+  - cd $TRAVIS_BUILD_DIR
   - mvn package -Popenshift
   - ./coverage-summary.sh
   - mvn sonar:sonar
