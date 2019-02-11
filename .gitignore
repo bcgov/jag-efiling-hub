@@ -3,3 +3,4 @@ target
 *.iml
 .scannerwork
 activemq-data
+node_modules

@@ -1,0 +1,14 @@
+{
+  "name": "fake.cso",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  },
+  "scripts":{
+    "test":"mocha *.spec.js --exit",
+    "start":"node index.js"
+  }
+}

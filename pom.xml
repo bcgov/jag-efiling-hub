@@ -7,18 +7,18 @@
     <packaging>war</packaging>
     <version>1.0</version>
     <name>jag-efiling-hub</name>
-  
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
     	<maven.compiler.target>1.8</maven.compiler.target>
 
         <jetty-version>9.3.12.v20160915</jetty-version>
-        <camel-version>2.21.0</camel-version>
-        <activemq-version>5.15.4</activemq-version>
+        <camel-version>2.21.1</camel-version>
+        <activemq-version>5.15.5</activemq-version>
         <undertow-version>1.4.0.Final</undertow-version>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
@@ -151,8 +151,36 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>against-fake-cso</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.6.0</version>
+                        <configuration>
+                            <classpathScope>test</classpathScope>
+                            <mainClass>hub.support.Hub</mainClass>
+                            <systemProperties>
+                                <systemProperty>
+                                    <key>COA_NAMESPACE</key><value>anything</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>COA_SEARCH_ENDPOINT</key><value>http4://localhost:5005/search</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>COA_SEARCH_SOAP_ACTION</key><value>anything</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>COA_VIEW_CASE_PARTY_SOAP_ACTION</key><value>second-call</value>
+                                </systemProperty>
+                            </systemProperties>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
-
-
 
 </project>
