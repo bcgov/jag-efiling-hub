@@ -10,6 +10,7 @@ const read = (file)=>{
 const server = {
     start: function(done) {
         this.internal = createServer((request, response)=>{
+            console.log(request.method, request.url)
             if (request.url == '/search') {
                 response.setHeader('content-type', 'text/xml')
                 if (request.headers['soapaction'] == 'second-call') {
