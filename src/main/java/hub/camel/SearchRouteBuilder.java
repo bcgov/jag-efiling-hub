@@ -1,8 +1,10 @@
 package hub.camel;
 
 import hub.CsoSearch;
+import hub.helper.DataStore;
 import hub.helper.Stringify;
 import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
 import org.apache.camel.dataformat.xmljson.XmlJsonDataFormat;
@@ -26,6 +28,9 @@ public class SearchRouteBuilder extends RouteBuilder {
     @Inject
     Stringify stringify;
 
+    @Inject
+    DataStore dataStore;
+
     private static final Logger LOGGER = Logger.getLogger(SearchRouteBuilder.class.getName());
 
     @Override
@@ -36,54 +41,111 @@ public class SearchRouteBuilder extends RouteBuilder {
         xmlJsonFormat.setTrimSpaces(true);
 
         from("direct:search")
-                .onException(Exception.class)
-                    .handled(true)
-                    .setBody(constant("SERVICE UNAVAILABLE"))
-                .end()
-                .process(exchange -> LOGGER.log(Level.INFO, "first call..."))
+            .onException(Exception.class)
+                .handled(true)
                 .process(exchange -> {
-                    String caseNumber = exchange.getIn().getBody(String.class);
-                    LOGGER.log(Level.INFO, "caseNumber="+caseNumber);
-                    String message = stringify.soapMessage(csoSearch.searchByCaseNumber(caseNumber));
-                    LOGGER.log(Level.INFO, "message="+message);
-                    exchange.getOut().setBody(message);
+                    Exception exception = (Exception) exchange.getProperty(Exchange.EXCEPTION_CAUGHT);
+                    exception.printStackTrace();
                 })
-                .setHeader(Exchange.HTTP_METHOD, constant("POST"))
-                .setHeader(Exchange.CONTENT_TYPE, constant("text/xml"))
-                .setHeader("Authorization", constant(csoSearch.basicAuthorization()))
-                .setHeader("SOAPAction", constant(csoSearch.searchByCaseNumberSoapAction()))
-                .to(csoSearch.searchEndpoint())
-                .process(exchange -> {
-                    String answer = exchange.getIn().getBody(String.class);
-                    LOGGER.log(Level.INFO, "answer of first call="+answer);
+                .setBody(constant("SERVICE UNAVAILABLE"))
+            .end()
+            .to("direct:search-call");
 
-                    exchange.getOut().setBody(answer);
-                })
-                .choice()
-                    .when(body().contains("<CaseId>"))
-                        .process(exchange -> LOGGER.log(Level.INFO, "second call..."))
-                        .process(exchange -> {
-                            String caseId = csoSearch.extractCaseId(exchange.getIn().getBody(String.class));
-                            LOGGER.log(Level.INFO, "caseId="+caseId);
+        from("direct:search-call")
+            .process(exchange -> LOGGER.log(Level.INFO, "search call..."))
+            .process(exchange -> {
+                String caseNumber = exchange.getIn().getBody(String.class);
+                LOGGER.log(Level.INFO, "caseNumber="+caseNumber);
+                String message = stringify.soapMessage(csoSearch.searchByCaseNumber(caseNumber));
+                LOGGER.log(Level.INFO, "message="+message);
+                exchange.getOut().setBody(message);
+            })
+            .setHeader(Exchange.HTTP_METHOD, constant("POST"))
+            .setHeader(Exchange.CONTENT_TYPE, constant("text/xml"))
+            .setHeader("Authorization", constant(csoSearch.basicAuthorization()))
+            .setHeader("SOAPAction", constant(csoSearch.searchByCaseNumberSoapAction()))
+            .to(csoSearch.searchEndpoint())
+            .process(exchange -> {
+                String answer = exchange.getIn().getBody(String.class);
+                LOGGER.log(Level.INFO, "answer of first call="+answer);
 
-                            exchange.getOut().setBody(stringify.soapMessage(csoSearch.viewCaseParty(caseId)));
-                        })
-                        .setHeader(Exchange.HTTP_METHOD, constant("POST"))
-                        .setHeader(Exchange.CONTENT_TYPE, constant("text/xml"))
-                        .setHeader("Authorization", constant(csoSearch.basicAuthorization()))
-                        .setHeader("SOAPAction", constant(csoSearch.viewCasePartySoapAction()))
-                        .to(csoSearch.searchEndpoint())
-                        .process(exchange -> {
-                            String answer = exchange.getIn().getBody(String.class);
-                            LOGGER.log(Level.INFO, "answer of second call="+answer);
+                exchange.getOut().setBody(answer);
+            })
+            .to("direct:criminal-or-civil");
 
-                            exchange.getOut().setBody(answer);
-                        })
-                        .marshal(xmlJsonFormat)
-                        .endChoice()
-                    .otherwise()
-                        .process(exchange -> LOGGER.log(Level.INFO, "not found..."))
-                        .setBody(constant("NOT FOUND"))
+        from("direct:criminal-or-civil")
+            .choice()
+                .when(body().contains("<CaseType>Criminal</CaseType>"))
+                    .process(exchange -> LOGGER.log(Level.INFO, "criminal case found"))
+                    .marshal(xmlJsonFormat)
+                .when(body().contains("<CaseType>Civil</CaseType>"))
+                    .to("direct:civil")
+                .otherwise()
+                    .to("direct:not-found");
+
+        from("direct:not-found")
+            .process(exchange -> LOGGER.log(Level.INFO, "not found..."))
+            .setBody(constant("NOT FOUND"));
+
+        from("direct:civil")
+            .process(exchange -> LOGGER.log(Level.INFO, "case basics call..."))
+            .process(exchange -> {
+                String caseId = csoSearch.extractCaseId(exchange.getIn().getBody(String.class));
+                LOGGER.log(Level.INFO, "caseId="+caseId);
+                dataStore.caseId = caseId;
+
+                exchange.getOut().setBody(stringify.soapMessage(csoSearch.viewCaseBasics(caseId)));
+            })
+            .setHeader(Exchange.HTTP_METHOD, constant("POST"))
+            .setHeader(Exchange.CONTENT_TYPE, constant("text/xml"))
+            .setHeader("Authorization", constant(csoSearch.basicAuthorization()))
+            .setHeader("SOAPAction", constant(csoSearch.viewCaseBasicsSoapAction()))
+            .to(csoSearch.searchEndpoint())
+            .process(exchange -> {
+                String answer = exchange.getIn().getBody(String.class);
+                LOGGER.log(Level.INFO, "answer of call="+answer);
+                dataStore.caseBasicsAnswer = answer;
+
+                exchange.getOut().setBody(answer);
+            })
+            .to("direct:civil-authorized-or-not");
+
+        from("direct:civil-authorized-or-not")
+            .choice()
+                .when(body().contains("<Name>Publication Ban</Name>"))
+                    .process(exchange -> LOGGER.log(Level.INFO, "publication ban found"))
+                    .marshal(xmlJsonFormat)
+                .when(body().contains("<Name>Family &amp; Restricted Files</Name>"))
+                    .process(exchange -> LOGGER.log(Level.INFO, "restricted files found"))
+                    .marshal(xmlJsonFormat)
+                .when(body().contains("<HighLevelCategory>Family Law</HighLevelCategory>"))
+                    .process(exchange -> LOGGER.log(Level.INFO, "familly law found"))
+                    .marshal(xmlJsonFormat)
+                .otherwise()
+                    .to("direct:parties");
+
+        from("direct:parties")
+            .process(exchange -> LOGGER.log(Level.INFO, "case party call..."))
+            .process(exchange -> {
+                String caseId = dataStore.caseId;
+                LOGGER.log(Level.INFO, "caseId="+caseId);
+
+                exchange.getOut().setBody(stringify.soapMessage(csoSearch.viewCaseParty(caseId)));
+            })
+            .setHeader(Exchange.HTTP_METHOD, constant("POST"))
+            .setHeader(Exchange.CONTENT_TYPE, constant("text/xml"))
+            .setHeader("Authorization", constant(csoSearch.basicAuthorization()))
+            .setHeader("SOAPAction", constant(csoSearch.viewCasePartySoapAction()))
+            .to(csoSearch.searchEndpoint())
+            .process(exchange -> {
+                String answer = exchange.getIn().getBody(String.class);
+                LOGGER.log(Level.INFO, "answer of call="+answer);
+                dataStore.casePartyAnswer = answer;
+
+                exchange.getOut().setBody(dataStore.combinedAnswers());
+            })
+            .marshal(xmlJsonFormat);
+
         ;
     }
 }
