@@ -49,9 +49,6 @@ public class SearchRouteBuilder extends RouteBuilder {
                 })
                 .setBody(constant("SERVICE UNAVAILABLE"))
             .end()
-            .to("direct:search-call");
-
-        from("direct:search-call")
             .process(exchange -> LOGGER.log(Level.INFO, "search call..."))
             .process(exchange -> {
                 String caseNumber = exchange.getIn().getBody(String.class);
