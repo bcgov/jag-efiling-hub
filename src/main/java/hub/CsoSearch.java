@@ -6,9 +6,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.soap.*;
 import java.util.Base64;
+import java.util.logging.Logger;
 
 @Named
 public class CsoSearch {
+
+    private static final Logger LOGGER = Logger.getLogger(CsoSearch.class.getName());
 
     @Inject
     Environment environment;
@@ -35,6 +38,10 @@ public class CsoSearch {
 
     public String viewCasePartySoapAction() {
         return environment.getValue("COA_VIEW_CASE_PARTY_SOAP_ACTION");
+    }
+
+    public String viewCaseBasicsSoapAction() {
+        return environment.getValue("COA_VIEW_CASE_BASICS_SOAP_ACTION");
     }
 
     public String basicAuthorization() {
@@ -65,6 +72,22 @@ public class CsoSearch {
         SOAPEnvelope myEnvp = mySPart.getEnvelope();
         SOAPBody body = myEnvp.getBody();
         Name bodyName = myEnvp.createName("ViewCaseParty", "any", this.namespace());
+        SOAPBodyElement gltp = body.addBodyElement(bodyName);
+        Name myContent = myEnvp.createName("intCaseId", "any", this.namespace());
+        SOAPElement mySymbol = gltp.addChildElement(myContent);
+        mySymbol.addTextNode(caseId);
+        message.saveChanges();
+
+        return message;
+    }
+
+    public SOAPMessage viewCaseBasics(String caseId) throws SOAPException {
+        MessageFactory myMsgFct = MessageFactory.newInstance();
+        SOAPMessage message = myMsgFct.createMessage();
+        SOAPPart mySPart = message.getSOAPPart();
+        SOAPEnvelope myEnvp = mySPart.getEnvelope();
+        SOAPBody body = myEnvp.getBody();
+        Name bodyName = myEnvp.createName("ViewCaseBasics", "any", this.namespace());
         SOAPBodyElement gltp = body.addBodyElement(bodyName);
         Name myContent = myEnvp.createName("intCaseId", "any", this.namespace());
         SOAPElement mySymbol = gltp.addChildElement(myContent);

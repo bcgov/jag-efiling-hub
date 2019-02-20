@@ -132,5 +132,19 @@
                 <StyleOfCauseB>Test Case</StyleOfCauseB>
             </ViewCasePartyResult>
         </ViewCasePartyResponse>
+        <ViewCaseBasicsResponse xmlns="http://services.ws.appeal.courts.gov.bc.ca">
+         <ViewCaseBasicsResult>
+            <CaseId>67890</CaseId>
+            <CaseNumber>CA12345</CaseNumber>
+            <CaseStatus>Active</CaseStatus>
+            <CaseType>Civil</CaseType>
+            <FilingDate>2011-05-13T09:00:00</FilingDate>
+            <StyleOfCauseA>E-Filing Deployment</StyleOfCauseA>
+            <StyleOfCauseAppellantA>true</StyleOfCauseAppellantA>
+            <StyleOfCauseB>Test Case</StyleOfCauseB>
+            <HighLevelCategory>Allowed</HighLevelCategory>
+            <SecurityFlags/>
+         </ViewCaseBasicsResult>
+      </ViewCaseBasicsResponse>
     </soap:Body>
 </soap:Envelope>
