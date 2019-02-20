@@ -1,17 +1,10 @@
 package hub.helper;
 
-import javax.inject.Named;
-import javax.xml.soap.SOAPException;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-@Named
 public class DataStore {
 
-
-    public String caseId;
-    public String casePartyAnswer;
-    public String caseBasicsAnswer;
+    private String caseId;
+    private String casePartyAnswer;
+    private String caseBasicsAnswer;
 
     public String combinedAnswers() {
         String caseBasics = bodyOf(caseBasicsAnswer);
@@ -23,5 +16,21 @@ public class DataStore {
         int end = answer.indexOf("</soap:Body>");
 
         return answer.substring(start + "<soap:Body>".length(), end);
+    }
+
+    public void setCaseId(String caseId) {
+        this.caseId = caseId;
+    }
+
+    public String getCaseId() {
+        return caseId;
+    }
+
+    public void setCasePartyAnswer(String casePartyAnswer) {
+        this.casePartyAnswer = casePartyAnswer;
+    }
+
+    public void setCaseBasicsAnswer(String caseBasicsAnswer) {
+        this.caseBasicsAnswer = caseBasicsAnswer;
     }
 }

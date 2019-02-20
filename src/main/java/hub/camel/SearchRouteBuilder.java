@@ -28,7 +28,6 @@ public class SearchRouteBuilder extends RouteBuilder {
     @Inject
     Stringify stringify;
 
-    @Inject
     DataStore dataStore;
 
     private static final Logger LOGGER = Logger.getLogger(SearchRouteBuilder.class.getName());
@@ -49,6 +48,10 @@ public class SearchRouteBuilder extends RouteBuilder {
                 })
                 .setBody(constant("SERVICE UNAVAILABLE"))
             .end()
+            .process(exchange -> {
+                dataStore = new DataStore();
+                LOGGER.log(Level.INFO, "dataStore=" + dataStore);
+            })
             .process(exchange -> LOGGER.log(Level.INFO, "search call..."))
             .process(exchange -> {
                 String caseNumber = exchange.getIn().getBody(String.class);
@@ -89,7 +92,7 @@ public class SearchRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 String caseId = csoSearch.extractCaseId(exchange.getIn().getBody(String.class));
                 LOGGER.log(Level.INFO, "caseId="+caseId);
-                dataStore.caseId = caseId;
+                dataStore.setCaseId(caseId);
 
                 exchange.getOut().setBody(stringify.soapMessage(csoSearch.viewCaseBasics(caseId)));
             })
@@ -101,7 +104,7 @@ public class SearchRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 String answer = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, "answer of call="+answer);
-                dataStore.caseBasicsAnswer = answer;
+                dataStore.setCaseBasicsAnswer(answer);
 
                 exchange.getOut().setBody(answer);
             })
@@ -124,7 +127,7 @@ public class SearchRouteBuilder extends RouteBuilder {
         from("direct:parties")
             .process(exchange -> LOGGER.log(Level.INFO, "case party call..."))
             .process(exchange -> {
-                String caseId = dataStore.caseId;
+                String caseId = dataStore.getCaseId();
                 LOGGER.log(Level.INFO, "caseId="+caseId);
 
                 exchange.getOut().setBody(stringify.soapMessage(csoSearch.viewCaseParty(caseId)));
@@ -137,7 +140,7 @@ public class SearchRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 String answer = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, "answer of call="+answer);
-                dataStore.casePartyAnswer = answer;
+                dataStore.setCasePartyAnswer(answer);
 
                 exchange.getOut().setBody(dataStore.combinedAnswers());
             })
