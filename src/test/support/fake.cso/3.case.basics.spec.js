@@ -1,27 +1,27 @@
 const { expect } = require('chai')
-const { parties } = require('.')
+const { basics } = require('.')
 var fs = require('fs')
 var path = require('path')
 
-describe('view case parties', ()=>{
+describe('case basics', ()=>{
 
     it('is available', (done)=>{
-        parties((response)=>{
+        basics((response)=>{
             expect(response.statusCode).to.equal(200);
             done();
         })
     })
 
     it('returns xml', (done)=>{
-        parties((response)=>{
+        basics((response)=>{
             expect(response.headers['content-type']).to.equal('text/xml');
             done();
         })
     })
 
     it('returns expected data', (done)=>{
-        var expected = fs.readFileSync(path.join(__dirname, 'sample.xml')).toString();
-        parties((response)=>{
+        var expected = fs.readFileSync(path.join(__dirname, 'data', 'basics.xml')).toString();
+        basics((response)=>{
             var body = '';
             response.on('data', (chunk) => {
                 body += chunk;
