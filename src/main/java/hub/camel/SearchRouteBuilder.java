@@ -1,10 +1,9 @@
 package hub.camel;
 
 import hub.CsoSearch;
-import hub.helper.DataStore;
+import hub.helper.Combine;
 import hub.helper.Stringify;
 import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
 import org.apache.camel.dataformat.xmljson.XmlJsonDataFormat;
@@ -28,7 +27,8 @@ public class SearchRouteBuilder extends RouteBuilder {
     @Inject
     Stringify stringify;
 
-    DataStore dataStore;
+    @Inject
+    Combine combine;
 
     private static final Logger LOGGER = Logger.getLogger(SearchRouteBuilder.class.getName());
 
@@ -48,10 +48,6 @@ public class SearchRouteBuilder extends RouteBuilder {
                 })
                 .setBody(constant("SERVICE UNAVAILABLE"))
             .end()
-            .process(exchange -> {
-                dataStore = new DataStore();
-                LOGGER.log(Level.INFO, "dataStore=" + dataStore);
-            })
             .process(exchange -> LOGGER.log(Level.INFO, "search call..."))
             .process(exchange -> {
                 String caseNumber = exchange.getIn().getBody(String.class);
@@ -92,7 +88,7 @@ public class SearchRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 String caseId = csoSearch.extractCaseId(exchange.getIn().getBody(String.class));
                 LOGGER.log(Level.INFO, "caseId="+caseId);
-                dataStore.setCaseId(caseId);
+                exchange.getProperties().put("caseId", caseId);
 
                 exchange.getOut().setBody(stringify.soapMessage(csoSearch.viewCaseBasics(caseId)));
             })
@@ -104,7 +100,7 @@ public class SearchRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 String answer = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, "answer of call="+answer);
-                dataStore.setCaseBasicsAnswer(answer);
+                exchange.getProperties().put("caseBasicsAnswer", answer);
 
                 exchange.getOut().setBody(answer);
             })
@@ -127,7 +123,7 @@ public class SearchRouteBuilder extends RouteBuilder {
         from("direct:parties")
             .process(exchange -> LOGGER.log(Level.INFO, "case party call..."))
             .process(exchange -> {
-                String caseId = dataStore.getCaseId();
+                String caseId = (String) exchange.getProperties().get("caseId");
                 LOGGER.log(Level.INFO, "caseId="+caseId);
 
                 exchange.getOut().setBody(stringify.soapMessage(csoSearch.viewCaseParty(caseId)));
@@ -140,12 +136,16 @@ public class SearchRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 String answer = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, "answer of call="+answer);
-                dataStore.setCasePartyAnswer(answer);
+                exchange.getProperties().put("casePartyAnswer", answer);
+            })
+            .to("direct:combine-answers");
 
-                exchange.getOut().setBody(dataStore.combinedAnswers());
+        from("direct:combine-answers")
+            .process(exchange -> {
+                String caseBasicsAnswer = (String) exchange.getProperties().get("caseBasicsAnswer");
+                String casePartyAnswer = (String) exchange.getProperties().get("casePartyAnswer");
+                exchange.getOut().setBody(combine.answers(caseBasicsAnswer, casePartyAnswer));
             })
             .marshal(xmlJsonFormat);
-
-        ;
     }
 }
