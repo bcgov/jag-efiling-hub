@@ -44,7 +44,7 @@ public class SearchRouteBuilder extends RouteBuilder {
                 .handled(true)
                 .process(exchange -> {
                     Exception exception = (Exception) exchange.getProperty(Exchange.EXCEPTION_CAUGHT);
-                    exception.printStackTrace();
+                    LOGGER.log(Level.WARNING, exception.getMessage(), exception);
                 })
                 .setBody(constant("SERVICE UNAVAILABLE"))
             .end()
