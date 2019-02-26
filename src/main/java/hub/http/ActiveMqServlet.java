@@ -10,9 +10,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(name = "ActiveMqServlet", urlPatterns = {"/message/*"}, loadOnStartup = 1)
 public class ActiveMqServlet extends MessageServlet {
+
+    private static final Logger LOGGER = Logger.getLogger(ActiveMqServlet.class.getName());
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -26,7 +30,13 @@ public class ActiveMqServlet extends MessageServlet {
             ((HttpServletRequestImpl) request).getExchange()
                     .getAttachment(ServletRequestContext.ATTACHMENT_KEY).setAsyncSupported(true);
         }
-        super.doMessages(request, response);
+        try {
+            super.doMessages(request, response);
+        }
+        catch (Exception e) {
+            response.setStatus(500);
+            LOGGER.log(Level.SEVERE, e.getMessage());
+        }
     }
 
 }
