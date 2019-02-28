@@ -1,5 +1,6 @@
 package hub.support;
 
+import hub.http.BamboraServlet;
 import hub.http.PingServlet;
 import hub.http.SearchServlet;
 import org.eclipse.jetty.server.Server;
@@ -18,6 +19,7 @@ public class Hub {
         server.setHandler(context);
 
         context.addServlet(SearchServlet.class, "/form7s");
+        context.addServlet(BamboraServlet.class, "/payment");
 
         server.start();
         server.join();
