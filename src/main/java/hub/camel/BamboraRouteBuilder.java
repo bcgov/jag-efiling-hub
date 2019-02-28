@@ -37,6 +37,7 @@ public class BamboraRouteBuilder extends RouteBuilder {
             .end()
             .process(exchange -> {
                 PaymentIncoming incoming = exchange.getIn().getBody(PaymentIncoming.class);
+                exchange.getProperties().put("incoming", incoming);
                 String tokenization = bambora.tokenizationMessage(incoming);
                 LOGGER.log(Level.INFO, "tokenization="+tokenization);
                 exchange.getOut().setBody(tokenization);
@@ -51,7 +52,8 @@ public class BamboraRouteBuilder extends RouteBuilder {
                 String token = answer.substring(tokenIndex + 8, tokenIndex + 8 + 40);
                 LOGGER.log(Level.INFO, "token="+token);
 
-                String payment = bambora.paymentMessage(token);
+                PaymentIncoming incoming = (PaymentIncoming) exchange.getProperties().get("incoming");
+                String payment = bambora.paymentMessage(token, incoming.getAmount());
                 LOGGER.log(Level.INFO, "payment="+payment);
                 exchange.getOut().setBody(payment);
             })

@@ -30,6 +30,7 @@ public class BamboraServlet extends HttpServlet {
             message.setNumber(req.getParameter("number"));
             message.setCvd(req.getParameter("cvd"));
             message.setExpiry(req.getParameter("expiry"));
+            message.setAmount(req.getParameter("amount"));
             ProducerTemplate producer = context.createProducerTemplate();
             String result = producer.requestBody("direct:payment", message, String.class);
 

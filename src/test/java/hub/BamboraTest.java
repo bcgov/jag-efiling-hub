@@ -26,7 +26,7 @@ public class BamboraTest extends HavingHubRunning {
     public void returnsInfoAsJson() throws Exception {
         context.addServlet(BamboraServlet.class, "/payment");
         server.start();
-        HttpResponse response = get("http://localhost:8888/payment?number=4030000010001234&cvd=123&expiry=1022");
+        HttpResponse response = get("http://localhost:8888/payment?amount=15.45&number=4030000010001234&cvd=123&expiry=1022");
 
         assertThat(response.getStatusCode(), equalTo(200));
         assertThat(response.getContentType(), equalTo("application/json"));

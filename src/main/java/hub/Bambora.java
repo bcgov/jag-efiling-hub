@@ -44,7 +44,7 @@ public class Bambora {
         return "{\"cvd\":" + incoming.getCvd() + ",\"expiry_month\":"+ month +",\"expiry_year\":" + year + ",\"number\":" + incoming.getNumber() + "}";
     }
 
-    public String paymentMessage(String token) {
-        return "{\"amount\":10.00,\"payment_method\":\"token\",\"token\":{\"name\":\"Jane Doe\",\"code\":\"" +token + "\"}}";
+    public String paymentMessage(String token, String amount) {
+        return "{\"amount\":" + amount + ",\"payment_method\":\"token\",\"token\":{\"name\":\"Jane Doe\",\"code\":\"" +token + "\"}}";
     }
 }
