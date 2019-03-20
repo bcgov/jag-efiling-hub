@@ -11,7 +11,11 @@ const server = {
     start: function(done) {
         this.internal = createServer((request, response)=>{
             console.log(request.method, request.url)
-            if (request.url == '/search') {
+            if (request.url == '/account') {
+                response.setHeader('content-type', 'text/xml')
+                response.write(read('account.xml'))
+            }
+            else if (request.url == '/search') {
                 response.setHeader('content-type', 'text/xml')
                 if (request.headers['soapaction'] == 'second-call') {
                     response.write(read('basics.xml'))
@@ -42,7 +46,8 @@ module.exports = {
     ping:request('/ping'),
     search:request('/search'),
     basics:request('/search', { 'SOAPAction':'second-call' }),
-    parties:request('/search', { 'SOAPAction':'third-call' })
+    parties:request('/search', { 'SOAPAction':'third-call' }),
+    account:request('/account')
 }
 
 server.start(()=>{

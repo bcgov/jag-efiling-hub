@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <ns2:getCsoClientProfilesResponse xmlns:ns2="http://csoextws.jag.gov.bc.ca/">
+            <return>
+                <account>
+                    <accountId>123</accountId>
+                    <accountName>Beautiful Victoria</accountName>
+                    <addressLine1>123 Street</addressLine1>
+                    <addressLine2>Suite 123</addressLine2>
+                    <city>Victoria</city>
+                    <country>Canada</country>
+                    <postalCode>V1V0V1</postalCode>
+                </account>
+                <client>
+                    <clientId>1</clientId>
+                    <givenName>Batman</givenName>
+                    <isAdmin>true</isAdmin>
+                    <surname>Bruce</surname>
+                </client>
+                <client>
+                    <clientId>2</clientId>
+                    <givenName>Superman</givenName>
+                    <isAdmin>false</isAdmin>
+                    <surname>Clark</surname>
+                </client>
+                <client>
+                    <clientId>3</clientId>
+                    <givenName>WonderWoman</givenName>
+                    <isAdmin>false</isAdmin>
+                    <surname>Diana</surname>
+                </client>
+            </return>
+        </ns2:getCsoClientProfilesResponse>
+    </soap:Body>
+</soap:Envelope>

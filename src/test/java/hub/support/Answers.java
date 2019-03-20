@@ -67,4 +67,36 @@ public class Answers {
                 "</SearchByCaseNumberResult></SearchByCaseNumberResponse></soap:Body></soap:Envelope>";
     }
 
+    public static String accountInfo() {
+        return "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+                "<soap:Body>" +
+                "<ns2:getCsoClientProfilesResponse xmlns:ns2=\"http://hub.org/\">" +
+                "<return>" +
+                    "<account>" +
+                        "<accountId>1304</accountId>" +
+                        "<accountName>Minnie Mouse.</accountName>" +
+                    "</account>" +
+                    "<client>" +
+                        "<clientId>1801</clientId>" +
+                        "<givenName>Minnie</givenName>" +
+                        "<isAdmin>false</isAdmin>" +
+                        "<surname>Mouse</surname>" +
+                    "</client>" +
+                "</return>" +
+                "</ns2:getCsoClientProfilesResponse>" +
+                "</soap:Body>" +
+                "</soap:Envelope>" ;
+    }
+
+    public static String accountNotFound() {
+        return "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+                "<soap:Body>" +
+                "<ns2:getCsoClientProfilesResponse xmlns:ns2=\"http://hub.org/\">" +
+                "<return>" +
+                    "<account/>" +
+                "</return>" +
+                "</ns2:getCsoClientProfilesResponse>" +
+                "</soap:Body>" +
+                "</soap:Envelope>" ;
+    }
 }
