@@ -27,6 +27,7 @@ public class GetCsoAccountProfilesTest extends HavingHubRunning {
 
     private HttpServer cso;
     private Headers sentHeaders;
+    private String contentType;
     private String willAnswer;
 
     @Before
@@ -34,6 +35,7 @@ public class GetCsoAccountProfilesTest extends HavingHubRunning {
         cso = HttpServer.create( new InetSocketAddress( 8111 ), 0 );
         cso.createContext( "/", exchange -> {
             sentHeaders = exchange.getRequestHeaders();
+            contentType = exchange.getRequestHeaders().getFirst("content-type");
             exchange.sendResponseHeaders( 200, willAnswer.length() );
             exchange.getResponseBody().write( willAnswer.getBytes() );
             exchange.close();
@@ -55,6 +57,13 @@ public class GetCsoAccountProfilesTest extends HavingHubRunning {
         System.setProperty("CSO_USER", "this-user");
         System.setProperty("CSO_PASSWORD", "this-password");
         willAnswer = accountInfo();
+    }
+
+    @Test
+    public void xmlContentTypeIsMandatory() throws Exception {
+        get("http://localhost:8888/account?accountId=1304");
+
+        assertThat(contentType, equalTo("text/xml"));
     }
 
     @Test

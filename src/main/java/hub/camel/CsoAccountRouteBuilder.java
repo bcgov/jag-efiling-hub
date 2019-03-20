@@ -53,6 +53,7 @@ public class CsoAccountRouteBuilder extends RouteBuilder {
                 LOGGER.log(Level.INFO, "message="+message);
                 exchange.getOut().setBody(message);
             })
+            .setHeader(Exchange.CONTENT_TYPE, constant("text/xml"))
             .setHeader("Authorization", constant(csoAccountInfo.basicAuthorization()))
             .setHeader("SOAPAction", constant(csoAccountInfo.accountInfoSoapAction()))
             .to(csoAccountInfo.accountInfoEndpoint())
