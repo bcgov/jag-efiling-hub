@@ -30,5 +30,6 @@ public class HavingHubRunning {
         System.setProperty("CSO_NAMESPACE", "http://hub.org");
         System.setProperty("COA_SEARCH_ENDPOINT", "http4://localhost:8111");
         System.setProperty("CSO_ACCOUNT_INFO_ENDPOINT", "http4://localhost:8111");
+        System.setProperty("WEBCATS_ENDPOINT", "http4://localhost:8111");
     }
 }
