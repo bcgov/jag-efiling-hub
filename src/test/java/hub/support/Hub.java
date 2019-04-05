@@ -1,13 +1,10 @@
 package hub.support;
 
-import hub.http.BamboraServlet;
 import hub.http.CsoAccountServlet;
-import hub.http.PingServlet;
 import hub.http.SearchServlet;
+import hub.http.SubmitServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.junit.After;
-import org.junit.Before;
 
 public class Hub {
 
@@ -20,8 +17,8 @@ public class Hub {
         server.setHandler(context);
 
         context.addServlet(SearchServlet.class, "/form7s");
-        context.addServlet(BamboraServlet.class, "/payment");
         context.addServlet(CsoAccountServlet.class, "/account");
+        context.addServlet(SubmitServlet.class, "/submit");
 
         server.start();
         server.join();
