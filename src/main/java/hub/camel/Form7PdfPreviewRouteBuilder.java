@@ -37,6 +37,12 @@ public class Form7PdfPreviewRouteBuilder extends RouteBuilder {
             .process(exchange -> LOGGER.log(Level.INFO, "preview call..."))
             .process(exchange -> {
                 LOGGER.log(Level.INFO, new String(formPdfPreview.sampleData()));
+                LOGGER.log(Level.INFO, formPdfPreview.endpoint());
+                LOGGER.log(Level.INFO, formPdfPreview.username());
+                LOGGER.log(Level.INFO, formPdfPreview.password());
+                LOGGER.log(Level.INFO, formPdfPreview.templateName());
+                LOGGER.log(Level.INFO, formPdfPreview.serverContext());
+                LOGGER.log(Level.INFO, formPdfPreview.options());
             })
             .process(exchange -> {
                 byte[] pdf = formPdfPreview.renderPdf(formPdfPreview.templateName(), formPdfPreview.sampleData(), false);

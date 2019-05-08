@@ -34,12 +34,18 @@ public class FormPdfPreview {
         byte[] ret = null;
 
         try {
+            LOGGER.log(Level.INFO, "Invoke new Document(xmlData)");
             Document document = new Document(xmlData);
+            LOGGER.log(Level.INFO, "Invoke getPdfFormRenderSpec");
             PDFFormRenderSpec pdfFormRenderSpec = this.getPdfFormRenderSpec();
+            LOGGER.log(Level.INFO, "Invoke getURLSpec");
             URLSpec urlSpec = this.getURLSpec();
 
             // Invoke the renderPDFForm method to render an interactive PDF form on the client
+            LOGGER.log(Level.INFO, "Invoke createFormsServiceClient");
             FormsServiceClient formsClient = this.createFormsServiceClient();
+
+            LOGGER.log(Level.INFO, "Invoke formsClient.renderPDFForm");
             FormsResult formOut = formsClient.renderPDFForm(xdpName, document, pdfFormRenderSpec, urlSpec, null);
 
             LOGGER.log(Level.INFO, "Got IOutputContext..." + (formOut == null));
