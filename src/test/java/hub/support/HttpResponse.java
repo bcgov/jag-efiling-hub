@@ -5,6 +5,7 @@ public class HttpResponse {
     private int statusCode;
     private String body;
     private String contentType;
+    private byte[] binaryBody;
 
     public int getStatusCode() {
         return statusCode;
@@ -28,5 +29,13 @@ public class HttpResponse {
 
     public String getContentType() {
         return contentType;
+    }
+
+    public void setBinaryBody(byte[] binaryBody) {
+        this.binaryBody = binaryBody;
+    }
+
+    public byte[] getBinaryBody() {
+        return binaryBody;
     }
 }

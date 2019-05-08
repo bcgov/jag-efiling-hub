@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import static hub.support.StreamReader.readStream;
+import static hub.support.StreamReader.readStreamAsbytes;
 
 public class GetRequest {
 
@@ -15,7 +16,12 @@ public class GetRequest {
         response.setStatusCode(request.getResponseCode());
         response.setContentType(request.getContentType());
         if (request.getResponseCode() < 400) {
-            response.setBody(readStream(request.getInputStream()));
+            if ("application/pdf".equalsIgnoreCase(response.getContentType())) {
+                response.setBinaryBody(readStreamAsbytes(request.getInputStream()));
+            }
+            else {
+                response.setBody(readStream(request.getInputStream()));
+            }
         } else {
             response.setBody(readStream(request.getErrorStream()));
         }
