@@ -1,7 +1,6 @@
 package hub.camel;
 
 import hub.FormPdfPreview;
-import hub.ORInitialize;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
@@ -9,8 +8,6 @@ import org.apache.camel.cdi.ContextName;
 import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.io.File;
-import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,8 +36,10 @@ public class Form7PdfPreviewRouteBuilder extends RouteBuilder {
             .end()
             .process(exchange -> LOGGER.log(Level.INFO, "preview call..."))
             .process(exchange -> {
-                File file = new File("form7.pdf");
-                byte[] pdf = Files.readAllBytes(file.toPath());
+                LOGGER.log(Level.INFO, new String(formPdfPreview.sampleData()));
+            })
+            .process(exchange -> {
+                byte[] pdf = formPdfPreview.renderPdf(formPdfPreview.templateName(), formPdfPreview.sampleData(), false);
 
                 exchange.getOut().setBody(pdf, byte[].class);
             });

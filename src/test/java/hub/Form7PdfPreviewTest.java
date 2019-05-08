@@ -30,7 +30,7 @@ public class Form7PdfPreviewTest extends HavingHubRunning {
 
         File file = new File(filename);
         assertTrue(file.exists());
-        assertTrue(file.length() > 40000 );
+        assertTrue(file.length() > 100 );
     }
 
     private void save(byte[] pdf) throws IOException {

@@ -19,6 +19,13 @@
         <undertow-version>1.4.0.Final</undertow-version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>adobe-repository</id>
+            <url>https://repo.adobe.com/nexus/content/repositories/public/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
@@ -105,6 +112,37 @@
             <groupId>io.undertow</groupId>
             <artifactId>undertow-servlet</artifactId>
             <version>${undertow-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.adobe.livecycle</groupId>
+            <artifactId>adobe-forms-client</artifactId>
+            <version>11.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.livecycle</groupId>
+            <artifactId>adobe-livecycle-client</artifactId>
+            <version>11.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.livecycle</groupId>
+            <artifactId>adobe-usermanager-client</artifactId>
+            <version>11.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-discovery</groupId>
+            <artifactId>commons-discovery</artifactId>
+            <version>0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.6.3</version>
         </dependency>
 
     </dependencies>
