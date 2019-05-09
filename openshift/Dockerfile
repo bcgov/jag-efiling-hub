@@ -1,8 +1,12 @@
 FROM maven:3.3-jdk-8
 
-COPY ./src /usr/src/hub
-COPY ./pom.xml /usr/src/hub/pom.xml
+RUN mkdir /usr/src/hub
+ADD pom.xml /usr/src/hub/pom.xml
+ADD start.sh /usr/src/hub/start.sh
+ADD src /usr/src/hub/src
 
 EXPOSE 8888
 
-CMD ["mvn clean test-compile exec:java -Plocal"]
+WORKDIR /usr/src/hub
+
+CMD ["./start.sh"]
