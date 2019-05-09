@@ -63,7 +63,7 @@
       "displayName": "Git Repo URL",
       "description": "The URL to your GIT repo, don't use this default unless your just experimenting.",
       "required": true,
-      "value": "git://192.168.1.5/bcgov/efiling-full/hub"
+      "value": "https://github.com/bcgov/jag-efiling-hub"
     },
     {
       "name": "GIT_REF",

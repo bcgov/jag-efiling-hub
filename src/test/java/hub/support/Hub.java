@@ -1,5 +1,6 @@
 package hub.support;
 
+import hub.http.Form7PdfPreviewServlet;
 import hub.http.PingServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -15,6 +16,7 @@ public class Hub {
         server.setHandler(context);
 
         context.addServlet(PingServlet.class, "/ping");
+        context.addServlet(Form7PdfPreviewServlet.class, "/preview");
 
         server.start();
         server.join();
