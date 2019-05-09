@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-mvn clean test-compile exec:java -Plocal
+mvn --settings /usr/.m2/settings-docker.xml clean test-compile exec:java -Plocal
