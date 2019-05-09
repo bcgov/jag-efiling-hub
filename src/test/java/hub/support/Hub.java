@@ -7,7 +7,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 public class Hub {
 
     public static void main(String[] args) throws Exception {
-        Server server = new Server(8888);
+        Server server = new Server(8080);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
         context.setResourceBase("src/main/resources");
