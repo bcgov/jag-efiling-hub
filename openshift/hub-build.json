@@ -77,7 +77,7 @@
       "displayName": "Source Context Directory",
       "description": "The source context directory.",
       "required": true,
-      "value": "openshift/"
+      "value": "/"
     },
     {
       "name": "OUTPUT_IMAGE_TAG",
