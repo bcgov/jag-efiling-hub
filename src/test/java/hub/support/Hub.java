@@ -1,8 +1,6 @@
 package hub.support;
 
-import hub.http.CsoAccountServlet;
-import hub.http.Form7PdfPreviewServlet;
-import hub.http.SearchServlet;
+import hub.http.PingServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
@@ -16,9 +14,7 @@ public class Hub {
         context.addEventListener(new org.jboss.weld.environment.servlet.Listener());
         server.setHandler(context);
 
-        context.addServlet(SearchServlet.class, "/form7s");
-        context.addServlet(CsoAccountServlet.class, "/account");
-        context.addServlet(Form7PdfPreviewServlet.class, "/preview");
+        context.addServlet(PingServlet.class, "/ping");
 
         server.start();
         server.join();
