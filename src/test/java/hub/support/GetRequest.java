@@ -1,12 +1,12 @@
 package hub.support;
 
-import java.io.IOException;
-import java.io.InputStream;
+import hub.helper.HttpResponse;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static hub.support.StreamReader.readStream;
-import static hub.support.StreamReader.readStreamAsbytes;
+import static hub.helper.StreamReader.readStream;
+import static hub.helper.StreamReader.readStreamAsbytes;
 
 public class GetRequest {
 

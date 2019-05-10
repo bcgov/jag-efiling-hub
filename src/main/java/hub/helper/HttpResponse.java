@@ -1,4 +1,4 @@
-package hub.support;
+package hub.helper;
 
 public class HttpResponse {
 

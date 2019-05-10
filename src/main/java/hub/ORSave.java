@@ -9,25 +9,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Named
-public class ORInitialize {
+public class ORSave {
 
     @Inject
     Environment environment;
 
     public String camelUrl() {
-        return environment.getValue("OR_ENDPOINT_INITIALIZE");
+        return environment.getValue("OR_ENDPOINT_CREATE");
     }
 
-    public String url() {
-        return environment.getValue("OR_ENDPOINT_INITIALIZE").replace("https4", "https");
-    }
+    public String url(String ticket) {
+        String value = environment.getValue("OR_ENDPOINT_CREATE").replace("https4", "https");
+        value += "?AppTicket=this-ticket&MimeType=application&MimeSubType=pdf&Filename=form2.pdf&RetentionPeriod=-1";
+        value = value.replace("this-ticket", ticket);
 
-    public String application() {
-        return environment.getValue("OR_APP_ID");
-    }
-
-    public String password() {
-        return environment.getValue("OR_APP_PASSWORD");
+        return value;
     }
 
     public String basicAuthUsername() {
@@ -44,18 +40,8 @@ public class ORInitialize {
 
     }
 
-    public String body() {
-        return "" +
-                "{" +
-                "   \"AppId\":\"" + this.application() + "\"," +
-                "   \"AppPwd\":\"" + this.password() + "\"," +
-                "   \"TicketLifeTime\":\"120\"" +
-                "}";
-    }
-
     public Map<String, String> headers() {
         Map<String, String> headers = new HashMap<>();
-        headers.put("content-type", "application/json");
         headers.put("authorization", this.basicAuthorization());
 
         return headers;

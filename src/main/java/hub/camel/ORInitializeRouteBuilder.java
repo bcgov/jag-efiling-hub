@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class ORInitializeRouteBuilder extends RouteBuilder {
 
     @Inject
-    ORInitialize orInitialize;
+    ORInitialize initialize;
 
     private static final Logger LOGGER = Logger.getLogger(ORInitializeRouteBuilder.class.getName());
 
@@ -36,19 +36,14 @@ public class ORInitializeRouteBuilder extends RouteBuilder {
                 .end()
                 .process(exchange -> LOGGER.log(Level.INFO, "initialize call..."))
                 .process(exchange -> {
-                    String message = "" +
-                            "{" +
-                            "   \"AppId\":\"" + orInitialize.application() + "\"," +
-                            "   \"AppPwd\":\"" + orInitialize.password() + "\"," +
-                            "   \"TicketLifeTime\":\"120\"" +
-                            "}";
+                    String message = initialize.body();
                     LOGGER.log(Level.INFO, "message="+message);
                     exchange.getOut().setBody(message);
                 })
                 .setHeader(Exchange.HTTP_METHOD, constant("POST"))
                 .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-                .setHeader("Authorization", constant(orInitialize.basicAuthorization()))
-                .to(orInitialize.orEndpoint())
+                .setHeader("Authorization", constant(initialize.basicAuthorization()))
+                .to(initialize.camelUrl())
                 .process(exchange -> {
                     String answer = exchange.getIn().getBody(String.class);
                     LOGGER.log(Level.INFO, "answer initialize="+answer);

@@ -2,7 +2,7 @@ package hub;
 
 import hub.http.Form7PdfPreviewServlet;
 import hub.support.HavingHubRunning;
-import hub.support.HttpResponse;
+import hub.helper.HttpResponse;
 import org.junit.Test;
 
 import java.io.File;

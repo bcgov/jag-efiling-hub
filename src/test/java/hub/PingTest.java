@@ -2,7 +2,7 @@ package hub;
 
 import hub.http.PingServlet;
 import hub.support.HavingHubRunning;
-import hub.support.HttpResponse;
+import hub.helper.HttpResponse;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.Before;
 import org.junit.Test;
