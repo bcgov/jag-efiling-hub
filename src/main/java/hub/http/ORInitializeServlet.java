@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.apache.http.HttpHeaders.CONTENT_TYPE;
+
 @WebServlet(name = "ORInitializeServlet", urlPatterns = {"/initialize"}, loadOnStartup = 1)
 public class ORInitializeServlet extends HttpServlet {
 
@@ -27,6 +29,7 @@ public class ORInitializeServlet extends HttpServlet {
             ProducerTemplate producer = context.createProducerTemplate();
             String result = producer.requestBody("direct:initialize", null, String.class);
             LOGGER.log(Level.INFO, result);
+            res.setHeader(CONTENT_TYPE, "application/json");
             res.getOutputStream().print(result);
         } catch (Exception e) {
             res.setStatus(500);
