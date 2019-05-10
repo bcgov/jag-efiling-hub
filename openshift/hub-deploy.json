@@ -58,7 +58,7 @@
                 "containers": [
                     {
                         "name": "hub",
-                        "image": "docker-registry.default.svc:5000/jag-efiling-dev/hub@sha256:d6ffa58a11ccefa9c1648aebf3b6b7602d58199fb321e298a9cdd7192269c455",
+                        "image": "docker-registry.default.svc:5000/jag-efiling-dev/hub@latest",
                         "ports": [
                             {
                                 "containerPort": 8080,
