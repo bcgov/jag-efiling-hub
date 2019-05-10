@@ -1,0 +1,29 @@
+{
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "hub",
+        "creationTimestamp": null,
+        "labels": {
+            "app": "hub"
+        }
+    },
+    "spec": {
+        "ports": [
+            {
+                "name": "8080-tcp",
+                "protocol": "TCP",
+                "port": 8080,
+                "targetPort": 8080
+            }
+        ],
+        "selector": {
+            "deploymentconfig": "hub"
+        },
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+    },
+    "status": {
+        "loadBalancer": {}
+    }
+}

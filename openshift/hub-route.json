@@ -1,0 +1,39 @@
+{
+    "kind": "Route",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "hub",
+        "creationTimestamp": null,
+        "labels": {
+            "app": "hub"
+        }
+    },
+    "spec": {
+        "host": "hub-jag-efiling-dev.pathfinder.gov.bc.ca",
+        "to": {
+            "kind": "Service",
+            "name": "hub",
+            "weight": 100
+        },
+        "port": {
+            "targetPort": "8080-tcp"
+        },
+        "wildcardPolicy": "None"
+    },
+    "status": {
+        "ingress": [
+            {
+                "host": "hub-jag-efiling-dev.pathfinder.gov.bc.ca",
+                "routerName": "router",
+                "conditions": [
+                    {
+                        "type": "Admitted",
+                        "status": "True",
+                        "lastTransitionTime": "2019-02-28T22:58:04Z"
+                    }
+                ],
+                "wildcardPolicy": "None"
+            }
+        ]
+    }
+}

@@ -1,0 +1,96 @@
+{
+    "kind": "DeploymentConfig",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "hub",
+        "generation": 1,
+        "creationTimestamp": null,
+        "labels": {
+            "app": "hub"
+        }
+    },
+    "spec": {
+        "strategy": {
+            "type": "Rolling",
+            "rollingParams": {
+                "updatePeriodSeconds": 1,
+                "intervalSeconds": 1,
+                "timeoutSeconds": 600,
+                "maxUnavailable": "25%",
+                "maxSurge": "25%"
+            },
+            "resources": {},
+            "activeDeadlineSeconds": 21600
+        },
+        "triggers": [
+            {
+                "type": "ImageChange",
+                "imageChangeParams": {
+                    "automatic": true,
+                    "containerNames": [
+                        "hub"
+                    ],
+                    "from": {
+                        "kind": "ImageStreamTag",
+                        "namespace": "hub",
+                        "name": "hub:latest"
+                    }
+                }
+            },
+            {
+                "type": "ConfigChange"
+            }
+        ],
+        "replicas": 1,
+        "test": false,
+        "selector": {
+            "deploymentconfig": "hub"
+        },
+        "template": {
+            "metadata": {
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "hub",
+                    "deploymentconfig": "hub"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "name": "hub",
+                        "image": "docker-registry.default.svc:5000/jag-efiling-dev/hub@sha256:d6ffa58a11ccefa9c1648aebf3b6b7602d58199fb321e298a9cdd7192269c455",
+                        "ports": [
+                            {
+                                "containerPort": 8080,
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "env": [
+                            {
+                                "name": "MAVEN_CONFIG",
+                                "value": "/usr/.m2"
+                            }
+                        ],
+                        "resources": {},
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "imagePullPolicy": "Always"
+                    }
+                ],
+                "restartPolicy": "Always",
+                "terminationGracePeriodSeconds": 30,
+                "dnsPolicy": "ClusterFirst",
+                "securityContext": {},
+                "schedulerName": "default-scheduler"
+            }
+        }
+    },
+    "status": {
+        "latestVersion": 0,
+        "observedGeneration": 0,
+        "replicas": 0,
+        "updatedReplicas": 0,
+        "availableReplicas": 0,
+        "unavailableReplicas": 0
+    }
+}
