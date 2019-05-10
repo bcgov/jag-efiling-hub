@@ -10,8 +10,6 @@ RUN mkdir /usr/.m2
 RUN chmod 777 /usr/.m2
 ADD settings-docker.xml /usr/.m2/settings-docker.xml
 
-EXPOSE 8888
-
 WORKDIR /usr/src/hub
 
 CMD ["./start.sh"]
