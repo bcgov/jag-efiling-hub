@@ -19,6 +19,7 @@ public class Hub {
         context.addServlet(ORInitializeServlet.class, "/initialize");
         context.addServlet(ORSaveServlet.class, "/save");
         context.addServlet(Form7SearchServlet.class, "/form7s");
+        context.addServlet(CsoAccountServlet.class, "/account");
 
         server.start();
         server.join();
