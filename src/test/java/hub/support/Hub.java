@@ -1,9 +1,6 @@
 package hub.support;
 
-import hub.http.Form7PdfPreviewServlet;
-import hub.http.ORInitializeServlet;
-import hub.http.ORSaveServlet;
-import hub.http.PingServlet;
+import hub.http.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
@@ -21,6 +18,7 @@ public class Hub {
         context.addServlet(Form7PdfPreviewServlet.class, "/preview");
         context.addServlet(ORInitializeServlet.class, "/initialize");
         context.addServlet(ORSaveServlet.class, "/save");
+        context.addServlet(Form7SearchServlet.class, "/form7s");
 
         server.start();
         server.join();
