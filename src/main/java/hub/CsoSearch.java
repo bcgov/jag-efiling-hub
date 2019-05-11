@@ -8,10 +8,25 @@ import javax.xml.soap.*;
 import java.util.Base64;
 
 @Named
-public class CsoSearch extends Cso {
+public class CsoSearch {
+
+    @Inject
+    Environment environment;
+
+    public String user() {
+        return environment.getValue("COA_USER");
+    }
+
+    public String password() {
+        return environment.getValue("COA_PASSWORD");
+    }
 
     public String searchEndpoint() {
         return environment.getValue("COA_SEARCH_ENDPOINT");
+    }
+
+    public String namespace() {
+        return environment.getValue("COA_NAMESPACE");
     }
 
     public String searchByCaseNumberSoapAction() {
@@ -24,6 +39,11 @@ public class CsoSearch extends Cso {
 
     public String viewCaseBasicsSoapAction() {
         return environment.getValue("COA_VIEW_CASE_BASICS_SOAP_ACTION");
+    }
+
+    public String basicAuthorization() {
+        return "Basic " + Base64.getEncoder().encodeToString(
+                (this.user() + ":" + this.password()).getBytes());
     }
 
     public SOAPMessage searchByCaseNumber(String caseNumber) throws SOAPException {

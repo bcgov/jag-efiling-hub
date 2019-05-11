@@ -1,11 +1,29 @@
 package hub;
 
+import hub.helper.Environment;
+
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.soap.*;
 import java.util.Base64;
 
 @Named
-public class CsoAccountInfo extends Cso {
+public class CsoAccountInfo {
+
+    @Inject
+    Environment environment;
+
+    public String user() {
+        return environment.getValue("CSO_USER");
+    }
+
+    public String password() {
+        return environment.getValue("CSO_PASSWORD");
+    }
+
+    public String namespace() {
+        return environment.getValue("CSO_NAMESPACE");
+    }
 
     public String accountInfoEndpoint() {
         return environment.getValue("CSO_ACCOUNT_INFO_ENDPOINT");
@@ -15,8 +33,9 @@ public class CsoAccountInfo extends Cso {
         return environment.getValue("CSO_ACCOUNT_INFO_SOAP_ACTION");
     }
 
-    public SOAPMessage searchByAccountId(String accountId) throws SOAPException {
-        return getSoapMessage(accountId, "getCsoClientProfiles");
+    public String basicAuthorization() {
+        return "Basic " + Base64.getEncoder().encodeToString(
+                (this.user() + ":" + this.password()).getBytes());
     }
 
     private SOAPMessage getSoapMessage(String accountId, String request) throws SOAPException {
@@ -33,5 +52,9 @@ public class CsoAccountInfo extends Cso {
         message.saveChanges();
 
         return message;
+    }
+
+    public SOAPMessage searchByAccountId(String accountId) throws SOAPException {
+        return getSoapMessage(accountId, "getCsoClientProfiles");
     }
 }
