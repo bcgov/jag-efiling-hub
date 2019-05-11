@@ -59,32 +59,33 @@
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-test</artifactId>
             <version>${camel-version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-client</artifactId>
             <version>${jetty-version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
             <version>${jetty-version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-annotations</artifactId>
             <version>${jetty-version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet-shaded</artifactId>
             <version>3.0.4.Final</version>
-            <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>el-impl</artifactId>
+            <version>2.2</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.apache.activemq</groupId>
@@ -204,8 +205,7 @@
                         <artifactId>exec-maven-plugin</artifactId>
                         <version>1.6.0</version>
                         <configuration>
-                            <classpathScope>test</classpathScope>
-                            <mainClass>hub.support.Hub</mainClass>
+                            <mainClass>hub.Hub</mainClass>
                             <systemProperties>
                                 <systemProperty>
                                     <key>COA_USER</key><value>ignored-by-fake-cso</value>
@@ -259,8 +259,7 @@
                         <artifactId>exec-maven-plugin</artifactId>
                         <version>1.6.0</version>
                         <configuration>
-                            <classpathScope>test</classpathScope>
-                            <mainClass>hub.support.Hub</mainClass>
+                            <mainClass>hub.Hub</mainClass>
                         </configuration>
                     </plugin>
                 </plugins>
