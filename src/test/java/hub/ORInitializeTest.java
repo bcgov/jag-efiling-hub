@@ -104,7 +104,7 @@ public class ORInitializeTest extends HavingHubRunning {
     }
 
 
-    public void returnsApplicationTicket() throws Exception {
+    public void returnsApplicationTicketWhenRanAgainstRealOr() throws Exception {
         HttpResponse response = get("http://localhost:8888/initialize");
 
         assertThat(response.getBody(), containsString("AppTicket"));
@@ -112,7 +112,7 @@ public class ORInitializeTest extends HavingHubRunning {
     }
 
 
-    public void manualCall() throws Exception {
+    public void manualCallAgainstRealOr() throws Exception {
         ORInitialize initialize = new ORInitialize();
         initialize.environment = new Environment();
         HttpResponse response = PostRequest.post(initialize.url(), initialize.headers(), initialize.body().getBytes());

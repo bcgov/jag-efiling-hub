@@ -18,8 +18,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ORSaveTest extends HavingHubRunning {
 
-    @Test
-    public void returnsGuid() throws Exception {
+
+    public void returnsGuidWhenRanAgainstRealOr() throws Exception {
         context.addServlet(ORSaveServlet.class, "/save");
         server.start();
 
@@ -39,7 +39,7 @@ public class ORSaveTest extends HavingHubRunning {
     }
 
 
-    public void manualCall() throws Exception {
+    public void manualCallAgainsRealOr() throws Exception {
         ORInitialize initialize = new ORInitialize();
         initialize.environment = new Environment();
         HttpResponse response = post(initialize.url(), initialize.headers(), initialize.body().getBytes());
