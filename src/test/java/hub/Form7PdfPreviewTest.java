@@ -1,8 +1,8 @@
 package hub;
 
-import hub.http.Form7PdfPreviewServlet;
-import hub.support.HavingHubRunning;
 import hub.helper.HttpResponse;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -12,14 +12,23 @@ import java.io.IOException;
 import static hub.support.GetRequest.get;
 import static org.junit.Assert.assertTrue;
 
-public class Form7PdfPreviewTest extends HavingHubRunning {
+public class Form7PdfPreviewTest {
 
     private String filename = "form7-received.pdf";
 
+    private Hub hub;
+
+    @Before
+    public void startHub() throws Exception {
+        hub = new Hub(8888);
+        hub.start();
+    }
+    @After
+    public void stopHub() throws Exception {
+        hub.stop();
+    }
 
     public void returnsPdf() throws Exception {
-        context.addServlet(Form7PdfPreviewServlet.class, "/preview");
-        server.start();
         HttpResponse response = get("http://localhost:8888/preview");
 
         save(response.getBinaryBody());

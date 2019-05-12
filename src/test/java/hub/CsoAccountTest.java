@@ -3,8 +3,6 @@ package hub;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpServer;
 import hub.helper.HttpResponse;
-import hub.http.CsoAccountServlet;
-import hub.support.HavingHubRunning;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +19,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class CsoAccountTest extends HavingHubRunning {
+public class CsoAccountTest {
 
     private static final Logger LOGGER = Logger.getLogger(CsoAccountTest.class.getName());
 
@@ -29,6 +27,21 @@ public class CsoAccountTest extends HavingHubRunning {
     private Headers sentHeaders;
     private String contentType;
     private String willAnswer;
+
+    private Hub hub;
+
+    @Before
+    public void startHub() throws Exception {
+        System.setProperty("CSO_NAMESPACE", "http://hub.org");
+        System.setProperty("CSO_ACCOUNT_INFO_ENDPOINT", "http4://localhost:8111");
+
+        hub = new Hub(8888);
+        hub.start();
+    }
+    @After
+    public void stopHub() throws Exception {
+        hub.stop();
+    }
 
     @Before
     public void startServer() throws Exception {
@@ -41,8 +54,6 @@ public class CsoAccountTest extends HavingHubRunning {
             exchange.close();
         } );
         cso.start();
-        context.addServlet(CsoAccountServlet.class, "/account");
-        server.start();
     }
 
     @After

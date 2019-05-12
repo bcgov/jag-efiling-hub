@@ -3,7 +3,6 @@ package hub;
 import com.sun.net.httpserver.HttpServer;
 import hub.helper.HttpResponse;
 import hub.http.Form7SearchServlet;
-import hub.support.HavingHubRunning;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.After;
 import org.junit.Before;
@@ -19,7 +18,7 @@ import static hub.support.Resource.bodyOf;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class Form7SearchTest extends HavingHubRunning {
+public class Form7SearchTest {
 
     private static final Logger LOGGER = Logger.getLogger(Form7SearchTest.class.getName());
 
@@ -27,6 +26,21 @@ public class Form7SearchTest extends HavingHubRunning {
     String searchAnswer;
     String basicsAnswer;
     String partiesAnswer;
+
+    private Hub hub;
+
+    @Before
+    public void startHub() throws Exception {
+        System.setProperty("COA_NAMESPACE", "http://hub.org");
+        System.setProperty("COA_SEARCH_ENDPOINT", "http4://localhost:8111");
+
+        hub = new Hub(8888);
+        hub.start();
+    }
+    @After
+    public void stopHub() throws Exception {
+        hub.stop();
+    }
 
     @Before
     public void startServer() throws Exception {
@@ -66,8 +80,6 @@ public class Form7SearchTest extends HavingHubRunning {
     @Test
     public void returns404WhenNotFound() throws Exception {
         searchAnswer = "";
-        context.addServlet(Form7SearchServlet.class, "/form7s");
-        server.start();
         HttpResponse response = get("http://localhost:8888/form7s?caseNumber=unknown");
 
         assertThat(response.getStatusCode(), equalTo(404));
@@ -78,8 +90,6 @@ public class Form7SearchTest extends HavingHubRunning {
         searchAnswer = searchResultCivil();
         basicsAnswer = basics();
         partiesAnswer = parties();
-        context.addServlet(Form7SearchServlet.class, "/form7s");
-        server.start();
         HttpResponse response = get("http://localhost:8888/form7s?caseNumber=visible");
 
         assertThat(response.getStatusCode(), equalTo(200));
@@ -89,9 +99,8 @@ public class Form7SearchTest extends HavingHubRunning {
     @Test
     public void resistsInternalErrors() throws Exception {
         Form7SearchServlet form7SearchServlet = new Form7SearchServlet();
-        context.addServlet(new ServletHolder(form7SearchServlet), "/form7s");
-        server.start();
-        HttpResponse response = get("http://localhost:8888/form7s?caseNumber=unknown");
+        hub.getServletContext().addServlet(new ServletHolder(form7SearchServlet), "/broken-search");
+        HttpResponse response = get("http://localhost:8888/broken-search?caseNumber=unknown");
 
         assertThat(response.getStatusCode(), equalTo(500));
         assertThat(response.getBody(), equalTo(""));
@@ -102,8 +111,6 @@ public class Form7SearchTest extends HavingHubRunning {
         searchAnswer = searchResultCivil();
         basicsAnswer = basics();
         partiesAnswer = parties();
-        context.addServlet(Form7SearchServlet.class, "/form7s");
-        server.start();
         String answer = bodyOf("http://localhost:8888/form7s?caseNumber=visible");
 
         assertThat(answer, not(containsString("SearchByCaseNumberResponse")));
@@ -114,8 +121,6 @@ public class Form7SearchTest extends HavingHubRunning {
     @Test
     public void returnsOnlySearchResultWhenCaseIsCriminal() throws Exception {
         searchAnswer = searchResultCriminal();
-        context.addServlet(Form7SearchServlet.class, "/form7s");
-        server.start();
         String answer = bodyOf("http://localhost:8888/form7s?caseNumber=criminal");
 
         assertThat(answer, containsString("SearchByCaseNumberResponse"));
@@ -127,8 +132,6 @@ public class Form7SearchTest extends HavingHubRunning {
     public void returnsOnlyBasicsWhenCaseIsBanned() throws Exception {
         searchAnswer = searchResultCivil();
         basicsAnswer = basicsBanned();
-        context.addServlet(Form7SearchServlet.class, "/form7s");
-        server.start();
         String answer = bodyOf("http://localhost:8888/form7s?caseNumber=banned");
 
         assertThat(answer, not(containsString("SearchByCaseNumberResponse")));
@@ -140,8 +143,6 @@ public class Form7SearchTest extends HavingHubRunning {
     public void returnsOnlyBasicsWhenCaseIsFamillyRestricted() throws Exception {
         searchAnswer = searchResultCivil();
         basicsAnswer = basicsFamillyRestricted();
-        context.addServlet(Form7SearchServlet.class, "/form7s");
-        server.start();
         String answer = bodyOf("http://localhost:8888/form7s?caseNumber=banned");
 
         assertThat(answer, not(containsString("SearchByCaseNumberResponse")));
@@ -153,8 +154,6 @@ public class Form7SearchTest extends HavingHubRunning {
     public void returnsOnlyBasicsWhenHighLevelCategoryIsFamillyLaw() throws Exception {
         searchAnswer = searchResultCivil();
         basicsAnswer = basicsFamillyLawCategory();
-        context.addServlet(Form7SearchServlet.class, "/form7s");
-        server.start();
         String answer = bodyOf("http://localhost:8888/form7s?caseNumber=banned");
 
         assertThat(answer, not(containsString("SearchByCaseNumberResponse")));

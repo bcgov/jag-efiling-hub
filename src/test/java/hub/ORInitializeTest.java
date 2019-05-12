@@ -6,8 +6,6 @@ import hub.helper.Environment;
 import hub.helper.HttpResponse;
 import hub.helper.PostRequest;
 import hub.helper.StreamReader;
-import hub.http.ORInitializeServlet;
-import hub.support.HavingHubRunning;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,18 +13,33 @@ import org.junit.Test;
 import java.net.InetSocketAddress;
 import java.util.Base64;
 
+import static hub.helper.PostRequest.post;
 import static hub.support.GetRequest.get;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ORInitializeTest extends HavingHubRunning {
+public class ORInitializeTest {
 
     private HttpServer initializeServer;
     private Headers initializeHeaders;
     private String initializeAnswer = "OK";
     private String initializeMethod;
     private String initializeBody;
+
+    private Hub hub;
+
+    @Before
+    public void startHub() throws Exception {
+        System.setProperty("OR_ENDPOINT_INITIALIZE", "http4://localhost:8111");
+
+        hub = new Hub(8888);
+        hub.start();
+    }
+    @After
+    public void stopHub() throws Exception {
+        hub.stop();
+    }
 
     @Before
     public void startServer() throws Exception {
@@ -40,8 +53,6 @@ public class ORInitializeTest extends HavingHubRunning {
             exchange.close();
         } );
         initializeServer.start();
-        context.addServlet(ORInitializeServlet.class, "/initialize");
-        server.start();
     }
 
     @After
@@ -112,7 +123,7 @@ public class ORInitializeTest extends HavingHubRunning {
     public void manualCallAgainstRealOr() throws Exception {
         ORInitialize initialize = new ORInitialize();
         initialize.environment = new Environment();
-        HttpResponse response = PostRequest.post(initialize.url(), initialize.headers(), initialize.body().getBytes());
+        HttpResponse response = post(initialize.url(), initialize.headers(), initialize.body().getBytes());
 
         assertThat(response.getBody(), containsString("AppTicket"));
         assertThat(response.getContentType(), equalTo("application/json"));

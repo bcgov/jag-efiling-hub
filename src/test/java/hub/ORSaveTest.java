@@ -5,8 +5,6 @@ import com.sun.net.httpserver.HttpServer;
 import hub.helper.Environment;
 import hub.helper.HttpResponse;
 import hub.helper.StreamReader;
-import hub.http.ORSaveServlet;
-import hub.support.HavingHubRunning;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +21,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ORSaveTest extends HavingHubRunning {
+public class ORSaveTest {
 
     private HttpServer initializeServer;
     private String initializeAnswer = "{ \"AppTicket\":\"ticket-value\" }";
@@ -34,6 +32,21 @@ public class ORSaveTest extends HavingHubRunning {
     private String saveMethod;
     private byte[] saveBody;
     private String saveUri;
+
+    private Hub hub;
+
+    @Before
+    public void startHub() throws Exception {
+        System.setProperty("OR_ENDPOINT_INITIALIZE", "http4://localhost:8111");
+        System.setProperty("OR_ENDPOINT_CREATE", "http4://localhost:8222");
+
+        hub = new Hub(8888);
+        hub.start();
+    }
+    @After
+    public void stopHub() throws Exception {
+        hub.stop();
+    }
 
     @Before
     public void startServers() throws Exception {
@@ -56,9 +69,6 @@ public class ORSaveTest extends HavingHubRunning {
             exchange.close();
         } );
         saveServer.start();
-
-        context.addServlet(ORSaveServlet.class, "/save");
-        server.start();
     }
 
     @After
