@@ -4,7 +4,6 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpServer;
 import hub.helper.Environment;
 import hub.helper.HttpResponse;
-import hub.helper.PostRequest;
 import hub.helper.StreamReader;
 import org.junit.After;
 import org.junit.Before;
@@ -13,7 +12,7 @@ import org.junit.Test;
 import java.net.InetSocketAddress;
 import java.util.Base64;
 
-import static hub.helper.PostRequest.post;
+import static hub.support.PostRequest.post;
 import static hub.support.GetRequest.get;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;

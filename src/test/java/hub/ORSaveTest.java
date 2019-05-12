@@ -16,7 +16,7 @@ import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.util.Base64;
 
-import static hub.helper.PostRequest.post;
+import static hub.support.PostRequest.post;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;

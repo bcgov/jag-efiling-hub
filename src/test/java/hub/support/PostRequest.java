@@ -1,4 +1,7 @@
-package hub.helper;
+package hub.support;
+
+import hub.helper.HttpResponse;
+import hub.helper.StreamReader;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
