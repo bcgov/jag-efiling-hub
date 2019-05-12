@@ -50,7 +50,7 @@ public class FormPdfPreview {
 
             // Create a byte array. Call the IOutputContext interface's getOutputContext method
             Document doc = formOut.getOutputContent();
-            byte[] cContent = bytify.inputStram(doc.getInputStream());
+            byte[] cContent = bytify.inputStream(doc.getInputStream());
             LOGGER.log(Level.INFO, "Received content...");
 
             /* encode the array?? */

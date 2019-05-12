@@ -9,7 +9,7 @@ import java.io.InputStream;
 @Named
 public class Bytify {
 
-    public byte[] inputStram(InputStream inputStream) throws IOException {
+    public byte[] inputStream(InputStream inputStream) throws IOException {
         if (inputStream == null) { return new byte[0]; }
 
         byte[] response = new byte[ inputStream.available() ];
