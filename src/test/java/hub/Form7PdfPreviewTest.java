@@ -16,7 +16,7 @@ public class Form7PdfPreviewTest extends HavingHubRunning {
 
     private String filename = "form7-received.pdf";
 
-    @Test
+
     public void returnsPdf() throws Exception {
         context.addServlet(Form7PdfPreviewServlet.class, "/preview");
         server.start();
