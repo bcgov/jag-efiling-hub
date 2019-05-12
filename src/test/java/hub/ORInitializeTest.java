@@ -6,7 +6,6 @@ import hub.helper.Environment;
 import hub.helper.HttpResponse;
 import hub.helper.PostRequest;
 import hub.helper.StreamReader;
-import hub.http.CsoAccountServlet;
 import hub.http.ORInitializeServlet;
 import hub.support.HavingHubRunning;
 import org.junit.After;
@@ -23,33 +22,31 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ORInitializeTest extends HavingHubRunning {
 
-    private HttpServer objectRepository;
-    private Headers sentHeaders;
-    private String contentType;
-    private String willAnswer = "OK";
-    private String method;
-    private String body;
+    private HttpServer initializeServer;
+    private Headers initializeHeaders;
+    private String initializeAnswer = "OK";
+    private String initializeMethod;
+    private String initializeBody;
 
     @Before
     public void startServer() throws Exception {
-        objectRepository = HttpServer.create( new InetSocketAddress( 8111 ), 0 );
-        objectRepository.createContext( "/", exchange -> {
-            body = StreamReader.readStream(exchange.getRequestBody());
-            method = exchange.getRequestMethod();
-            sentHeaders = exchange.getRequestHeaders();
-            contentType = exchange.getRequestHeaders().getFirst("content-type");
-            exchange.sendResponseHeaders( 200, willAnswer.length() );
-            exchange.getResponseBody().write( willAnswer.getBytes() );
+        initializeServer = HttpServer.create( new InetSocketAddress( 8111 ), 0 );
+        initializeServer.createContext( "/", exchange -> {
+            initializeBody = StreamReader.readStream(exchange.getRequestBody());
+            initializeMethod = exchange.getRequestMethod();
+            initializeHeaders = exchange.getRequestHeaders();
+            exchange.sendResponseHeaders( 200, initializeAnswer.length() );
+            exchange.getResponseBody().write( initializeAnswer.getBytes() );
             exchange.close();
         } );
-        objectRepository.start();
+        initializeServer.start();
         context.addServlet(ORInitializeServlet.class, "/initialize");
         server.start();
     }
 
     @After
-    public void stopCsoServer() {
-        objectRepository.stop( 0 );
+    public void stopServer() {
+        initializeServer.stop( 0 );
     }
     @Before
     public void setProperties() {
@@ -64,14 +61,14 @@ public class ORInitializeTest extends HavingHubRunning {
     public void methodIsPost() throws Exception {
         get("http://localhost:8888/initialize");
 
-        assertThat(method, equalTo("POST"));
+        assertThat(initializeMethod, equalTo("POST"));
     }
 
     @Test
     public void contentTypeIsJson() throws Exception {
         get("http://localhost:8888/initialize");
 
-        assertThat(contentType, equalTo("application/json"));
+        assertThat(initializeHeaders.getFirst("content-type"), equalTo("application/json"));
     }
 
     @Test
@@ -84,7 +81,7 @@ public class ORInitializeTest extends HavingHubRunning {
             "}";
         get("http://localhost:8888/initialize");
 
-        assertThat(body, equalTo(expected));
+        assertThat(initializeBody, equalTo(expected));
     }
 
     @Test
@@ -93,7 +90,7 @@ public class ORInitializeTest extends HavingHubRunning {
                 ("this-basic-auth-username:this-basic-auth-password").getBytes());
         get("http://localhost:8888/initialize");
 
-        assertThat(sentHeaders.getFirst("Authorization"), equalTo(expected));
+        assertThat(initializeHeaders.getFirst("Authorization"), equalTo(expected));
     }
 
     @Test
