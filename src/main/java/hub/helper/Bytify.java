@@ -12,9 +12,15 @@ public class Bytify {
     public byte[] inputStream(InputStream inputStream) throws IOException {
         if (inputStream == null) { return new byte[0]; }
 
-        byte[] response = new byte[ inputStream.available() ];
-        inputStream.read( response );
+        if (inputStream == null) { return new byte[0]; }
 
-        return response;
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[1024];
+        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        buffer.flush();
+        return buffer.toByteArray();
     }
 }

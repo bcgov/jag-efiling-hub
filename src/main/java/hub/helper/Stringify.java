@@ -4,6 +4,7 @@ import javax.inject.Named;
 import javax.xml.soap.SOAPException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Named
 public class Stringify {
@@ -13,5 +14,11 @@ public class Stringify {
         message.writeTo(out);
 
         return new String(out.toByteArray());
+    }
+
+    public String inputStream(InputStream inputStream) throws IOException {
+        if (inputStream == null) { return ""; }
+
+        return new String(new Bytify().inputStream(inputStream));
     }
 }

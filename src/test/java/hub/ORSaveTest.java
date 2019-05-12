@@ -2,9 +2,9 @@ package hub;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpServer;
+import hub.helper.Bytify;
 import hub.helper.Environment;
 import hub.helper.HttpResponse;
-import hub.helper.StreamReader;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -61,7 +61,7 @@ public class ORSaveTest {
         saveServer = HttpServer.create( new InetSocketAddress( 8222 ), 0 );
         saveServer.createContext( "/", exchange -> {
             saveUri = exchange.getRequestURI().toString();
-            saveBody = StreamReader.readStreamAsbytes(exchange.getRequestBody());
+            saveBody = new Bytify().inputStream(exchange.getRequestBody());
             saveMethod = exchange.getRequestMethod();
             saveHeaders = exchange.getRequestHeaders();
             exchange.sendResponseHeaders( 200, saveAnswer.length() );

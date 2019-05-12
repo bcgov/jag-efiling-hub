@@ -1,5 +1,6 @@
 package hub.http;
 
+import hub.helper.Bytify;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.cdi.ContextName;
@@ -13,23 +14,25 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static hub.helper.StreamReader.readStreamAsbytes;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 
 @WebServlet(name = "ORSaveServlet", urlPatterns = {"/save"}, loadOnStartup = 1)
 public class ORSaveServlet extends HttpServlet {
 
+    private static final Logger LOGGER = Logger.getLogger(ORSaveServlet.class.getName());
+
     @Inject
     @ContextName("cdi-context")
     private CamelContext context;
 
-    private static final Logger LOGGER = Logger.getLogger(ORSaveServlet.class.getName());
+    @Inject
+    Bytify bytify;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) {
         try {
             InputStream inputStream = req.getInputStream();
-            byte[] pdf = readStreamAsbytes(inputStream);
+            byte[] pdf = bytify.inputStream(inputStream);
 
             String result = save(pdf);
 

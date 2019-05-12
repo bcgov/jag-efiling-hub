@@ -4,7 +4,7 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpServer;
 import hub.helper.Environment;
 import hub.helper.HttpResponse;
-import hub.helper.StreamReader;
+import hub.helper.Stringify;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,8 +12,8 @@ import org.junit.Test;
 import java.net.InetSocketAddress;
 import java.util.Base64;
 
-import static hub.support.PostRequest.post;
 import static hub.support.GetRequest.get;
+import static hub.support.PostRequest.post;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,7 +44,7 @@ public class ORInitializeTest {
     public void startServer() throws Exception {
         initializeServer = HttpServer.create( new InetSocketAddress( 8111 ), 0 );
         initializeServer.createContext( "/", exchange -> {
-            initializeBody = StreamReader.readStream(exchange.getRequestBody());
+            initializeBody = new Stringify().inputStream(exchange.getRequestBody());
             initializeMethod = exchange.getRequestMethod();
             initializeHeaders = exchange.getRequestHeaders();
             exchange.sendResponseHeaders( 200, initializeAnswer.length() );

@@ -1,12 +1,11 @@
 package hub.support;
 
+import hub.helper.Bytify;
 import hub.helper.HttpResponse;
+import hub.helper.Stringify;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import static hub.helper.StreamReader.readStream;
-import static hub.helper.StreamReader.readStreamAsbytes;
 
 public class GetRequest {
 
@@ -17,13 +16,13 @@ public class GetRequest {
         response.setContentType(request.getContentType());
         if (request.getResponseCode() < 400) {
             if ("application/pdf".equalsIgnoreCase(response.getContentType())) {
-                response.setBinaryBody(readStreamAsbytes(request.getInputStream()));
+                response.setBinaryBody(new Bytify().inputStream(request.getInputStream()));
             }
             else {
-                response.setBody(readStream(request.getInputStream()));
+                response.setBody(new Stringify().inputStream(request.getInputStream()));
             }
         } else {
-            response.setBody(readStream(request.getErrorStream()));
+            response.setBody(new Stringify().inputStream(request.getErrorStream()));
         }
 
         return response;
