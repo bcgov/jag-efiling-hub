@@ -55,8 +55,8 @@ public class ORSaveRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 Map<String, Object> headers = new HashMap<>();
                 headers.put(Exchange.HTTP_METHOD, constant(POST));
-                headers.put("Authorization", constant(save.basicAuthorization()));
-                headers.put(Exchange.HTTP_QUERY, "?AppTicket=this-ticket&MimeType=application&MimeSubType=pdf&Filename=form2.pdf&RetentionPeriod=-1"
+                headers.put("Authorization", save.basicAuthorization());
+                headers.put(Exchange.HTTP_QUERY, "AppTicket=this-ticket&MimeType=application&MimeSubType=pdf&Filename=form2.pdf&RetentionPeriod=-1"
                         .replace("this-ticket", (String) exchange.getProperties().get("ticket")));
                 byte[] pdf = (byte[]) exchange.getProperties().get("pdf");
                 LOGGER.log(Level.INFO, headers.toString());

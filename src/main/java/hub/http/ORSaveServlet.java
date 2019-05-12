@@ -3,6 +3,7 @@ package hub.http;
 import hub.ORInitialize;
 import hub.ORSave;
 import hub.helper.HttpResponse;
+import hub.helper.StreamReader;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.cdi.ContextName;
@@ -20,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static hub.helper.PostRequest.post;
+import static hub.helper.StreamReader.readStreamAsbytes;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 
 @WebServlet(name = "ORSaveServlet", urlPatterns = {"/save"}, loadOnStartup = 1)
@@ -29,21 +31,15 @@ public class ORSaveServlet extends HttpServlet {
     @ContextName("cdi-context")
     private CamelContext context;
 
-    @Inject
-    ORInitialize initialize;
-
-    @Inject
-    ORSave save;
-
     private static final Logger LOGGER = Logger.getLogger(ORSaveServlet.class.getName());
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) {
         try {
             InputStream inputStream = req.getInputStream();
-            byte[] pdf = read(inputStream);
+            byte[] pdf = readStreamAsbytes(inputStream);
 
-            String result = manualSave(pdf);
+            String result = save(pdf);
 
             LOGGER.log(Level.INFO, result);
             res.setHeader(CONTENT_TYPE, "application/json");
@@ -54,27 +50,8 @@ public class ORSaveServlet extends HttpServlet {
         }
     }
 
-    protected String manualSave(byte[] pdf) throws Exception {
-        HttpResponse response = post(initialize.url(), initialize.headers(), initialize.body().getBytes());
-        String ticket = (String) new JSONObject(response.getBody()).get("AppTicket");
-        response = post(save.url(ticket), save.headers(), pdf);
-
-        return response.getBody();
-    }
-
     protected String save(byte[] pdf) {
         ProducerTemplate producer = context.createProducerTemplate();
         return producer.requestBody("direct:save", pdf, String.class);
-    }
-
-    private byte[] read(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int nRead;
-        byte[] data = new byte[1024];
-        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-            buffer.write(data, 0, nRead);
-        }
-        buffer.flush();
-        return buffer.toByteArray();
     }
 }
