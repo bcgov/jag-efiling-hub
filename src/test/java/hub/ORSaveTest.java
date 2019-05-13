@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpServer;
 import hub.helper.Bytify;
 import hub.helper.Environment;
 import hub.helper.HttpResponse;
+import hub.support.HavingTestProperties;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -21,7 +22,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ORSaveTest {
+public class ORSaveTest extends HavingTestProperties {
 
     private HttpServer initializeServer;
     private String initializeAnswer = "{ \"AppTicket\":\"ticket-value\" }";

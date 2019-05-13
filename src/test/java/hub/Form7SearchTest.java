@@ -3,6 +3,7 @@ package hub;
 import com.sun.net.httpserver.HttpServer;
 import hub.helper.HttpResponse;
 import hub.http.Form7SearchServlet;
+import hub.support.HavingTestProperties;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +19,7 @@ import static hub.support.Resource.bodyOf;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class Form7SearchTest {
+public class Form7SearchTest extends HavingTestProperties {
 
     private static final Logger LOGGER = Logger.getLogger(Form7SearchTest.class.getName());
 

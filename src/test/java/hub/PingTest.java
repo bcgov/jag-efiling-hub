@@ -2,6 +2,7 @@ package hub;
 
 import hub.helper.HttpResponse;
 import hub.http.PingServlet;
+import hub.support.HavingTestProperties;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +13,7 @@ import static hub.support.Resource.bodyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class PingTest {
+public class PingTest extends HavingTestProperties {
 
     private Hub hub;
 

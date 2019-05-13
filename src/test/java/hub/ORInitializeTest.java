@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpServer;
 import hub.helper.Environment;
 import hub.helper.HttpResponse;
 import hub.helper.Stringify;
+import hub.support.HavingTestProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ORInitializeTest {
+public class ORInitializeTest extends HavingTestProperties {
 
     private HttpServer initializeServer;
     private Headers initializeHeaders;

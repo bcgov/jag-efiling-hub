@@ -1,6 +1,7 @@
 package hub;
 
 import hub.helper.HttpResponse;
+import hub.support.HavingTestProperties;
 import org.junit.After;
 import org.junit.Before;
 
@@ -11,7 +12,7 @@ import java.io.IOException;
 import static hub.support.GetRequest.get;
 import static org.junit.Assert.assertTrue;
 
-public class Form7PdfPreviewTest {
+public class Form7PdfPreviewTest extends HavingTestProperties {
 
     private String filename = "form7-received.pdf";
 

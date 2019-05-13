@@ -3,6 +3,7 @@ package hub;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpServer;
 import hub.helper.HttpResponse;
+import hub.support.HavingTestProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +20,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class CsoAccountTest {
+public class CsoAccountTest extends HavingTestProperties {
 
     private static final Logger LOGGER = Logger.getLogger(CsoAccountTest.class.getName());
 
