@@ -5,11 +5,12 @@ const server = {
     start: function(done) {
         this.internal = createServer((request, response)=>{
             console.log(request.method, request.url)
-            if (request.url == '/initialize') {
+            let params = require('url').parse(request.url)
+            if (params.pathname == '/initialize') {
                 response.setHeader('content-type', 'application/json')
                 response.write(JSON.stringify({ AppTicket:'ticket-from-fake-object-repository' }))
             }
-            else if (request.url == '/create') {
+            else if (params.pathname == '/create') {
                 response.setHeader('content-type', 'application/json')
                 response.write(JSON.stringify({ Object_GUID:'guid-from-fake-object-repository' }))
             }
@@ -31,7 +32,7 @@ const request = (path)=>{
 module.exports = {
     ping:request('/ping'),
     initialize:request('/initialize'),
-    create:request('/create')
+    create:request('/create?AppTicket=any')
 }
 
 server.start(()=>{
