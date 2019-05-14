@@ -252,10 +252,10 @@
                                     <key>OR_APP_PASSWORD</key><value>ignored-by-fake-object-repository</value>
                                 </systemProperty>
                                 <systemProperty>
-                                    <key>OR_ENDPOINT_CREATE</key><value>https4://localhost:5010/create</value>
+                                    <key>OR_ENDPOINT_CREATE</key><value>http4://localhost:5010/create</value>
                                 </systemProperty>
                                 <systemProperty>
-                                    <key>OR_ENDPOINT_INITIALIZE</key><value>https4://localhost:5010/initialize</value>
+                                    <key>OR_ENDPOINT_INITIALIZE</key><value>http4://localhost:5010/initialize</value>
                                 </systemProperty>
                                 <systemProperty>
                                     <key>OR_BASIC_AUTH_USERNAME</key><value>ignored-by-fake-object-repository</value>
