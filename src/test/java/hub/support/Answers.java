@@ -99,4 +99,27 @@ public class Answers {
                 "</soap:Body>" +
                 "</soap:Envelope>" ;
     }
+
+    public static String isAuthorized() {
+        return "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+                "   <soap:Body>\n" +
+                "      <ns2:isAuthorizedUserResponse xmlns:ns2=\"http://csoextws.jag.gov.bc.ca/\">\n" +
+                "         <return>\n" +
+                "            <accountId>1304</accountId>\n" +
+                "            <clientId>1801</clientId>\n" +
+                "         </return>\n" +
+                "      </ns2:isAuthorizedUserResponse>\n" +
+                "   </soap:Body>\n" +
+                "</soap:Envelope>";
+    }
+
+    public static String isNotAuthorized() {
+        return "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+                "   <soap:Body>\n" +
+                "      <ns2:isAuthorizedUserResponse xmlns:ns2=\"http://csoextws.jag.gov.bc.ca/\">\n" +
+                "         <return/>\n" +
+                "      </ns2:isAuthorizedUserResponse>\n" +
+                "   </soap:Body>\n" +
+                "</soap:Envelope>";
+    }
 }

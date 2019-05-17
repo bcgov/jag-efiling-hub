@@ -25,6 +25,7 @@ public class Hub {
         context.addServlet(ORSaveServlet.class, "/save");
         context.addServlet(Form7SearchServlet.class, "/form7s");
         context.addServlet(CsoAccountServlet.class, "/account");
+        context.addServlet(IsAuthorizedServlet.class, "/isAuthorized");
         server.start();
     }
 

@@ -8,7 +8,7 @@ import javax.xml.soap.*;
 import java.util.Base64;
 
 @Named
-public class CsoAccountInfo {
+public class IsAuthorized {
 
     @Inject
     Environment environment;
@@ -25,12 +25,12 @@ public class CsoAccountInfo {
         return environment.getValue("CSO_NAMESPACE");
     }
 
-    public String accountInfoEndpoint() {
+    public String isAuthorizedEndpoint() {
         return environment.getValue("CSO_EXTENSION_ENDPOINT");
     }
 
-    public String accountInfoSoapAction() {
-        return environment.getValue("CSO_ACCOUNT_INFO_SOAP_ACTION");
+    public String isAuthorizedSoapAction() {
+        return environment.getValue("CSO_IS_AUTHORIZED_SOAP_ACTION");
     }
 
     public String basicAuthorization() {
@@ -38,7 +38,7 @@ public class CsoAccountInfo {
                 (this.user() + ":" + this.password()).getBytes());
     }
 
-    private SOAPMessage getSoapMessage(String accountId, String request) throws SOAPException {
+    private SOAPMessage getSoapMessage(String userguid, String request) throws SOAPException {
         MessageFactory myMsgFct = MessageFactory.newInstance();
         SOAPMessage message = myMsgFct.createMessage();
         SOAPPart mySPart = message.getSOAPPart();
@@ -46,15 +46,15 @@ public class CsoAccountInfo {
         SOAPBody body = myEnvp.getBody();
         Name bodyName = myEnvp.createName(request, "cso", this.namespace());
         SOAPBodyElement gltp = body.addBodyElement(bodyName);
-        Name myContent = myEnvp.createName("accountId");
+        Name myContent = myEnvp.createName("userguid");
         SOAPElement mySymbol = gltp.addChildElement(myContent);
-        mySymbol.addTextNode(accountId);
+        mySymbol.addTextNode(userguid);
         message.saveChanges();
 
         return message;
     }
 
-    public SOAPMessage searchByAccountId(String accountId) throws SOAPException {
-        return getSoapMessage(accountId, "getCsoClientProfiles");
+    public SOAPMessage byUserguid(String userguid) throws SOAPException {
+        return getSoapMessage(userguid, "isAuthorizedUser");
     }
 }
