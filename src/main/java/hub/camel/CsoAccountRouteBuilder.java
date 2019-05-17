@@ -38,12 +38,12 @@ public class CsoAccountRouteBuilder extends RouteBuilder {
 
         from("direct:csoaccount")
             .onException(Exception.class)
-            .handled(true)
-            .process(exchange -> {
-                Exception exception = (Exception) exchange.getProperty(Exchange.EXCEPTION_CAUGHT);
-                LOGGER.log(Level.WARNING, exception.getMessage(), exception);
-            })
-            .setBody(constant("SERVICE UNAVAILABLE"))
+                .handled(true)
+                .process(exchange -> {
+                    Exception exception = (Exception) exchange.getProperty(Exchange.EXCEPTION_CAUGHT);
+                    LOGGER.log(Level.WARNING, exception.getMessage(), exception);
+                })
+                .setBody(constant("SERVICE UNAVAILABLE"))
             .end()
             .process(exchange -> LOGGER.log(Level.INFO, "cso account call..."))
             .process(exchange -> {
@@ -63,10 +63,10 @@ public class CsoAccountRouteBuilder extends RouteBuilder {
                 exchange.getOut().setBody(body);
             })
             .choice()
-            .when(body().contains("<account/>"))
-            .setBody(constant("NOT FOUND"))
-            .otherwise()
-            .marshal(xmlJsonFormat);
+                .when(body().contains("<account/>"))
+                    .setBody(constant("NOT FOUND"))
+                .otherwise()
+                    .marshal(xmlJsonFormat);
 
     }
 }
