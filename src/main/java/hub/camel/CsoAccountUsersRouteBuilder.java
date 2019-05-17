@@ -46,9 +46,7 @@ public class CsoAccountUsersRouteBuilder extends RouteBuilder {
                 exchange.getOut().setBody(body);
             })
             .choice()
-                .when(body().contains("NOT FOUND"))
-                    .setBody(constant("NOT FOUND"))
-                .otherwise()
+                .when(body().not().contains("NOT FOUND"))
                     .process(exchange -> {
                         LOGGER.log(Level.INFO, "authorized");
                         String authorizationResponse = exchange.getIn().getBody(String.class);
@@ -70,9 +68,7 @@ public class CsoAccountUsersRouteBuilder extends RouteBuilder {
                         exchange.getOut().setBody(body);
                     })
                     .choice()
-                        .when(body().contains("NOT FOUND"))
-                            .setBody(constant("NOT FOUND"))
-                        .otherwise()
+                        .when(body().not().contains("NOT FOUND"))
                             .process(exchange -> {
                                 String accountResponse = exchange.getIn().getBody(String.class);
                                 JSONObject jo = new JSONObject(accountResponse);
