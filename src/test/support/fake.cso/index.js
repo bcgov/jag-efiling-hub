@@ -10,27 +10,30 @@ const read = (file)=>{
 const server = {
     start: function(done) {
         this.internal = createServer((request, response)=>{
-            console.log(request.method, request.url)
-            if (request.url == '/account') {
+            console.log(request.method, request.url, request.headers)
+            let answer = JSON.stringify({ alive:true })
+            if (request.url == '/cso-extension') {
                 response.setHeader('content-type', 'text/xml')
-                response.write(read('account.xml'))
+                let action = request.headers['soapaction']
+                answer = action == 'account-info' ? read('account.xml') : read('authorized.xml')
             }
             else if (request.url == '/search') {
                 response.setHeader('content-type', 'text/xml')
                 if (request.headers['soapaction'] == 'second-call') {
-                    response.write(read('basics.xml'))
+                    answer = read('basics.xml')
                 }
                 else if (request.headers['soapaction'] == 'third-call') {
-                    response.write(read('parties.xml'))
+                    answer = read('parties.xml')
                 }
                 else {
-                    response.write('<CaseId>12345</CaseId><CaseType>Civil</CaseType>')
+                    answer = '<CaseId>12345</CaseId><CaseType>Civil</CaseType>'
                 }
             }
             else {
                 response.setHeader('content-type', 'application/json')
-                response.write(JSON.stringify({ alive:true }))
             }
+            console.log('answering with', answer);
+            response.write(answer)
             response.end();
         })
         this.internal.listen(port, done);
@@ -47,7 +50,8 @@ module.exports = {
     search:request('/search'),
     basics:request('/search', { 'SOAPAction':'second-call' }),
     parties:request('/search', { 'SOAPAction':'third-call' }),
-    account:request('/account')
+    accountInfo:request('/cso-extension', { 'SOAPAction':'account-info' }),
+    isAuthorized:request('/cso-extension', { 'SOAPAction':'is-authorized' })
 }
 
 server.start(()=>{

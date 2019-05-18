@@ -1,0 +1,10 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:isAuthorizedUserResponse xmlns:ns2="http://csoextws.jag.gov.bc.ca/">
+         <return>
+            <accountId>123</accountId>
+            <clientId>1</clientId>
+         </return>
+      </ns2:isAuthorizedUserResponse>
+   </soap:Body>
+</soap:Envelope>

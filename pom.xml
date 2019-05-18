@@ -239,10 +239,13 @@
                                     <key>CSO_NAMESPACE</key><value>ignored-by-fake-cso</value>
                                 </systemProperty>
                                 <systemProperty>
-                                    <key>CSO_ACCOUNT_INFO_ENDPOINT</key><value>http4://localhost:5005/account</value>
+                                    <key>CSO_EXTENSION_ENDPOINT</key><value>http4://localhost:5005/cso-extension</value>
                                 </systemProperty>
                                 <systemProperty>
-                                    <key>CSO_ACCOUNT_INFO_SOAP_ACTION</key><value>ignored-by-fake-cso</value>
+                                    <key>CSO_ACCOUNT_INFO_SOAP_ACTION</key><value>account-info</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>CSO_IS_AUTHORIZED_SOAP_ACTION</key><value>is-authorized</value>
                                 </systemProperty>
 
                                 <systemProperty>
