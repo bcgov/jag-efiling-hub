@@ -27,6 +27,7 @@ public class Hub {
         context.addServlet(CsoAccountServlet.class, "/account");
         context.addServlet(IsAuthorizedServlet.class, "/isAuthorized");
         context.addServlet(CsoAccountUsersServlet.class, "/accountUsers");
+        context.addServlet(WebcatsUpdateServlet.class, "/updateDocument");
         server.start();
     }
 
