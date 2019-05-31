@@ -91,26 +91,26 @@ public class FormUpdateTest extends HavingTestProperties {
 
     private String expected() {
         String value = "" +
-                "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:dat=\"this-dat\" xmlns:ns=\"this-ns\">" +
-                    "<SOAP-ENV:Header/>" +
-                    "<SOAP-ENV:Body>" +
-                        "<ns:UpdateWebCATS>" +
-                            "<ns:updateRequest>" +
-                                "<dat:CaseNumber>CA12345</dat:CaseNumber>" +
-                                "<dat:Documents>" +
-                                    "<dat:Document>" +
-                                        "<dat:DateFiled>today</dat:DateFiled>" +
-                                        "<dat:DocumentGUID>42</dat:DocumentGUID>" +
-                                        "<dat:DocumentName>Form2</dat:DocumentName>" +
-                                        "<dat:DocumentTypeCode>Form2</dat:DocumentTypeCode>" +
-                                        "<dat:DocumentTypeDescription>Form2</dat:DocumentTypeDescription>" +
-                                        "<dat:InitiatingDocument>unknown</dat:InitiatingDocument>" +
-                                    "</dat:Document>" +
-                                "</dat:Documents>" +
-                            "</ns:updateRequest>" +
-                        "</ns:UpdateWebCATS>" +
-                    "</SOAP-ENV:Body>" +
-                "</SOAP-ENV:Envelope>";
+            "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:dat=\"this-dat\" xmlns:ns=\"this-ns\">" +
+                "<SOAP-ENV:Header/>" +
+                "<SOAP-ENV:Body>" +
+                    "<ns:UpdateWebCATS>" +
+                        "<ns:updateRequest>" +
+                            "<dat:CaseNumber>CA12345</dat:CaseNumber>" +
+                            "<dat:Documents>" +
+                                "<dat:Document>" +
+                                    "<dat:DateFiled>today</dat:DateFiled>" +
+                                    "<dat:DocumentGUID>42</dat:DocumentGUID>" +
+                                    "<dat:DocumentName>Form2</dat:DocumentName>" +
+                                    "<dat:DocumentTypeCode>Form2</dat:DocumentTypeCode>" +
+                                    "<dat:DocumentTypeDescription>Form2</dat:DocumentTypeDescription>" +
+                                    "<dat:InitiatingDocument>unknown</dat:InitiatingDocument>" +
+                                "</dat:Document>" +
+                            "</dat:Documents>" +
+                        "</ns:updateRequest>" +
+                    "</ns:UpdateWebCATS>" +
+                "</SOAP-ENV:Body>" +
+            "</SOAP-ENV:Envelope>";
 
         return value;
     }
