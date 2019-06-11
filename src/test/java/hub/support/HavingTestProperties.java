@@ -11,5 +11,6 @@ public class HavingTestProperties {
         System.setProperty("WEBCATS_UPDATE_ENDPOINT", "http4://localhost:8111");
         System.setProperty("OR_ENDPOINT_INITIALIZE", "http4://localhost:8111");
         System.setProperty("OR_ENDPOINT_CREATE", "http4://localhost:8222");
+        System.setProperty("OR_ENDPOINT_CHANGEOWNER", "http4://localhost:8333");
     }
 }

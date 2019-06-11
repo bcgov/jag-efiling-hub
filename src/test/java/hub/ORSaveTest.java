@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpServer;
 import hub.helper.Bytify;
 import hub.helper.Environment;
 import hub.helper.HttpResponse;
+import hub.helper.Stringify;
 import hub.support.HavingTestProperties;
 import org.json.JSONObject;
 import org.junit.After;
@@ -29,10 +30,16 @@ public class ORSaveTest extends HavingTestProperties {
 
     private HttpServer saveServer;
     private Headers saveHeaders;
-    private String saveAnswer = "Object_GUID";
+    private String saveAnswer = "{ \"Object_GUID\":\"this-GUID\" }";
     private String saveMethod;
     private byte[] saveBody;
     private String saveUri;
+
+    private HttpServer changeOwnerServer;
+    private Headers changeOwnerHeaders;
+    private String changeOwnerAnswer = "OK";
+    private String changeOwnerMethod;
+    private String changeOwnerBody;
 
     private Hub hub;
 
@@ -40,6 +47,11 @@ public class ORSaveTest extends HavingTestProperties {
     public void startHub() throws Exception {
         System.setProperty("OR_ENDPOINT_INITIALIZE", "http4://localhost:8111");
         System.setProperty("OR_ENDPOINT_CREATE", "http4://localhost:8222");
+        System.setProperty("OR_ENDPOINT_CHANGEOWNER", "http4://localhost:8333");
+        System.setProperty("OR_APP_ID", "this-id");
+        System.setProperty("OR_APP_PASSWORD", "this-password");
+        System.setProperty("OR_BASIC_AUTH_USERNAME", "this-basic-auth-username");
+        System.setProperty("OR_BASIC_AUTH_PASSWORD", "this-basic-auth-password");
 
         hub = new Hub(8888);
         hub.start();
@@ -70,19 +82,24 @@ public class ORSaveTest extends HavingTestProperties {
             exchange.close();
         } );
         saveServer.start();
+
+        changeOwnerServer = HttpServer.create( new InetSocketAddress( 8333 ), 0 );
+        changeOwnerServer.createContext( "/", exchange -> {
+            changeOwnerBody = new Stringify().inputStream(exchange.getRequestBody());
+            changeOwnerMethod = exchange.getRequestMethod();
+            changeOwnerHeaders = exchange.getRequestHeaders();
+            exchange.sendResponseHeaders( 200, changeOwnerAnswer.length() );
+            exchange.getResponseBody().write( changeOwnerAnswer.getBytes() );
+            exchange.close();
+        } );
+        changeOwnerServer.start();
     }
 
     @After
     public void stopServer() {
         initializeServer.stop( 0 );
         saveServer.stop( 0 );
-    }
-    @Before
-    public void setProperties() {
-        System.setProperty("OR_APP_ID", "this-id");
-        System.setProperty("OR_APP_PASSWORD", "this-password");
-        System.setProperty("OR_BASIC_AUTH_USERNAME", "this-basic-auth-username");
-        System.setProperty("OR_BASIC_AUTH_PASSWORD", "this-basic-auth-password");
+        changeOwnerServer.stop( 0 );
     }
 
     @Test
@@ -107,7 +124,7 @@ public class ORSaveTest extends HavingTestProperties {
         assertThat(saveUri, equalTo("/?AppTicket=ticket-value&MimeType=application&MimeSubType=pdf&Filename=form2.pdf&RetentionPeriod=-1"));
         assertThat(saveHeaders.getFirst("Authorization"), equalTo(expectedBasicAuth));
         assertThat(saveBody, equalTo(named("form2-1.pdf")));
-        assertThat(saveResponse.getBody(), equalTo("Object_GUID"));
+        assertThat(saveResponse.getBody(), equalTo("{ \"Object_GUID\":\"this-GUID\" }"));
     }
 
     @Test
@@ -124,6 +141,10 @@ public class ORSaveTest extends HavingTestProperties {
         assertThat(saveUri, equalTo("/?AppTicket=ticket-value&MimeType=application&MimeSubType=pdf&Filename=form2.pdf&RetentionPeriod=-1"));
         assertThat(saveHeaders.getFirst("Authorization"), equalTo(expectedBasicAuth));
         assertThat(saveBody, equalTo(named("form2-1.pdf")));
+
+        assertThat(changeOwnerMethod, equalTo("POST"));
+        assertThat(changeOwnerHeaders.getFirst("Authorization"), equalTo(expectedBasicAuth));
+        assertThat(changeOwnerBody, equalTo("{ \"AppTicket\":\"ticket-value\", \"ObjectGUID\":\"this-GUID\", \"Application\":\"WebCATS\" }"));
     }
 
 

@@ -66,6 +66,15 @@ public class ORSaveRouteBuilder extends RouteBuilder {
                 exchange.getOut().setBody(pdf, byte[].class);
             })
             .to(save.camelUrl())
+            .process(exchange -> {
+                LOGGER.log(Level.INFO, "GUID received");
+                String saveResponse = exchange.getIn().getBody(String.class);
+                LOGGER.log(Level.INFO, saveResponse);
+                JSONObject jo = new JSONObject(saveResponse);
+                String guid = (String) jo.get("Object_GUID");
+                exchange.getProperties().put("guid", guid);
+            })
+            .to("direct:changeOwner")
         ;
     }
 }
