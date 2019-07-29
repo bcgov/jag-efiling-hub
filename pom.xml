@@ -261,6 +261,9 @@
                                     <key>OR_ENDPOINT_INITIALIZE</key><value>http4://localhost:5010/initialize</value>
                                 </systemProperty>
                                 <systemProperty>
+                                    <key>OR_ENDPOINT_CHANGEOWNER</key><value>http4://localhost:5010/changeOwner</value>
+                                </systemProperty>
+                                <systemProperty>
                                     <key>OR_BASIC_AUTH_USERNAME</key><value>ignored-by-fake-object-repository</value>
                                 </systemProperty>
                                 <systemProperty>

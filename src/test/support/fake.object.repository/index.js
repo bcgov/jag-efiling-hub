@@ -14,6 +14,10 @@ const server = {
                 response.setHeader('content-type', 'application/json')
                 response.write(JSON.stringify({ Object_GUID:'guid-from-fake-object-repository' }))
             }
+            else if (params.pathname == '/changeOwner') {
+                response.setHeader('content-type', 'application/json')
+                response.write(JSON.stringify({ dunnoYet:'to-be-confirmed' }))
+            }
             else {
                 response.setHeader('content-type', 'application/json')
                 response.write(JSON.stringify({ alive:true }))
@@ -32,7 +36,8 @@ const request = (path)=>{
 module.exports = {
     ping:request('/ping'),
     initialize:request('/initialize'),
-    create:request('/create?AppTicket=any')
+    create:request('/create?AppTicket=any'),
+    changeowner:request('/changeOwner')
 }
 
 server.start(()=>{
