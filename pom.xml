@@ -269,6 +269,25 @@
                                 <systemProperty>
                                     <key>OR_BASIC_AUTH_PASSWORD</key><value>ignored-by-fake-object-repository</value>
                                 </systemProperty>
+
+                                <systemProperty>
+                                    <key>WEBCATS_USERNAME</key><value>ignored-by-fake-webcats</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>WEBCATS_PASSWORD</key><value>ignored-by-fake-webcats</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>WEBCATS_UPDATE_ENDPOINT</key><value>http4://localhost:5005/update</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>WEBCATS_UPDATE_ACTION</key><value>ignored-by-fake-webcats</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>WEBCATS_XMLNS_NS</key><value>ignored-by-fake-webcats</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>WEBCATS_XMLNS_DAT</key><value>ignored-by-fake-webcats</value>
+                                </systemProperty>
                             </systemProperties>
                         </configuration>
                     </plugin>
