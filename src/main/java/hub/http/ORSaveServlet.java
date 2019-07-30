@@ -51,6 +51,6 @@ public class ORSaveServlet extends HttpServlet {
 
     protected String save(byte[] pdf, Map<String, Object> headers) {
         ProducerTemplate producer = context.createProducerTemplate();
-        return producer.requestBodyAndHeaders("direct:save", pdf, headers, String.class);
+        return producer.requestBodyAndHeaders("direct:submit", pdf, headers, String.class);
     }
 }

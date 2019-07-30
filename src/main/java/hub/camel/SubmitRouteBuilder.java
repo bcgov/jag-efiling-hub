@@ -1,29 +1,22 @@
 package hub.camel;
 
-import hub.ORSave;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
 import org.apache.camel.dataformat.xmljson.XmlJsonDataFormat;
-import org.json.JSONObject;
 
 import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static org.apache.camel.component.http4.HttpMethods.POST;
 
 
 @ApplicationScoped
 @Startup
 @ContextName("cdi-context")
-public class ORSaveRouteBuilder extends RouteBuilder {
+public class SubmitRouteBuilder extends RouteBuilder {
 
-    private static final Logger LOGGER = Logger.getLogger(ORSaveRouteBuilder.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SubmitRouteBuilder.class.getName());
 
     @Override
     public void configure() {
@@ -32,7 +25,7 @@ public class ORSaveRouteBuilder extends RouteBuilder {
         xmlJsonFormat.setForceTopLevelObject(true);
         xmlJsonFormat.setTrimSpaces(true);
 
-        from("direct:save")
+        from("direct:submit")
             .onException(Exception.class)
                 .handled(true)
                 .process(exchange -> {
