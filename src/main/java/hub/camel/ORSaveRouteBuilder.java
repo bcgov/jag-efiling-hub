@@ -23,9 +23,6 @@ import static org.apache.camel.component.http4.HttpMethods.POST;
 @ContextName("cdi-context")
 public class ORSaveRouteBuilder extends RouteBuilder {
 
-    @Inject
-    ORSave save;
-
     private static final Logger LOGGER = Logger.getLogger(ORSaveRouteBuilder.class.getName());
 
     @Override
@@ -45,42 +42,13 @@ public class ORSaveRouteBuilder extends RouteBuilder {
                 .setBody(constant("SERVICE UNAVAILABLE"))
             .end()
             .process(exchange -> {
+                String userguid = (String) exchange.getIn().getHeaders().get("smgov_userguid");
                 byte[] pdf = exchange.getIn().getBody(byte[].class);
                 exchange.getProperties().put("pdf", pdf);
-                String userguid = (String) exchange.getIn().getHeaders().get("smgov_userguid");
                 exchange.getProperties().put("userguid", userguid);
             })
             .to("direct:initialize")
-            .process(exchange -> {
-                LOGGER.log(Level.INFO, "AppTicket received");
-                String initializeResponse = exchange.getIn().getBody(String.class);
-                LOGGER.log(Level.INFO, initializeResponse);
-                JSONObject jo = new JSONObject(initializeResponse);
-                String ticket = (String) jo.get("AppTicket");
-                exchange.getProperties().put("ticket", ticket);
-            })
-            .process(exchange -> {
-                Map<String, Object> headers = new HashMap<>();
-                headers.put(Exchange.HTTP_METHOD, constant(POST));
-                headers.put("Authorization", save.basicAuthorization());
-                headers.put(Exchange.HTTP_QUERY, "AppTicket=this-ticket&MimeType=application&MimeSubType=pdf&Filename=form2.pdf&RetentionPeriod=-1"
-                        .replace("this-ticket", (String) exchange.getProperties().get("ticket")));
-                byte[] pdf = (byte[]) exchange.getProperties().get("pdf");
-                LOGGER.log(Level.INFO, headers.toString());
-                LOGGER.log(Level.INFO, "file size = "+pdf.length);
-
-                exchange.getOut().setHeaders(headers);
-                exchange.getOut().setBody(pdf, byte[].class);
-            })
-            .to(save.camelUrl())
-            .process(exchange -> {
-                LOGGER.log(Level.INFO, "GUID received");
-                String saveResponse = exchange.getIn().getBody(String.class);
-                LOGGER.log(Level.INFO, saveResponse);
-                JSONObject jo = new JSONObject(saveResponse);
-                String guid = (String) jo.get("Object_GUID");
-                exchange.getProperties().put("guid", guid);
-            })
+            .to("direct:create")
             .to("direct:changeOwner")
             .to("direct:payment")
             .marshal(xmlJsonFormat)

@@ -4,6 +4,7 @@ import hub.ORInitialize;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
+import org.json.JSONObject;
 
 import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
@@ -47,8 +48,12 @@ public class ORInitializeRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 String answer = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, "answer initialize="+answer);
-
+                JSONObject jo = new JSONObject(answer);
+                String ticket = (String) jo.get("AppTicket");
+                exchange.getProperties().put("ticket", ticket);
+                LOGGER.log(Level.INFO, "AppTicket received: " + ticket);
                 exchange.getOut().setBody(answer);
-            });
+            })
+        ;
     }
 }

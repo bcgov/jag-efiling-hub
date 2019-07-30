@@ -23,7 +23,7 @@ public class ORInitializeTest extends HavingTestProperties {
 
     private HttpServer initializeServer;
     private Headers initializeHeaders;
-    private String initializeAnswer = "OK";
+    private String initializeAnswer = "{ \"AppTicket\":\"this-ticket\" }";
     private String initializeMethod;
     private String initializeBody;
 
@@ -108,7 +108,7 @@ public class ORInitializeTest extends HavingTestProperties {
     public void propagatesReceivedValue() throws Exception {
         HttpResponse response = get("http://localhost:8888/initialize");
 
-        assertThat(response.getBody(), equalTo("OK"));
+        assertThat(response.getBody(), equalTo("{ \"AppTicket\":\"this-ticket\" }"));
     }
 
 
