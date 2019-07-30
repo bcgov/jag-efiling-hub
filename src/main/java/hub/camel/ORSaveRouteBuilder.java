@@ -4,6 +4,7 @@ import hub.ORSave;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
+import org.apache.camel.dataformat.xmljson.XmlJsonDataFormat;
 import org.json.JSONObject;
 
 import javax.ejb.Startup;
@@ -29,6 +30,10 @@ public class ORSaveRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() {
+        XmlJsonDataFormat xmlJsonFormat = new XmlJsonDataFormat();
+        xmlJsonFormat.setEncoding("UTF-8");
+        xmlJsonFormat.setForceTopLevelObject(true);
+        xmlJsonFormat.setTrimSpaces(true);
 
         from("direct:save")
             .onException(Exception.class)
@@ -42,6 +47,8 @@ public class ORSaveRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 byte[] pdf = exchange.getIn().getBody(byte[].class);
                 exchange.getProperties().put("pdf", pdf);
+                String userguid = (String) exchange.getIn().getHeaders().get("smgov_userguid");
+                exchange.getProperties().put("userguid", userguid);
             })
             .to("direct:initialize")
             .process(exchange -> {
@@ -75,6 +82,8 @@ public class ORSaveRouteBuilder extends RouteBuilder {
                 exchange.getProperties().put("guid", guid);
             })
             .to("direct:changeOwner")
+            .to("direct:payment")
+            .marshal(xmlJsonFormat)
         ;
     }
 }

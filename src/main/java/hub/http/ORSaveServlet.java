@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,7 +36,9 @@ public class ORSaveServlet extends HttpServlet {
             InputStream inputStream = req.getInputStream();
             byte[] pdf = bytify.inputStream(inputStream);
 
-            String result = save(pdf);
+            Map<String, Object> headers = new HashMap<>();
+            headers.put("smgov_userguid", req.getHeader("smgov_userguid"));
+            String result = save(pdf, headers);
 
             LOGGER.log(Level.INFO, result);
             res.setHeader(CONTENT_TYPE, "application/json");
@@ -45,8 +49,8 @@ public class ORSaveServlet extends HttpServlet {
         }
     }
 
-    protected String save(byte[] pdf) {
+    protected String save(byte[] pdf, Map<String, Object> headers) {
         ProducerTemplate producer = context.createProducerTemplate();
-        return producer.requestBody("direct:save", pdf, String.class);
+        return producer.requestBodyAndHeaders("direct:save", pdf, headers, String.class);
     }
 }

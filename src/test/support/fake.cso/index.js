@@ -21,10 +21,15 @@ const server = {
                     console.log('body', body);
                     response.setHeader('content-type', 'text/xml')
                     let action = request.headers['soapaction']
-                    answer = action == 'account-info' ?
-                            body.indexOf('<accountId>111</accountId>')!=-1 ? read('account.jd.xml') : read('account.any.xml')
-                            :
-                            body.indexOf('<userguid>JD</userguid>')!=-1 ? read('authorized.jd.xml') : read('authorized.any.xml')
+                    if (action == 'account-info') {
+                        answer = body.indexOf('<accountId>111</accountId>')!=-1 ? read('account.jd.xml') : read('account.any.xml')
+                    }
+                    else if (action == 'is-authorized') {
+                        answer = body.indexOf('<userguid>JD</userguid>')!=-1 ? read('authorized.jd.xml') : read('authorized.any.xml')
+                    }
+                    else if (action == 'payment-process') {
+                        answer = read('payment.ok.xml')
+                    }
                     console.log('answering with', answer);
                     response.write(answer)
                     response.end();
@@ -75,7 +80,8 @@ module.exports = {
     basics:getRequest('/search', { 'SOAPAction':'second-call' }),
     parties:getRequest('/search', { 'SOAPAction':'third-call' }),
     accountInfo:postRequest('/cso-extension', { 'SOAPAction':'account-info' }),
-    isAuthorized:postRequest('/cso-extension', { 'SOAPAction':'is-authorized' })
+    isAuthorized:postRequest('/cso-extension', { 'SOAPAction':'is-authorized' }),
+    payment:postRequest('/cso-extension', { 'SOAPAction':'payment-process' })
 }
 
 server.start(()=>{

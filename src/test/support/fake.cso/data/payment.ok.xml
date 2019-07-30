@@ -1,0 +1,9 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:paymentResponse xmlns:ns2="http://csoextws.jag.gov.bc.ca/">
+         <return>
+            <status>ok</status>
+         </return>
+      </ns2:paymentResponse>
+   </soap:Body>
+</soap:Envelope>

@@ -247,6 +247,9 @@
                                 <systemProperty>
                                     <key>CSO_IS_AUTHORIZED_SOAP_ACTION</key><value>is-authorized</value>
                                 </systemProperty>
+                                <systemProperty>
+                                    <key>CSO_PAYMENT_PROCESS_SOAP_ACTION</key><value>payment-process</value>
+                                </systemProperty>
 
                                 <systemProperty>
                                     <key>OR_APP_ID</key><value>ignored-by-fake-object-repository</value>

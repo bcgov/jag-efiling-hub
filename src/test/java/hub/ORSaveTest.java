@@ -17,7 +17,10 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
+import static hub.support.GetRequest.get;
 import static hub.support.PostRequest.post;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -41,6 +44,12 @@ public class ORSaveTest extends HavingTestProperties {
     private String changeOwnerMethod;
     private String changeOwnerBody;
 
+    private HttpServer paymentServer;
+    private Headers paymentHeaders;
+    private String paymentAnswer = "<return><answer>ok</answer></return>";
+    private String paymentMethod;
+    private String paymentBody;
+
     private Hub hub;
 
     @Before
@@ -52,6 +61,12 @@ public class ORSaveTest extends HavingTestProperties {
         System.setProperty("OR_APP_PASSWORD", "this-password");
         System.setProperty("OR_BASIC_AUTH_USERNAME", "this-basic-auth-username");
         System.setProperty("OR_BASIC_AUTH_PASSWORD", "this-basic-auth-password");
+
+        System.setProperty("CSO_EXTENSION_ENDPOINT", "http4://localhost:8444");
+        System.setProperty("CSO_USER", "cso-user");
+        System.setProperty("CSO_PASSWORD", "cso-password");
+        System.setProperty("CSO_NAMESPACE", "http://hub.org");
+        System.setProperty("CSO_PAYMENT_PROCESS_SOAP_ACTION", "payment-process-soap-action");
 
         hub = new Hub(8888);
         hub.start();
@@ -93,6 +108,17 @@ public class ORSaveTest extends HavingTestProperties {
             exchange.close();
         } );
         changeOwnerServer.start();
+
+        paymentServer = HttpServer.create( new InetSocketAddress( 8444 ), 0 );
+        paymentServer.createContext( "/", exchange -> {
+            paymentBody = new Stringify().inputStream(exchange.getRequestBody());
+            paymentMethod = exchange.getRequestMethod();
+            paymentHeaders = exchange.getRequestHeaders();
+            exchange.sendResponseHeaders( 200, paymentAnswer.length() );
+            exchange.getResponseBody().write( paymentAnswer.getBytes() );
+            exchange.close();
+        } );
+        paymentServer.start();
     }
 
     @After
@@ -100,6 +126,7 @@ public class ORSaveTest extends HavingTestProperties {
         initializeServer.stop( 0 );
         saveServer.stop( 0 );
         changeOwnerServer.stop( 0 );
+        paymentServer.stop( 0 );
     }
 
     @Test
@@ -135,7 +162,10 @@ public class ORSaveTest extends HavingTestProperties {
         byte[] pdf = named("form2-1.pdf");
         assertThat(pdf.length, equalTo(22186));
 
-        post("http://localhost:8888/save", pdf);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("smgov_userguid", "MAX");
+
+        post("http://localhost:8888/save", headers, pdf);
 
         assertThat(saveMethod, equalTo("POST"));
         assertThat(saveUri, equalTo("/?AppTicket=ticket-value&MimeType=application&MimeSubType=pdf&Filename=form2.pdf&RetentionPeriod=-1"));
@@ -145,6 +175,35 @@ public class ORSaveTest extends HavingTestProperties {
         assertThat(changeOwnerMethod, equalTo("POST"));
         assertThat(changeOwnerHeaders.getFirst("Authorization"), equalTo(expectedBasicAuth));
         assertThat(changeOwnerBody, equalTo("{ \"AppTicket\":\"ticket-value\", \"ObjectGUID\":\"this-GUID\", \"Application\":\"WebCATS\" }"));
+
+        assertThat(paymentMethod, equalTo("POST"));
+        assertThat(paymentHeaders.getFirst("Authorization"), equalTo("Basic " + Base64.getEncoder().encodeToString(("cso-user:cso-password").getBytes())));
+        assertThat(paymentHeaders.getFirst("Content-Type"), equalTo("text/xml"));
+        assertThat(paymentHeaders.getFirst("SOAPAction"), equalTo("payment-process-soap-action"));
+        assertThat(paymentBody, containsString("" +
+                "<cso:paymentProcess xmlns:cso=\"http://hub.org\">" +
+                    "<serviceType>EXFL</serviceType>" +
+                    "<serviceDesc>Form 2 Filing payment</serviceDesc>" +
+                    "<userguid>MAX</userguid>" +
+                    "<bcolUserId/>" +
+                    "<bcolSessionKey/>" +
+                    "<bcolUniqueId/>" +
+                "</cso:paymentProcess>"));
+    }
+
+    @Test
+    public void returnsInfoAsJson() throws Exception {
+        byte[] pdf = named("form2-1.pdf");
+        assertThat(pdf.length, equalTo(22186));
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("smgov_userguid", "MAX");
+
+        HttpResponse response = post("http://localhost:8888/save", headers, pdf);
+
+        assertThat(response.getStatusCode(), equalTo(200));
+        assertThat(response.getContentType(), equalTo("application/json"));
+        assertThat(response.getBody(), containsString("\"answer\":\"ok\""));
     }
 
 
