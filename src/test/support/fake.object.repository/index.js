@@ -16,7 +16,7 @@ const server = {
             }
             else if (params.pathname == '/changeOwner') {
                 response.setHeader('content-type', 'application/json')
-                response.write(JSON.stringify({ dunnoYet:'to-be-confirmed' }))
+                response.write(JSON.stringify({ Status:'Success' }))
             }
             else {
                 response.setHeader('content-type', 'application/json')

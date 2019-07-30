@@ -24,7 +24,7 @@ describe('change owner', ()=>{
                 body += chunk;
             });
             response.on('end', () => {
-                expect(body).to.equal(JSON.stringify({ dunnoYet:'to-be-confirmed' }))
+                expect(body).to.equal(JSON.stringify({ Status:'Success' }))
                 done();
             });
         })
