@@ -172,7 +172,7 @@ public class ORSaveTest extends HavingTestProperties {
         assertThat(saveHeaders.getFirst("Authorization"), equalTo(expectedBasicAuth));
         assertThat(saveBody, equalTo(named("form2-1.pdf")));
 
-        assertThat(changeOwnerMethod, equalTo("POST"));
+        assertThat(changeOwnerMethod, equalTo("PUT"));
         assertThat(changeOwnerHeaders.getFirst("Authorization"), equalTo(expectedBasicAuth));
         assertThat(changeOwnerBody, equalTo("{ \"AppTicket\":\"ticket-value\", \"ObjectGUID\":\"this-GUID\", \"Application\":\"WebCATS\" }"));
 

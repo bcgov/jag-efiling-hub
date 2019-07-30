@@ -42,7 +42,7 @@ public class ORChangeOwnerRouteBuilder extends RouteBuilder {
                 LOGGER.log(Level.INFO, "message="+message);
                 exchange.getOut().setBody(message);
             })
-            .setHeader(Exchange.HTTP_METHOD, constant("POST"))
+            .setHeader(Exchange.HTTP_METHOD, constant("PUT"))
             .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
             .setHeader("Authorization", constant(changeOwner.basicAuthorization()))
             .to(changeOwner.camelUrl())
