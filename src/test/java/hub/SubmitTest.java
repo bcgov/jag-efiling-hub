@@ -26,7 +26,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ORSaveTest extends HavingTestProperties {
+public class SubmitTest extends HavingTestProperties {
 
     private HttpServer initializeServer;
     private String initializeAnswer = "{ \"AppTicket\":\"ticket-value\" }";
