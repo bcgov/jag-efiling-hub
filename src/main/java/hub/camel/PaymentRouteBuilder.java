@@ -9,7 +9,6 @@ import org.apache.camel.cdi.ContextName;
 import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,13 +36,14 @@ public class PaymentRouteBuilder extends RouteBuilder {
                     Exception exception = (Exception) exchange.getProperty(Exchange.EXCEPTION_CAUGHT);
                     LOGGER.log(Level.WARNING, exception.getMessage(), exception);
                 })
-                .setBody(constant("SERVICE UNAVAILABLE"))
+                .setBody(constant("PAYMENT SERVICE UNAVAILABLE"))
             .end()
             .process(exchange -> LOGGER.log(Level.INFO, "payment call..."))
             .process(exchange -> {
                 String userguid = (String) exchange.getProperties().get("userguid");
                 LOGGER.log(Level.INFO, "userguid="+userguid);
                 String message = stringify.soapMessage(payment.message(userguid));
+                LOGGER.log(Level.INFO, "payment message="+message);
                 exchange.getOut().setBody(message);
             })
             .setHeader(Exchange.HTTP_METHOD, constant("POST"))
@@ -54,9 +54,16 @@ public class PaymentRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 String answer = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, "answer payment="+answer);
-
                 exchange.getOut().setBody(answer);
             })
+            .choice()
+                .when(body().contains("<resultCode>1</resultCode>"))
+                    .process(exchange -> {
+                        String body = exchange.getIn().getBody(String.class);
+                        String message = payment.extractErrorMessage(body);
+                        String answer = "<return><resultCode>1</resultCode><resultMessage>"+message+"</resultMessage></return>";
+                        exchange.getOut().setBody(answer);
+                    })
         ;
     }
 }

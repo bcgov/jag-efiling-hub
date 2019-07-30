@@ -46,6 +46,7 @@ public class SubmitTest extends HavingTestProperties {
 
     private HttpServer paymentServer;
     private Headers paymentHeaders;
+    private int paymentResponseStatus = 200;
     private String paymentAnswer = "<return><answer>ok</answer></return>";
     private String paymentMethod;
     private String paymentBody;
@@ -114,7 +115,7 @@ public class SubmitTest extends HavingTestProperties {
             paymentBody = new Stringify().inputStream(exchange.getRequestBody());
             paymentMethod = exchange.getRequestMethod();
             paymentHeaders = exchange.getRequestHeaders();
-            exchange.sendResponseHeaders( 200, paymentAnswer.length() );
+            exchange.sendResponseHeaders( paymentResponseStatus, paymentAnswer.length() );
             exchange.getResponseBody().write( paymentAnswer.getBytes() );
             exchange.close();
         } );
@@ -241,4 +242,52 @@ public class SubmitTest extends HavingTestProperties {
         assertThat(response.getBody(), equalTo("Object_GUID"));
     }
 
+    @Test
+    public void resistsPaymentFailed() throws Exception {
+        paymentResponseStatus = 200;
+        paymentAnswer = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+                "   <soap:Body>\n" +
+                "      <ns2:paymentProcessResponse xmlns:ns2=\"http://csoextws.jag.gov.bc.ca/\">\n" +
+                "         <return>\n" +
+                "            <resultCode>1</resultCode>\n" +
+                "            <resultMessage>Failed - Either Account id or BC Client id is blank</resultMessage>\n" +
+                "         </return>\n" +
+                "      </ns2:paymentProcessResponse>\n" +
+                "   </soap:Body>\n" +
+                "</soap:Envelope>";
+
+        byte[] pdf = named("form2-1.pdf");
+        Map<String, String> headers = new HashMap<>();
+        headers.put("smgov_userguid", "MAX");
+        HttpResponse response = post("http://localhost:8888/save", headers, pdf);
+
+        assertThat(response.getStatusCode(), equalTo(403));
+        assertThat(response.getContentType(), equalTo("application/json"));
+        assertThat(response.getBody(), equalTo("{\"message\":\"Failed - Either Account id or BC Client id is blank\"}"));
+    }
+
+    @Test
+    public void resistsPaymentError() throws Exception {
+        paymentResponseStatus = 500;
+        paymentAnswer = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+                "   <soap:Body>\n" +
+                "      <soap:Fault>\n" +
+                "         <faultcode>soap:Server</faultcode>\n" +
+                "         <faultstring><![CDATA[BeanstreamPaymentManager.billRegisteredCreditCard 0:<LI>Invalid customer code<br><LI>Invalid Card Number<br><LI>Invalid expiration month<br><LI>Invalid expiration year<br>]]></faultstring>\n" +
+                "         <detail>\n" +
+                "            <ns1:CsoextwsException xmlns:ns1=\"http://csoextws.jag.gov.bc.ca/\"/>\n" +
+                "         </detail>\n" +
+                "      </soap:Fault>\n" +
+                "   </soap:Body>\n" +
+                "</soap:Envelope>";
+
+        byte[] pdf = named("form2-1.pdf");
+        Map<String, String> headers = new HashMap<>();
+        headers.put("smgov_userguid", "MAX");
+        HttpResponse response = post("http://localhost:8888/save", headers, pdf);
+
+        assertThat(response.getStatusCode(), equalTo(500));
+        assertThat(response.getContentType(), equalTo("application/json"));
+        assertThat(response.getBody(), equalTo("{\"message\":\"Failed - Payment failed\"}"));
+    }
 }

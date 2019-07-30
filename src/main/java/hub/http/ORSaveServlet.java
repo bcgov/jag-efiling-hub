@@ -4,6 +4,7 @@ import hub.helper.Bytify;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.cdi.ContextName;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
@@ -41,8 +42,23 @@ public class ORSaveServlet extends HttpServlet {
             String result = save(pdf, headers);
 
             LOGGER.log(Level.INFO, result);
-            res.setHeader(CONTENT_TYPE, "application/json");
-            res.getOutputStream().print(result);
+            if ("PAYMENT SERVICE UNAVAILABLE".equalsIgnoreCase(result)) {
+                res.setStatus(500);
+                res.setHeader(CONTENT_TYPE, "application/json");
+                res.getOutputStream().print("{\"message\":\"Failed - Payment failed\"}");
+            }
+            else if (result.contains("\"resultCode\":\"1\"")) {
+                res.setStatus(403);
+                res.setHeader(CONTENT_TYPE, "application/json");
+                JSONObject jo = new JSONObject(result);
+                JSONObject container = (JSONObject) jo.get("return");
+                String message = (String) container.get("resultMessage");
+                res.getOutputStream().print("{\"message\":\""+message+"\"}");
+            }
+            else {
+                res.setHeader(CONTENT_TYPE, "application/json");
+                res.getOutputStream().print(result);
+            }
         } catch (Exception e) {
             res.setStatus(500);
             LOGGER.log(Level.SEVERE, e.getMessage());
