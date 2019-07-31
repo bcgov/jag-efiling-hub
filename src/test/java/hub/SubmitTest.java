@@ -326,6 +326,7 @@ public class SubmitTest extends HavingTestProperties {
         byte[] pdf = named("form2-1.pdf");
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
         HttpResponse response = post("http://localhost:8888/save", headers, pdf);
 
         assertThat(response.getStatusCode(), equalTo(403));
@@ -351,10 +352,39 @@ public class SubmitTest extends HavingTestProperties {
         byte[] pdf = named("form2-1.pdf");
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
         HttpResponse response = post("http://localhost:8888/save", headers, pdf);
 
         assertThat(response.getStatusCode(), equalTo(500));
         assertThat(response.getContentType(), equalTo("application/json"));
         assertThat(response.getBody(), equalTo("{\"message\":\"Failed - Payment failed\"}"));
+    }
+
+    @Test
+    public void resistsMissingUserGuid() throws Exception {
+        byte[] pdf = named("form2-1.pdf");
+        assertThat(pdf.length, equalTo(22186));
+        Map<String, String> headers = new HashMap<>();
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
+
+        HttpResponse response = post("http://localhost:8888/save", headers, pdf);
+
+        assertThat(response.getStatusCode(), equalTo(400));
+        assertThat(response.getContentType(), equalTo("application/json"));
+        assertThat(response.getBody(), equalTo("{\"message\":\"user id missing in http header\"}"));
+    }
+
+    @Test
+    public void resistsMissingFormData() throws Exception {
+        byte[] pdf = named("form2-1.pdf");
+        assertThat(pdf.length, equalTo(22186));
+        Map<String, String> headers = new HashMap<>();
+        headers.put("smgov_userguid", "MAX");
+
+        HttpResponse response = post("http://localhost:8888/save", headers, pdf);
+
+        assertThat(response.getStatusCode(), equalTo(400));
+        assertThat(response.getContentType(), equalTo("application/json"));
+        assertThat(response.getBody(), equalTo("{\"message\":\"form data missing in http header\"}"));
     }
 }

@@ -37,6 +37,19 @@ public class ORSaveServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) {
         try {
+            if (req.getHeader("smgov_userguid") == null) {
+                res.setStatus(400);
+                res.setHeader(CONTENT_TYPE, "application/json");
+                res.getOutputStream().print("{\"message\":\"user id missing in http header\"}");
+                return;
+            }
+            if (req.getHeader("data") == null) {
+                res.setStatus(400);
+                res.setHeader(CONTENT_TYPE, "application/json");
+                res.getOutputStream().print("{\"message\":\"form data missing in http header\"}");
+                return;
+            }
+
             InputStream inputStream = req.getInputStream();
             byte[] pdf = bytify.inputStream(inputStream);
 
