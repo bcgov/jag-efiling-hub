@@ -20,6 +20,9 @@ public class WebcatsUpdate {
     @Inject
     Environment environment;
 
+    @Inject
+    Clock clock;
+
     public String user() {
         return environment.getValue("WEBCATS_USERNAME");
     }
@@ -76,7 +79,10 @@ public class WebcatsUpdate {
 
         Name dateFiled = myEnvp.createName("DateFiled", "dat", this.datNamespace());
         SOAPElement dateFiledElement = documentElement.addChildElement(dateFiled);
-        dateFiledElement.addTextNode("now");
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String now = dateFormatGmt.format(clock.now());
+        dateFiledElement.addTextNode(now);
 
         Name documentGuid = myEnvp.createName("DocumentGUID", "dat", this.datNamespace());
         SOAPElement documentGuidElement = documentElement.addChildElement(documentGuid);

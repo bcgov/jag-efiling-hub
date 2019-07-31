@@ -58,6 +58,7 @@ public class SubmitTest extends HavingTestProperties {
     private String webcatsBody;
 
     private Hub hub;
+    private Date now;
 
     @Before
     public void startHub() throws Exception {
@@ -146,6 +147,12 @@ public class SubmitTest extends HavingTestProperties {
         webcatsServer.start();
     }
 
+    @Before
+    public void fixeTime() {
+        now = new Date();
+        Clock.broken(now);
+    }
+
     @After
     public void stopServer() {
         initializeServer.stop( 0 );
@@ -230,7 +237,7 @@ public class SubmitTest extends HavingTestProperties {
                                 "<dat:CaseNumber>CA12345</dat:CaseNumber>" +
                                 "<dat:Documents>" +
                                     "<dat:Document>" +
-                                        "<dat:DateFiled>now</dat:DateFiled>" +
+                                        "<dat:DateFiled>"+now()+"</dat:DateFiled>" +
                                         "<dat:DocumentGUID>this-GUID</dat:DocumentGUID>" +
                                         "<dat:DocumentName>Notice of Appearance</dat:DocumentName>" +
                                         "<dat:DocumentTypeCode>APP</dat:DocumentTypeCode>" +
@@ -242,6 +249,13 @@ public class SubmitTest extends HavingTestProperties {
                         "</ns:UpdateWebCATS>" +
                     "</SOAP-ENV:Body>" +
                 "</SOAP-ENV:Envelope>"));
+    }
+
+    private String now() {
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+        return dateFormatGmt.format(now);
     }
 
     @Test
