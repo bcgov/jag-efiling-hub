@@ -61,7 +61,7 @@ public class ORCreateRouteBuilder extends RouteBuilder {
                 LOGGER.log(Level.INFO, saveResponse);
                 JSONObject jo = new JSONObject(saveResponse);
                 String guid = (String) jo.get("Object_GUID");
-                exchange.getProperties().put("guid", guid);
+                exchange.getProperties().put("objectguid", guid);
             })
         ;
     }

@@ -5,7 +5,10 @@ import hub.helper.Environment;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.soap.*;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -35,7 +38,7 @@ public class WebcatsUpdate {
     }
 
     public String updateSoapAction() {
-        return environment.getValue("WEBCATS_UPDATE_ACTION");
+        return environment.getValue("WEBCATS_UPDATE_SOAP_ACTION");
     }
 
     public String nsNamespace() {
@@ -73,7 +76,7 @@ public class WebcatsUpdate {
 
         Name dateFiled = myEnvp.createName("DateFiled", "dat", this.datNamespace());
         SOAPElement dateFiledElement = documentElement.addChildElement(dateFiled);
-        dateFiledElement.addTextNode("today");
+        dateFiledElement.addTextNode("now");
 
         Name documentGuid = myEnvp.createName("DocumentGUID", "dat", this.datNamespace());
         SOAPElement documentGuidElement = documentElement.addChildElement(documentGuid);
@@ -81,19 +84,19 @@ public class WebcatsUpdate {
 
         Name documentName = myEnvp.createName("DocumentName", "dat", this.datNamespace());
         SOAPElement documentNameElement = documentElement.addChildElement(documentName);
-        documentNameElement.addTextNode("Form2");
+        documentNameElement.addTextNode("Notice of Appearance");
 
         Name documentTypeCode = myEnvp.createName("DocumentTypeCode", "dat", this.datNamespace());
         SOAPElement documentTypeCodeElement = documentElement.addChildElement(documentTypeCode);
-        documentTypeCodeElement.addTextNode("Form2");
+        documentTypeCodeElement.addTextNode("APP");
 
         Name documentDescription = myEnvp.createName("DocumentTypeDescription", "dat", this.datNamespace());
         SOAPElement documentDescriptionElement = documentElement.addChildElement(documentDescription);
-        documentDescriptionElement.addTextNode("Form2");
+        documentDescriptionElement.addTextNode("Appearance");
 
         Name initiatingDocument = myEnvp.createName("InitiatingDocument", "dat", this.datNamespace());
         SOAPElement initiatingDocumentElement = documentElement.addChildElement(initiatingDocument);
-        initiatingDocumentElement.addTextNode("unknown");
+        initiatingDocumentElement.addTextNode("N");
 
         message.saveChanges();
         return message;

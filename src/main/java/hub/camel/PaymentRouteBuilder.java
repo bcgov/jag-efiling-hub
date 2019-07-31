@@ -34,9 +34,10 @@ public class PaymentRouteBuilder extends RouteBuilder {
                 .handled(true)
                 .process(exchange -> {
                     Exception exception = (Exception) exchange.getProperty(Exchange.EXCEPTION_CAUGHT);
-                    LOGGER.log(Level.WARNING, exception.getMessage(), exception);
+                    String message = exception.getMessage();
+                    LOGGER.log(Level.WARNING, message, exception);
+                    exchange.getOut().setBody("PAYMENT FAILED: " + message);
                 })
-                .setBody(constant("PAYMENT SERVICE UNAVAILABLE"))
             .end()
             .process(exchange -> LOGGER.log(Level.INFO, "payment call..."))
             .process(exchange -> {
@@ -62,7 +63,7 @@ public class PaymentRouteBuilder extends RouteBuilder {
                         String body = exchange.getIn().getBody(String.class);
                         String message = payment.extractErrorMessage(body);
                         String answer = "<return><resultCode>1</resultCode><resultMessage>"+message+"</resultMessage></return>";
-                        exchange.getOut().setBody(answer);
+                        throw new Exception(answer);
                     })
         ;
     }

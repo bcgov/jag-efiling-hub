@@ -16,9 +16,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static hub.support.GetRequest.get;
 import static hub.support.PostRequest.post;
@@ -51,6 +50,13 @@ public class SubmitTest extends HavingTestProperties {
     private String paymentMethod;
     private String paymentBody;
 
+    private HttpServer webcatsServer;
+    private Headers webcatsHeaders;
+    private int webcatsResponseStatus = 200;
+    private String webcatsAnswer = "<return><update>ok</update></return>";
+    private String webcatsMethod;
+    private String webcatsBody;
+
     private Hub hub;
 
     @Before
@@ -68,6 +74,13 @@ public class SubmitTest extends HavingTestProperties {
         System.setProperty("CSO_PASSWORD", "cso-password");
         System.setProperty("CSO_NAMESPACE", "http://hub.org");
         System.setProperty("CSO_PAYMENT_PROCESS_SOAP_ACTION", "payment-process-soap-action");
+
+        System.setProperty("WEBCATS_UPDATE_ENDPOINT", "http4://localhost:8555");
+        System.setProperty("WEBCATS_UPDATE_SOAP_ACTION", "webcats-update-soap-action");
+        System.setProperty("WEBCATS_USERNAME", "webcats-user");
+        System.setProperty("WEBCATS_PASSWORD", "webcats-password");
+        System.setProperty("WEBCATS_XMLNS_NS", "this-ns");
+        System.setProperty("WEBCATS_XMLNS_DAT", "this-dat");
 
         hub = new Hub(8888);
         hub.start();
@@ -120,6 +133,17 @@ public class SubmitTest extends HavingTestProperties {
             exchange.close();
         } );
         paymentServer.start();
+
+        webcatsServer = HttpServer.create( new InetSocketAddress( 8555 ), 0 );
+        webcatsServer.createContext( "/", exchange -> {
+            webcatsBody = new Stringify().inputStream(exchange.getRequestBody());
+            webcatsMethod = exchange.getRequestMethod();
+            webcatsHeaders = exchange.getRequestHeaders();
+            exchange.sendResponseHeaders( webcatsResponseStatus, webcatsAnswer.length() );
+            exchange.getResponseBody().write( webcatsAnswer.getBytes() );
+            exchange.close();
+        } );
+        webcatsServer.start();
     }
 
     @After
@@ -128,6 +152,7 @@ public class SubmitTest extends HavingTestProperties {
         saveServer.stop( 0 );
         changeOwnerServer.stop( 0 );
         paymentServer.stop( 0 );
+        webcatsServer.stop(0);
     }
 
     @Test
@@ -165,6 +190,7 @@ public class SubmitTest extends HavingTestProperties {
 
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
 
         post("http://localhost:8888/save", headers, pdf);
 
@@ -190,6 +216,32 @@ public class SubmitTest extends HavingTestProperties {
                     "<bcolSessionKey/>" +
                     "<bcolUniqueId/>" +
                 "</cso:paymentProcess>"));
+
+        assertThat(webcatsMethod, equalTo("POST"));
+        assertThat(webcatsHeaders.getFirst("Authorization"), equalTo("Basic " + Base64.getEncoder().encodeToString(("webcats-user:webcats-password").getBytes())));
+        assertThat(webcatsHeaders.getFirst("Content-Type"), equalTo("text/xml"));
+        assertThat(webcatsHeaders.getFirst("SOAPAction"), equalTo("webcats-update-soap-action"));
+        assertThat(webcatsBody, equalTo("" +
+                "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:dat=\"this-dat\" xmlns:ns=\"this-ns\">" +
+                    "<SOAP-ENV:Header/>" +
+                    "<SOAP-ENV:Body>" +
+                        "<ns:UpdateWebCATS>" +
+                            "<ns:updateRequest>" +
+                                "<dat:CaseNumber>CA12345</dat:CaseNumber>" +
+                                "<dat:Documents>" +
+                                    "<dat:Document>" +
+                                        "<dat:DateFiled>now</dat:DateFiled>" +
+                                        "<dat:DocumentGUID>this-GUID</dat:DocumentGUID>" +
+                                        "<dat:DocumentName>Notice of Appearance</dat:DocumentName>" +
+                                        "<dat:DocumentTypeCode>APP</dat:DocumentTypeCode>" +
+                                        "<dat:DocumentTypeDescription>Appearance</dat:DocumentTypeDescription>" +
+                                        "<dat:InitiatingDocument>N</dat:InitiatingDocument>" +
+                                    "</dat:Document>" +
+                                "</dat:Documents>" +
+                            "</ns:updateRequest>" +
+                        "</ns:UpdateWebCATS>" +
+                    "</SOAP-ENV:Body>" +
+                "</SOAP-ENV:Envelope>"));
     }
 
     @Test
@@ -199,12 +251,13 @@ public class SubmitTest extends HavingTestProperties {
 
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
 
         HttpResponse response = post("http://localhost:8888/save", headers, pdf);
 
         assertThat(response.getStatusCode(), equalTo(200));
         assertThat(response.getContentType(), equalTo("application/json"));
-        assertThat(response.getBody(), containsString("\"answer\":\"ok\""));
+        assertThat(response.getBody(), containsString("\"update\":\"ok\""));
     }
 
 

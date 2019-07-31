@@ -36,14 +36,17 @@ public class SubmitRouteBuilder extends RouteBuilder {
             .end()
             .process(exchange -> {
                 String userguid = (String) exchange.getIn().getHeaders().get("smgov_userguid");
+                String data = (String) exchange.getIn().getHeaders().get("data");
                 byte[] pdf = exchange.getIn().getBody(byte[].class);
                 exchange.getProperties().put("pdf", pdf);
                 exchange.getProperties().put("userguid", userguid);
+                exchange.getProperties().put("data", data);
             })
             .to("direct:initialize")
             .to("direct:create")
             .to("direct:changeOwner")
             .to("direct:payment")
+            .to("direct:update")
             .marshal(xmlJsonFormat)
         ;
     }

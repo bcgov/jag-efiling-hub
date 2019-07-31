@@ -1,10 +1,10 @@
 package hub.http;
 
+import hub.Payment;
 import hub.helper.Bytify;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.cdi.ContextName;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +31,9 @@ public class ORSaveServlet extends HttpServlet {
     @Inject
     Bytify bytify;
 
+    @Inject
+    Payment payment;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) {
         try {
@@ -39,21 +42,22 @@ public class ORSaveServlet extends HttpServlet {
 
             Map<String, Object> headers = new HashMap<>();
             headers.put("smgov_userguid", req.getHeader("smgov_userguid"));
+            headers.put("data", req.getHeader("data"));
             String result = save(pdf, headers);
 
             LOGGER.log(Level.INFO, result);
-            if ("PAYMENT SERVICE UNAVAILABLE".equalsIgnoreCase(result)) {
-                res.setStatus(500);
-                res.setHeader(CONTENT_TYPE, "application/json");
-                res.getOutputStream().print("{\"message\":\"Failed - Payment failed\"}");
-            }
-            else if (result.contains("\"resultCode\":\"1\"")) {
-                res.setStatus(403);
-                res.setHeader(CONTENT_TYPE, "application/json");
-                JSONObject jo = new JSONObject(result);
-                JSONObject container = (JSONObject) jo.get("return");
-                String message = (String) container.get("resultMessage");
-                res.getOutputStream().print("{\"message\":\""+message+"\"}");
+            if (result.startsWith("PAYMENT FAILED")) {
+                if (result.contains("<resultCode>1</resultCode>")) {
+                    String message = payment.extractErrorMessage(result);
+                    res.setStatus(403);
+                    res.setHeader(CONTENT_TYPE, "application/json");
+                    res.getOutputStream().print("{\"message\":\""+message+"\"}");
+                }
+                else {
+                    res.setStatus(500);
+                    res.setHeader(CONTENT_TYPE, "application/json");
+                    res.getOutputStream().print("{\"message\":\"Failed - Payment failed\"}");
+                }
             }
             else {
                 res.setHeader(CONTENT_TYPE, "application/json");

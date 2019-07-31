@@ -46,10 +46,10 @@ public class WebcatsUpdateRouteBuilder extends RouteBuilder {
             .end()
             .process(exchange -> LOGGER.log(Level.INFO, "update call..."))
             .process(exchange -> {
-                String info = exchange.getIn().getBody(String.class);
+                String guid = (String) exchange.getProperties().get("objectguid");
+                String info = (String) exchange.getProperties().get("data");
                 JSONObject jo = new JSONObject(info);
-                String caseNumber = (String) jo.get(("caseNumber"));
-                String guid = (String) jo.get(("guid"));
+                String caseNumber = (String) jo.get(("formSevenNumber"));
 
                 LOGGER.log(Level.INFO, "caseNumber="+caseNumber);
                 String message = stringify.soapMessage(webcatsUpdate.update(caseNumber, guid));
@@ -67,7 +67,6 @@ public class WebcatsUpdateRouteBuilder extends RouteBuilder {
 
                 exchange.getOut().setBody(answer);
             })
-            .marshal(xmlJsonFormat)
         ;
     }
 }

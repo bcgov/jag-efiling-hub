@@ -37,7 +37,7 @@ public class ORChangeOwnerRouteBuilder extends RouteBuilder {
             .process(exchange -> LOGGER.log(Level.INFO, "changeOwner call..."))
             .process(exchange -> {
                 String ticket = (String) exchange.getProperties().get("ticket");
-                String guid = (String) exchange.getProperties().get("guid");
+                String guid = (String) exchange.getProperties().get("objectguid");
                 String message = changeOwner.body(ticket, guid);
                 LOGGER.log(Level.INFO, "message="+message);
                 exchange.getOut().setBody(message);
