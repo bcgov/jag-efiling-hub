@@ -1,0 +1,10 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+   <s:Body>
+      <UpdateWebCATSResponse xmlns="http://courts.gov.bc.ca/ws/appeal/2011/01/12/">
+         <UpdateWebCATSResult xmlns:a="http://courts.gov.bc.ca/ws/appeal/2011/01/12/datacontracts" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+            <a:SuccessCode>SUCC</a:SuccessCode>
+            <a:SuccessDescription>All documents updated in WebCATS successfully</a:SuccessDescription>
+         </UpdateWebCATSResult>
+      </UpdateWebCATSResponse>
+   </s:Body>
+</s:Envelope>

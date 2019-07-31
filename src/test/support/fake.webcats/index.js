@@ -1,4 +1,6 @@
 const { createServer, get } = require('http')
+const fs = require('fs')
+const path = require('path')
 const port = 5015
 
 const server = {
@@ -8,7 +10,8 @@ const server = {
             let params = require('url').parse(request.url)
             if (params.pathname == '/update') {
                 response.setHeader('content-type', 'text/xml')
-                response.write('<return><update>ok</update></return>')
+                var ok = fs.readFileSync(path.join(__dirname, 'data', 'update.ok.xml')).toString()
+                response.write(ok)
             }
             else {
                 response.setHeader('content-type', 'application/json')
