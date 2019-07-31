@@ -1,0 +1,10 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+   <s:Body>
+      <UpdateWebCATSResponse xmlns="http://courts.gov.bc.ca/ws/appeal/2011/01/12/">
+         <UpdateWebCATSResult xmlns:a="http://courts.gov.bc.ca/ws/appeal/2011/01/12/datacontracts" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+            <a:SuccessCode>FAIL</a:SuccessCode>
+            <a:SuccessDescription>One or more documents failed to store in WebCATS</a:SuccessDescription>
+         </UpdateWebCATSResult>
+      </UpdateWebCATSResponse>
+   </s:Body>
+</s:Envelope>
