@@ -10,7 +10,7 @@ describe('update', ()=>{
         })
     })
 
-    it('returns json', (done)=>{
+    it('returns xml', (done)=>{
         update((response)=>{
             expect(response.headers['content-type']).to.equal('text/xml');
             done();
