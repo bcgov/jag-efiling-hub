@@ -18,9 +18,9 @@ import static hub.support.PostRequest.post;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class FormUpdateTest extends HavingTestProperties {
+public class WebcatsUpdateTest extends HavingTestProperties {
 
-    private static final Logger LOGGER = Logger.getLogger(FormUpdateTest.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(WebcatsUpdateTest.class.getName());
     private HttpServer webcats;
     private Hub hub;
     private String body;
@@ -29,6 +29,7 @@ public class FormUpdateTest extends HavingTestProperties {
 
     @Before
     public void startHub() throws Exception {
+        System.setProperty("WEBCATS_UPDATE_ENDPOINT", "http4://localhost:8111");
         System.setProperty("WEBCATS_UPDATE_ACTION", "update-action");
         System.setProperty("WEBCATS_USERNAME", "this-username");
         System.setProperty("WEBCATS_PASSWORD", "this-password");
