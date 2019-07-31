@@ -280,7 +280,7 @@
                                     <key>WEBCATS_PASSWORD</key><value>ignored-by-fake-webcats</value>
                                 </systemProperty>
                                 <systemProperty>
-                                    <key>WEBCATS_UPDATE_ENDPOINT</key><value>http4://localhost:5005/update</value>
+                                    <key>WEBCATS_UPDATE_ENDPOINT</key><value>http4://localhost:5015/update</value>
                                 </systemProperty>
                                 <systemProperty>
                                     <key>WEBCATS_UPDATE_SOAP_ACTION</key><value>ignored-by-fake-webcats</value>
