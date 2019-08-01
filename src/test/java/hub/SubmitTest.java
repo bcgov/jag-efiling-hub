@@ -239,7 +239,7 @@ public class SubmitTest extends HavingTestProperties {
     }
 
     private String now() {
-        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         return dateFormatGmt.format(now);
