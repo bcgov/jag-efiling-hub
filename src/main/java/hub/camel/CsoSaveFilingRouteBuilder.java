@@ -58,7 +58,7 @@ public class CsoSaveFilingRouteBuilder extends RouteBuilder {
                 String answer = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, "answer of cso update="+answer);
 
-                exchange.getOut().setBody(answer);
+                exchange.getProperties().put("packageNumber", csoSaveFiling.extractValueFromTag("packageNumber", answer));
             })
         ;
     }

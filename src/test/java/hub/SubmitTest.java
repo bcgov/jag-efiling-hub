@@ -55,7 +55,7 @@ public class SubmitTest extends HavingTestProperties {
 
     private Headers csoSaveFileHeaders;
     private int csoSaveFileResponseStatus = 200;
-    private String csoSaveFileAnswer = "<return><save>ok</save><packageNumber>333</packageNumber></return>";
+    private String csoSaveFileAnswer = "<return><save>ok</save><packageNumber>package-number-from-save-filing-call</packageNumber></return>";
     private String csoSaveFileMethod;
     private String csoSaveFileBody;
 
@@ -435,7 +435,7 @@ public class SubmitTest extends HavingTestProperties {
 
         assertThat(response.getStatusCode(), equalTo(200));
         assertThat(response.getContentType(), equalTo("application/json"));
-        assertThat(response.getBody(), containsString("\"update\":\"ok\""));
+        assertThat(response.getBody(), equalTo("{\"invoiceNumber\":\"invoice-number-from-payment-call\",\"packageNumber\":\"package-number-from-save-filing-call\"}"));
     }
 
 

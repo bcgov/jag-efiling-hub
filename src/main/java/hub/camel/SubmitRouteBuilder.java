@@ -4,6 +4,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
 import org.apache.camel.dataformat.xmljson.XmlJsonDataFormat;
+import org.json.JSONObject;
 
 import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
@@ -46,7 +47,15 @@ public class SubmitRouteBuilder extends RouteBuilder {
             .to("direct:objectRepository")
             .to("direct:csoSaveFiling")
             .to("direct:webcatsUpdate")
-            .marshal(xmlJsonFormat)
+            .process(exchange -> {
+                String invoiceNumber = (String) exchange.getProperties().get("invoiceNumber");
+                String packageNumber = (String) exchange.getProperties().get("packageNumber");
+                JSONObject json = new JSONObject();
+                json.put("invoiceNumber", invoiceNumber);
+                json.put("packageNumber", packageNumber);
+
+                exchange.getOut().setBody(json.toString());
+            })
         ;
     }
 }

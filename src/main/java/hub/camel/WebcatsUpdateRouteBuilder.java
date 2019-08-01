@@ -64,8 +64,6 @@ public class WebcatsUpdateRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 String answer = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, "answer of update="+answer);
-
-                exchange.getOut().setBody(answer);
             })
         ;
     }
