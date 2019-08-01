@@ -211,20 +211,6 @@ public class SubmitTest extends HavingTestProperties {
         assertThat(changeOwnerHeaders.getFirst("Authorization"), equalTo(expectedBasicAuth));
         assertThat(changeOwnerBody, equalTo("{ \"AppTicket\":\"ticket-value\", \"ObjectGUID\":\"this-GUID\", \"Application\":\"WebCATS\" }"));
 
-        assertThat(paymentMethod, equalTo("POST"));
-        assertThat(paymentHeaders.getFirst("Authorization"), equalTo("Basic " + Base64.getEncoder().encodeToString(("cso-user:cso-password").getBytes())));
-        assertThat(paymentHeaders.getFirst("Content-Type"), equalTo("text/xml"));
-        assertThat(paymentHeaders.getFirst("SOAPAction"), equalTo("payment-process-soap-action"));
-        assertThat(paymentBody, containsString("" +
-                "<cso:paymentProcess xmlns:cso=\"http://hub.org\">" +
-                    "<serviceType>EXFL</serviceType>" +
-                    "<serviceDesc>Form 2 Filing payment</serviceDesc>" +
-                    "<userguid>MAX</userguid>" +
-                    "<bcolUserId/>" +
-                    "<bcolSessionKey/>" +
-                    "<bcolUniqueId/>" +
-                "</cso:paymentProcess>"));
-
         assertThat(webcatsMethod, equalTo("POST"));
         assertThat(webcatsHeaders.getFirst("Authorization"), equalTo("Basic " + Base64.getEncoder().encodeToString(("webcats-user:webcats-password").getBytes())));
         assertThat(webcatsHeaders.getFirst("Content-Type"), equalTo("text/xml"));
@@ -308,57 +294,6 @@ public class SubmitTest extends HavingTestProperties {
         assertThat(response.getStatusCode(), equalTo(200));
         assertThat(response.getContentType(), equalTo("application/json"));
         assertThat(response.getBody(), equalTo("Object_GUID"));
-    }
-
-    @Test
-    public void resistsPaymentFailed() throws Exception {
-        paymentResponseStatus = 200;
-        paymentAnswer = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
-                "   <soap:Body>\n" +
-                "      <ns2:paymentProcessResponse xmlns:ns2=\"http://csoextws.jag.gov.bc.ca/\">\n" +
-                "         <return>\n" +
-                "            <resultCode>1</resultCode>\n" +
-                "            <resultMessage>Failed - Either Account id or BC Client id is blank</resultMessage>\n" +
-                "         </return>\n" +
-                "      </ns2:paymentProcessResponse>\n" +
-                "   </soap:Body>\n" +
-                "</soap:Envelope>";
-
-        byte[] pdf = named("form2-1.pdf");
-        Map<String, String> headers = new HashMap<>();
-        headers.put("smgov_userguid", "MAX");
-        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
-        HttpResponse response = post(submitUrl, headers, pdf);
-
-        assertThat(response.getStatusCode(), equalTo(403));
-        assertThat(response.getContentType(), equalTo("application/json"));
-        assertThat(response.getBody(), equalTo("{\"message\":\"Failed - Either Account id or BC Client id is blank\"}"));
-    }
-
-    @Test
-    public void resistsPaymentError() throws Exception {
-        paymentResponseStatus = 500;
-        paymentAnswer = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
-                "   <soap:Body>\n" +
-                "      <soap:Fault>\n" +
-                "         <faultcode>soap:Server</faultcode>\n" +
-                "         <faultstring><![CDATA[BeanstreamPaymentManager.billRegisteredCreditCard 0:<LI>Invalid customer code<br><LI>Invalid Card Number<br><LI>Invalid expiration month<br><LI>Invalid expiration year<br>]]></faultstring>\n" +
-                "         <detail>\n" +
-                "            <ns1:CsoextwsException xmlns:ns1=\"http://csoextws.jag.gov.bc.ca/\"/>\n" +
-                "         </detail>\n" +
-                "      </soap:Fault>\n" +
-                "   </soap:Body>\n" +
-                "</soap:Envelope>";
-
-        byte[] pdf = named("form2-1.pdf");
-        Map<String, String> headers = new HashMap<>();
-        headers.put("smgov_userguid", "MAX");
-        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
-        HttpResponse response = post(submitUrl, headers, pdf);
-
-        assertThat(response.getStatusCode(), equalTo(500));
-        assertThat(response.getContentType(), equalTo("application/json"));
-        assertThat(response.getBody(), equalTo("{\"message\":\"Failed - Payment failed\"}"));
     }
 
     @Test
