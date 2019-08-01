@@ -1,0 +1,20 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://courts.gov.bc.ca/ws/appeal/2011/01/12/" xmlns:dat="http://courts.gov.bc.ca/ws/appeal/2011/01/12/datacontracts">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <ns:UpdateWebCATS>
+            <ns:updateRequest>
+                <dat:CaseNumber>?</dat:CaseNumber>
+                <dat:Documents>
+                    <dat:Document>
+                        <dat:DateFiled>?</dat:DateFiled>
+                        <dat:DocumentGUID>?</dat:DocumentGUID>
+                        <dat:DocumentName>Notice of Appearance</dat:DocumentName>
+                        <dat:DocumentTypeCode>APP</dat:DocumentTypeCode>
+                        <dat:DocumentTypeDescription>Appearance</dat:DocumentTypeDescription>
+                        <dat:InitiatingDocument>N</dat:InitiatingDocument>
+                    </dat:Document>
+                </dat:Documents>
+            </ns:updateRequest>
+        </ns:UpdateWebCATS>
+    </soapenv:Body>
+</soapenv:Envelope>

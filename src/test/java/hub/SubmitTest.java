@@ -230,26 +230,26 @@ public class SubmitTest extends HavingTestProperties {
         assertThat(webcatsHeaders.getFirst("Content-Type"), equalTo("text/xml"));
         assertThat(webcatsHeaders.getFirst("SOAPAction"), equalTo("webcats-update-soap-action"));
         assertThat(webcatsBody, equalTo("" +
-                "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:dat=\"this-dat\" xmlns:ns=\"this-ns\">" +
-                    "<SOAP-ENV:Header/>" +
-                    "<SOAP-ENV:Body>" +
-                        "<ns:UpdateWebCATS>" +
-                            "<ns:updateRequest>" +
-                                "<dat:CaseNumber>CA12345</dat:CaseNumber>" +
-                                "<dat:Documents>" +
-                                    "<dat:Document>" +
-                                        "<dat:DateFiled>"+now()+"</dat:DateFiled>" +
-                                        "<dat:DocumentGUID>this-GUID</dat:DocumentGUID>" +
-                                        "<dat:DocumentName>Notice of Appearance</dat:DocumentName>" +
-                                        "<dat:DocumentTypeCode>APP</dat:DocumentTypeCode>" +
-                                        "<dat:DocumentTypeDescription>Appearance</dat:DocumentTypeDescription>" +
-                                        "<dat:InitiatingDocument>N</dat:InitiatingDocument>" +
-                                    "</dat:Document>" +
-                                "</dat:Documents>" +
-                            "</ns:updateRequest>" +
-                        "</ns:UpdateWebCATS>" +
-                    "</SOAP-ENV:Body>" +
-                "</SOAP-ENV:Envelope>"));
+                "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns=\"http://courts.gov.bc.ca/ws/appeal/2011/01/12/\" xmlns:dat=\"http://courts.gov.bc.ca/ws/appeal/2011/01/12/datacontracts\">\n" +
+                "    <soapenv:Header/>\n" +
+                "    <soapenv:Body>\n" +
+                "        <ns:UpdateWebCATS>\n" +
+                "            <ns:updateRequest>\n" +
+                "                <dat:CaseNumber>CA12345</dat:CaseNumber>\n" +
+                "                <dat:Documents>\n" +
+                "                    <dat:Document>\n" +
+                "                        <dat:DateFiled>"+now()+"</dat:DateFiled>\n" +
+                "                        <dat:DocumentGUID>this-GUID</dat:DocumentGUID>\n" +
+                "                        <dat:DocumentName>Notice of Appearance</dat:DocumentName>\n" +
+                "                        <dat:DocumentTypeCode>APP</dat:DocumentTypeCode>\n" +
+                "                        <dat:DocumentTypeDescription>Appearance</dat:DocumentTypeDescription>\n" +
+                "                        <dat:InitiatingDocument>N</dat:InitiatingDocument>\n" +
+                "                    </dat:Document>\n" +
+                "                </dat:Documents>\n" +
+                "            </ns:updateRequest>\n" +
+                "        </ns:UpdateWebCATS>\n" +
+                "    </soapenv:Body>\n" +
+                "</soapenv:Envelope>"));
     }
 
     private String now() {

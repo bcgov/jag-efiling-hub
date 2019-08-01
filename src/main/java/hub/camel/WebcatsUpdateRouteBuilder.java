@@ -52,7 +52,7 @@ public class WebcatsUpdateRouteBuilder extends RouteBuilder {
                 String caseNumber = (String) jo.get(("formSevenNumber"));
 
                 LOGGER.log(Level.INFO, "caseNumber="+caseNumber);
-                String message = stringify.soapMessage(webcatsUpdate.update(caseNumber, guid));
+                String message = webcatsUpdate.update(caseNumber, guid);
                 LOGGER.log(Level.INFO, "message="+message);
                 exchange.getOut().setBody(message);
             })
