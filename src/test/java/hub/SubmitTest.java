@@ -59,6 +59,7 @@ public class SubmitTest extends HavingTestProperties {
 
     private Hub hub;
     private Date now;
+    private String submitUrl = "http://localhost:8888/save";
 
     @Before
     public void startHub() throws Exception {
@@ -199,7 +200,7 @@ public class SubmitTest extends HavingTestProperties {
         headers.put("smgov_userguid", "MAX");
         headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
 
-        post("http://localhost:8888/save", headers, pdf);
+        post(submitUrl, headers, pdf);
 
         assertThat(saveMethod, equalTo("POST"));
         assertThat(saveUri, equalTo("/?AppTicket=ticket-value&MimeType=application&MimeSubType=pdf&Filename=form2.pdf&RetentionPeriod=-1"));
@@ -267,7 +268,7 @@ public class SubmitTest extends HavingTestProperties {
         headers.put("smgov_userguid", "MAX");
         headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
 
-        HttpResponse response = post("http://localhost:8888/save", headers, pdf);
+        HttpResponse response = post(submitUrl, headers, pdf);
 
         assertThat(response.getStatusCode(), equalTo(200));
         assertThat(response.getContentType(), equalTo("application/json"));
@@ -285,7 +286,7 @@ public class SubmitTest extends HavingTestProperties {
         byte[] pdf = named("form2-1.pdf");
         assertThat(pdf.length, equalTo(22186));
 
-        HttpResponse response = post("http://localhost:8888/save", pdf);
+        HttpResponse response = post(submitUrl, pdf);
 
         assertThat(response.getContentType(), equalTo("application/json"));
         assertThat(response.getBody(), containsString("Object_GUID"));
@@ -327,7 +328,7 @@ public class SubmitTest extends HavingTestProperties {
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
         headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
-        HttpResponse response = post("http://localhost:8888/save", headers, pdf);
+        HttpResponse response = post(submitUrl, headers, pdf);
 
         assertThat(response.getStatusCode(), equalTo(403));
         assertThat(response.getContentType(), equalTo("application/json"));
@@ -353,7 +354,7 @@ public class SubmitTest extends HavingTestProperties {
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
         headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
-        HttpResponse response = post("http://localhost:8888/save", headers, pdf);
+        HttpResponse response = post(submitUrl, headers, pdf);
 
         assertThat(response.getStatusCode(), equalTo(500));
         assertThat(response.getContentType(), equalTo("application/json"));
@@ -367,7 +368,7 @@ public class SubmitTest extends HavingTestProperties {
         Map<String, String> headers = new HashMap<>();
         headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
 
-        HttpResponse response = post("http://localhost:8888/save", headers, pdf);
+        HttpResponse response = post(submitUrl, headers, pdf);
 
         assertThat(response.getStatusCode(), equalTo(400));
         assertThat(response.getContentType(), equalTo("application/json"));
@@ -381,7 +382,7 @@ public class SubmitTest extends HavingTestProperties {
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
 
-        HttpResponse response = post("http://localhost:8888/save", headers, pdf);
+        HttpResponse response = post(submitUrl, headers, pdf);
 
         assertThat(response.getStatusCode(), equalTo(400));
         assertThat(response.getContentType(), equalTo("application/json"));
