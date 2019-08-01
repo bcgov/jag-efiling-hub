@@ -1,6 +1,6 @@
 package hub.http;
 
-import hub.Payment;
+import hub.XmlExtractor;
 import hub.helper.Bytify;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
@@ -32,7 +32,7 @@ public class ORSaveServlet extends HttpServlet {
     Bytify bytify;
 
     @Inject
-    Payment payment;
+    XmlExtractor extract;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) {
@@ -61,7 +61,7 @@ public class ORSaveServlet extends HttpServlet {
             LOGGER.log(Level.INFO, result);
             if (result.startsWith("PAYMENT FAILED")) {
                 if (result.contains("<resultCode>1</resultCode>")) {
-                    String message = payment.extractValueFromTag("resultMessage", result);
+                    String message = extract.valueFromTag("resultMessage", result);
                     res.setStatus(403);
                     res.setHeader(CONTENT_TYPE, "application/json");
                     res.getOutputStream().print("{\"message\":\""+message+"\"}");

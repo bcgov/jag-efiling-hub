@@ -2,6 +2,7 @@ package hub.camel;
 
 import hub.CsoSaveFiling;
 import hub.WebcatsUpdate;
+import hub.XmlExtractor;
 import hub.helper.Stringify;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
@@ -25,6 +26,9 @@ public class CsoSaveFilingRouteBuilder extends RouteBuilder {
 
     @Inject
     CsoSaveFiling csoSaveFiling;
+
+    @Inject
+    XmlExtractor extract;
 
     @Override
     public void configure() {
@@ -58,7 +62,7 @@ public class CsoSaveFilingRouteBuilder extends RouteBuilder {
                 String answer = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, "answer of cso update="+answer);
 
-                exchange.getProperties().put("packageNumber", csoSaveFiling.extractValueFromTag("packageNumber", answer));
+                exchange.getProperties().put("packageNumber", extract.valueFromTag("packageNumber", answer));
             })
         ;
     }

@@ -1,6 +1,7 @@
 package hub.camel;
 
 import hub.Payment;
+import hub.XmlExtractor;
 import hub.helper.Stringify;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
@@ -25,6 +26,9 @@ public class PaymentRouteBuilder extends RouteBuilder {
 
     @Inject
     Stringify stringify;
+
+    @Inject
+    XmlExtractor extract;
 
     @Override
     public void configure() {
@@ -61,14 +65,14 @@ public class PaymentRouteBuilder extends RouteBuilder {
                 .when(body().contains("<resultCode>1</resultCode>"))
                     .process(exchange -> {
                         String body = exchange.getIn().getBody(String.class);
-                        String message = payment.extractValueFromTag("resultMessage", body);
+                        String message = extract.valueFromTag("resultMessage", body);
                         String answer = "<return><resultCode>1</resultCode><resultMessage>"+message+"</resultMessage></return>";
                         throw new Exception(answer);
                     })
                 .otherwise()
                     .process(exchange -> {
                         String body = exchange.getIn().getBody(String.class);
-                        String invoiceNumber = payment.extractValueFromTag("invoiceNo", body);
+                        String invoiceNumber = extract.valueFromTag("invoiceNo", body);
                         LOGGER.log(Level.INFO, "invoice number="+invoiceNumber);
 
                         exchange.getProperties().put("invoiceNumber", invoiceNumber);
