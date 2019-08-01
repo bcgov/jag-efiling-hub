@@ -41,10 +41,11 @@ public class CsoSaveFilingRouteBuilder extends RouteBuilder {
             .process(exchange -> LOGGER.log(Level.INFO, "update call..."))
             .process(exchange -> {
                 String userguid = (String) exchange.getProperties().get("userguid");
+                String invoiceNumber = (String) exchange.getProperties().get("invoiceNumber");
                 String data = (String) exchange.getProperties().get("data");
-
                 LOGGER.log(Level.INFO, "data="+data);
-                String message = csoSaveFiling.message(userguid, data);
+
+                String message = csoSaveFiling.message(userguid, invoiceNumber, data);
                 LOGGER.log(Level.INFO, "cso save filing message="+message);
                 exchange.getOut().setBody(message);
             })

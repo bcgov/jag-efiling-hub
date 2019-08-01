@@ -49,7 +49,7 @@ public class SubmitTest extends HavingTestProperties {
 
     private Headers paymentHeaders;
     private int paymentResponseStatus = 200;
-    private String paymentAnswer = "<return><answer>ok</answer></return>";
+    private String paymentAnswer = "<return><answer>ok</answer><invoiceNo>invoice-number-from-payment-call</invoiceNo</return>";
     private String paymentMethod;
     private String paymentBody;
 
@@ -310,44 +310,6 @@ public class SubmitTest extends HavingTestProperties {
     }
 
     @Test
-    public void sendsExpectedRequestToWebcats() throws Exception {
-        byte[] pdf = named("form2-1.pdf");
-        assertThat(pdf.length, equalTo(22186));
-
-        Map<String, String> headers = new HashMap<>();
-        headers.put("smgov_userguid", "MAX");
-        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
-
-        post(submitUrl, headers, pdf);
-
-        assertThat(webcatsMethod, equalTo("POST"));
-        assertThat(webcatsHeaders.getFirst("Authorization"), equalTo("Basic " + Base64.getEncoder().encodeToString(("webcats-user:webcats-password").getBytes())));
-        assertThat(webcatsHeaders.getFirst("Content-Type"), equalTo("text/xml"));
-        assertThat(webcatsHeaders.getFirst("SOAPAction"), equalTo("webcats-update-soap-action"));
-        assertThat(webcatsBody, equalTo("" +
-                "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns=\"http://courts.gov.bc.ca/ws/appeal/2011/01/12/\" xmlns:dat=\"http://courts.gov.bc.ca/ws/appeal/2011/01/12/datacontracts\">\n" +
-                "    <soapenv:Header/>\n" +
-                "    <soapenv:Body>\n" +
-                "        <ns:UpdateWebCATS>\n" +
-                "            <ns:updateRequest>\n" +
-                "                <dat:CaseNumber>CA12345</dat:CaseNumber>\n" +
-                "                <dat:Documents>\n" +
-                "                    <dat:Document>\n" +
-                "                        <dat:DateFiled>"+now()+"</dat:DateFiled>\n" +
-                "                        <dat:DocumentGUID>this-GUID</dat:DocumentGUID>\n" +
-                "                        <dat:DocumentName>Notice of Appearance</dat:DocumentName>\n" +
-                "                        <dat:DocumentTypeCode>APP</dat:DocumentTypeCode>\n" +
-                "                        <dat:DocumentTypeDescription>Appearance</dat:DocumentTypeDescription>\n" +
-                "                        <dat:InitiatingDocument>N</dat:InitiatingDocument>\n" +
-                "                    </dat:Document>\n" +
-                "                </dat:Documents>\n" +
-                "            </ns:updateRequest>\n" +
-                "        </ns:UpdateWebCATS>\n" +
-                "    </soapenv:Body>\n" +
-                "</soapenv:Envelope>"));
-    }
-
-    @Test
     public void sendsExpectedRequestToCsoSaveFile() throws Exception {
         byte[] pdf = named("form2-1.pdf");
         Map<String, String> headers = new HashMap<>();
@@ -383,7 +345,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                </documents>\n" +
                 "                <existingFile>?</existingFile>\n" +
                 "                <indigent>?</indigent>\n" +
-                "                <invoiceNo>?</invoiceNo>\n" +
+                "                <invoiceNo>invoice-number-from-payment-call</invoiceNo>\n" +
                 "                <levelCd>?</levelCd>\n" +
                 "                <locationCd>?</locationCd>\n" +
                 "                <notificationEmail>?</notificationEmail>\n" +
@@ -411,6 +373,44 @@ public class SubmitTest extends HavingTestProperties {
                 "                <eNotification>?</eNotification>\n" +
                 "            </efilingPackage>\n" +
                 "        </cso:saveFiling>\n" +
+                "    </soapenv:Body>\n" +
+                "</soapenv:Envelope>"));
+    }
+
+    @Test
+    public void sendsExpectedRequestToWebcats() throws Exception {
+        byte[] pdf = named("form2-1.pdf");
+        assertThat(pdf.length, equalTo(22186));
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("smgov_userguid", "MAX");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
+
+        post(submitUrl, headers, pdf);
+
+        assertThat(webcatsMethod, equalTo("POST"));
+        assertThat(webcatsHeaders.getFirst("Authorization"), equalTo("Basic " + Base64.getEncoder().encodeToString(("webcats-user:webcats-password").getBytes())));
+        assertThat(webcatsHeaders.getFirst("Content-Type"), equalTo("text/xml"));
+        assertThat(webcatsHeaders.getFirst("SOAPAction"), equalTo("webcats-update-soap-action"));
+        assertThat(webcatsBody, equalTo("" +
+                "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns=\"http://courts.gov.bc.ca/ws/appeal/2011/01/12/\" xmlns:dat=\"http://courts.gov.bc.ca/ws/appeal/2011/01/12/datacontracts\">\n" +
+                "    <soapenv:Header/>\n" +
+                "    <soapenv:Body>\n" +
+                "        <ns:UpdateWebCATS>\n" +
+                "            <ns:updateRequest>\n" +
+                "                <dat:CaseNumber>CA12345</dat:CaseNumber>\n" +
+                "                <dat:Documents>\n" +
+                "                    <dat:Document>\n" +
+                "                        <dat:DateFiled>"+now()+"</dat:DateFiled>\n" +
+                "                        <dat:DocumentGUID>this-GUID</dat:DocumentGUID>\n" +
+                "                        <dat:DocumentName>Notice of Appearance</dat:DocumentName>\n" +
+                "                        <dat:DocumentTypeCode>APP</dat:DocumentTypeCode>\n" +
+                "                        <dat:DocumentTypeDescription>Appearance</dat:DocumentTypeDescription>\n" +
+                "                        <dat:InitiatingDocument>N</dat:InitiatingDocument>\n" +
+                "                    </dat:Document>\n" +
+                "                </dat:Documents>\n" +
+                "            </ns:updateRequest>\n" +
+                "        </ns:UpdateWebCATS>\n" +
                 "    </soapenv:Body>\n" +
                 "</soapenv:Envelope>"));
     }

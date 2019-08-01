@@ -65,6 +65,13 @@ public class PaymentRouteBuilder extends RouteBuilder {
                         String answer = "<return><resultCode>1</resultCode><resultMessage>"+message+"</resultMessage></return>";
                         throw new Exception(answer);
                     })
+                .otherwise()
+                    .process(exchange -> {
+                        String invoiceNumber = "invoice-number-from-payment-call";
+                        LOGGER.log(Level.INFO, "invoice number="+invoiceNumber);
+
+                        exchange.getProperties().put("invoiceNumber", invoiceNumber);
+                    })
         ;
     }
 }

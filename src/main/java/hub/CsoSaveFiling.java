@@ -45,7 +45,7 @@ public class CsoSaveFiling {
         return environment.getValue("CSO_SAVE_FILING_SOAP_ACTION");
     }
 
-    public String message(String userguid, String data) throws IOException {
+    public String message(String userguid, String invoiceNumber, String data) throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("templates/cso-save-filing.xml");
         String template = stringify.inputStream(inputStream);
@@ -56,6 +56,7 @@ public class CsoSaveFiling {
         return template
                 .replace("<userguid>?</userguid>", "<userguid>"+userguid+"</userguid>")
                 .replace("<courtFileNumber>?</courtFileNumber>", "<courtFileNumber>"+courtFileNumber+"</courtFileNumber>")
+                .replace("<invoiceNo>?</invoiceNo>", "<invoiceNo>"+invoiceNumber+"</invoiceNo>")
                 ;
     }
 }
