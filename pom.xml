@@ -285,12 +285,6 @@
                                 <systemProperty>
                                     <key>WEBCATS_UPDATE_SOAP_ACTION</key><value>ignored-by-fake-webcats</value>
                                 </systemProperty>
-                                <systemProperty>
-                                    <key>WEBCATS_XMLNS_NS</key><value>ignored-by-fake-webcats</value>
-                                </systemProperty>
-                                <systemProperty>
-                                    <key>WEBCATS_XMLNS_DAT</key><value>ignored-by-fake-webcats</value>
-                                </systemProperty>
                             </systemProperties>
                         </configuration>
                     </plugin>
