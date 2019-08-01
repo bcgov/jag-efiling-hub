@@ -43,6 +43,7 @@ public class SubmitRouteBuilder extends RouteBuilder {
                 exchange.getProperties().put("data", data);
             })
             .to("direct:objectRepository")
+            .to("direct:csoSaveFiling")
             .to("direct:webcatsUpdate")
             .marshal(xmlJsonFormat)
         ;

@@ -27,6 +27,9 @@ const server = {
                     else if (action == 'is-authorized') {
                         answer = body.indexOf('<userguid>JD</userguid>')!=-1 ? read('authorized.jd.xml') : read('authorized.any.xml')
                     }
+                    else if (action == 'save-filing') {
+                        answer = read('savefiling.ok.xml')
+                    }
                     else if (action == 'payment-process') {
                         answer = read('payment.ok.xml')
                     }
@@ -81,7 +84,8 @@ module.exports = {
     parties:getRequest('/search', { 'SOAPAction':'third-call' }),
     accountInfo:postRequest('/cso-extension', { 'SOAPAction':'account-info' }),
     isAuthorized:postRequest('/cso-extension', { 'SOAPAction':'is-authorized' }),
-    payment:postRequest('/cso-extension', { 'SOAPAction':'payment-process' })
+    payment:postRequest('/cso-extension', { 'SOAPAction':'payment-process' }),
+    savefiling:postRequest('/cso-extension', { 'SOAPAction':'save-filing' })
 }
 
 server.start(()=>{

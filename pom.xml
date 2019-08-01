@@ -250,6 +250,9 @@
                                 <systemProperty>
                                     <key>CSO_PAYMENT_PROCESS_SOAP_ACTION</key><value>payment-process</value>
                                 </systemProperty>
+                                <systemProperty>
+                                    <key>CSO_SAVE_FILING_SOAP_ACTION</key><value>save-filing</value>
+                                </systemProperty>
 
                                 <systemProperty>
                                     <key>OR_APP_ID</key><value>ignored-by-fake-object-repository</value>
