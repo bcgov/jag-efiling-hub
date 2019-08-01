@@ -61,13 +61,14 @@ public class PaymentRouteBuilder extends RouteBuilder {
                 .when(body().contains("<resultCode>1</resultCode>"))
                     .process(exchange -> {
                         String body = exchange.getIn().getBody(String.class);
-                        String message = payment.extractErrorMessage(body);
+                        String message = payment.extractValueFromTag("resultMessage", body);
                         String answer = "<return><resultCode>1</resultCode><resultMessage>"+message+"</resultMessage></return>";
                         throw new Exception(answer);
                     })
                 .otherwise()
                     .process(exchange -> {
-                        String invoiceNumber = "invoice-number-from-payment-call";
+                        String body = exchange.getIn().getBody(String.class);
+                        String invoiceNumber = payment.extractValueFromTag("invoiceNo", body);
                         LOGGER.log(Level.INFO, "invoice number="+invoiceNumber);
 
                         exchange.getProperties().put("invoiceNumber", invoiceNumber);

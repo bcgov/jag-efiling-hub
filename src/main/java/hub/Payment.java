@@ -69,8 +69,7 @@ public class Payment {
         mySymbol.addTextNode(tagValue);
     }
 
-    public String extractErrorMessage(String body) {
-        String tag = "resultMessage";
+    public String extractValueFromTag(String tag, String body) {
         int start = body.indexOf("<"+tag+">");
         int end = body.indexOf("</"+tag+">");
 

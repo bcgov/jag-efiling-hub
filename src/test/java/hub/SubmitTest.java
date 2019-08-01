@@ -49,7 +49,7 @@ public class SubmitTest extends HavingTestProperties {
 
     private Headers paymentHeaders;
     private int paymentResponseStatus = 200;
-    private String paymentAnswer = "<return><answer>ok</answer><invoiceNo>invoice-number-from-payment-call</invoiceNo</return>";
+    private String paymentAnswer = "<return><answer>ok</answer><invoiceNo>invoice-number-from-payment-call</invoiceNo></return>";
     private String paymentMethod;
     private String paymentBody;
 

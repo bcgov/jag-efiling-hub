@@ -61,7 +61,7 @@ public class ORSaveServlet extends HttpServlet {
             LOGGER.log(Level.INFO, result);
             if (result.startsWith("PAYMENT FAILED")) {
                 if (result.contains("<resultCode>1</resultCode>")) {
-                    String message = payment.extractErrorMessage(result);
+                    String message = payment.extractValueFromTag("resultMessage", result);
                     res.setStatus(403);
                     res.setHeader(CONTENT_TYPE, "application/json");
                     res.getOutputStream().print("{\"message\":\""+message+"\"}");
