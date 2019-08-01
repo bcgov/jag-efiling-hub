@@ -39,7 +39,7 @@ public class SubmitTest extends HavingTestProperties {
 
     private HttpServer changeOwnerServer;
     private Headers changeOwnerHeaders;
-    private String changeOwnerAnswer = "OK";
+    private String changeOwnerAnswer = "{\"Status\":\"Success\"}";
     private String changeOwnerMethod;
     private String changeOwnerBody;
 

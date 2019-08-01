@@ -49,8 +49,6 @@ public class ORChangeOwnerRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 String answer = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, "answer changeOwner="+answer);
-
-                exchange.getOut().setBody(answer);
             })
         ;
     }

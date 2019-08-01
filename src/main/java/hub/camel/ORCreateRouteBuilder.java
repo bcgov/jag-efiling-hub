@@ -56,11 +56,12 @@ public class ORCreateRouteBuilder extends RouteBuilder {
             })
             .to(save.camelUrl())
             .process(exchange -> {
-                LOGGER.log(Level.INFO, "GUID received");
                 String saveResponse = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, saveResponse);
                 JSONObject jo = new JSONObject(saveResponse);
                 String guid = (String) jo.get("Object_GUID");
+                LOGGER.log(Level.INFO, "GUID received: " + guid);
+
                 exchange.getProperties().put("objectguid", guid);
             })
         ;

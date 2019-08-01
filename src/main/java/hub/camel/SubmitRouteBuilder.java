@@ -42,11 +42,9 @@ public class SubmitRouteBuilder extends RouteBuilder {
                 exchange.getProperties().put("userguid", userguid);
                 exchange.getProperties().put("data", data);
             })
-            .to("direct:initialize")
-            .to("direct:create")
-            .to("direct:changeOwner")
             .to("direct:payment")
-            .to("direct:update")
+            .to("direct:objectRepository")
+            .to("direct:webcatsUpdate")
             .marshal(xmlJsonFormat)
         ;
     }

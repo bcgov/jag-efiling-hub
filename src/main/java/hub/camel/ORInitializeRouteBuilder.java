@@ -50,9 +50,9 @@ public class ORInitializeRouteBuilder extends RouteBuilder {
                 LOGGER.log(Level.INFO, "answer initialize="+answer);
                 JSONObject jo = new JSONObject(answer);
                 String ticket = (String) jo.get("AppTicket");
-                exchange.getProperties().put("ticket", ticket);
                 LOGGER.log(Level.INFO, "AppTicket received: " + ticket);
-                exchange.getOut().setBody(answer);
+
+                exchange.getProperties().put("ticket", ticket);
             })
         ;
     }

@@ -104,13 +104,6 @@ public class ORInitializeTest extends HavingTestProperties {
         assertThat(initializeHeaders.getFirst("Authorization"), equalTo(expected));
     }
 
-    @Test
-    public void propagatesReceivedValue() throws Exception {
-        HttpResponse response = get("http://localhost:8888/initialize");
-
-        assertThat(response.getBody(), equalTo("{ \"AppTicket\":\"this-ticket\" }"));
-    }
-
 
     public void returnsApplicationTicketWhenRanAgainstRealOr() throws Exception {
         HttpResponse response = get("http://localhost:8888/initialize");

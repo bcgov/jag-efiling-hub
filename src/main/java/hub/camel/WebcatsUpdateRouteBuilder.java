@@ -35,7 +35,7 @@ public class WebcatsUpdateRouteBuilder extends RouteBuilder {
         xmlJsonFormat.setForceTopLevelObject(true);
         xmlJsonFormat.setTrimSpaces(true);
 
-        from("direct:update")
+        from("direct:webcatsUpdate")
             .onException(Exception.class)
                 .handled(true)
                 .process(exchange -> {
