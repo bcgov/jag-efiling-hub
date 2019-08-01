@@ -214,7 +214,7 @@ public class SubmitTest extends HavingTestProperties {
         byte[] pdf = named("form2-1.pdf");
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
-        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\",\"appellants\":[{\"name\":\"Max FREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":0},{\"name\":\"MAX SUPERFREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":1}],\"respondents\":[{\"name\":\"Bob NOT SO FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\",\"phone\":\"7783501234\"},\"id\":0,\"selected\":true},{\"name\":\"BOB NOT FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\"},\"id\":1,\"selected\":true}],\"useServiceEmail\":false,\"sendNotifications\":false,\"selectedContactIndex\":0,\"account\":{\"accountId\":111,\"country\":\"Canada\",\"clientId\":1,\"accountName\":\"Beautiful Victoria\",\"city\":\"Victoria\",\"postalCode\":\"V1V0V1\",\"addressLine1\":\"123 Street\",\"addressLine2\":\"Suite 123\"},\"authorizations\":[{\"clientId\":1,\"surname\":\"Bruce\",\"givenName\":\"Batman\",\"isAdmin\":true,\"isActive\":true,\"isEditable\":false},{\"clientId\":2,\"surname\":\"Clark\",\"givenName\":\"Superman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true},{\"clientId\":3,\"surname\":\"Diana\",\"givenName\":\"WonderWoman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true}]}");
         post(submitUrl, headers, pdf);
 
         assertThat(paymentMethod, equalTo("POST"));
@@ -249,7 +249,7 @@ public class SubmitTest extends HavingTestProperties {
         byte[] pdf = named("form2-1.pdf");
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
-        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\",\"appellants\":[{\"name\":\"Max FREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":0},{\"name\":\"MAX SUPERFREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":1}],\"respondents\":[{\"name\":\"Bob NOT SO FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\",\"phone\":\"7783501234\"},\"id\":0,\"selected\":true},{\"name\":\"BOB NOT FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\"},\"id\":1,\"selected\":true}],\"useServiceEmail\":false,\"sendNotifications\":false,\"selectedContactIndex\":0,\"account\":{\"accountId\":111,\"country\":\"Canada\",\"clientId\":1,\"accountName\":\"Beautiful Victoria\",\"city\":\"Victoria\",\"postalCode\":\"V1V0V1\",\"addressLine1\":\"123 Street\",\"addressLine2\":\"Suite 123\"},\"authorizations\":[{\"clientId\":1,\"surname\":\"Bruce\",\"givenName\":\"Batman\",\"isAdmin\":true,\"isActive\":true,\"isEditable\":false},{\"clientId\":2,\"surname\":\"Clark\",\"givenName\":\"Superman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true},{\"clientId\":3,\"surname\":\"Diana\",\"givenName\":\"WonderWoman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true}]}");
         HttpResponse response = post(submitUrl, headers, pdf);
 
         assertThat(response.getStatusCode(), equalTo(403));
@@ -275,7 +275,7 @@ public class SubmitTest extends HavingTestProperties {
         byte[] pdf = named("form2-1.pdf");
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
-        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\",\"appellants\":[{\"name\":\"Max FREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":0},{\"name\":\"MAX SUPERFREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":1}],\"respondents\":[{\"name\":\"Bob NOT SO FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\",\"phone\":\"7783501234\"},\"id\":0,\"selected\":true},{\"name\":\"BOB NOT FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\"},\"id\":1,\"selected\":true}],\"useServiceEmail\":false,\"sendNotifications\":false,\"selectedContactIndex\":0,\"account\":{\"accountId\":111,\"country\":\"Canada\",\"clientId\":1,\"accountName\":\"Beautiful Victoria\",\"city\":\"Victoria\",\"postalCode\":\"V1V0V1\",\"addressLine1\":\"123 Street\",\"addressLine2\":\"Suite 123\"},\"authorizations\":[{\"clientId\":1,\"surname\":\"Bruce\",\"givenName\":\"Batman\",\"isAdmin\":true,\"isActive\":true,\"isEditable\":false},{\"clientId\":2,\"surname\":\"Clark\",\"givenName\":\"Superman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true},{\"clientId\":3,\"surname\":\"Diana\",\"givenName\":\"WonderWoman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true}]}");
         HttpResponse response = post(submitUrl, headers, pdf);
 
         assertThat(response.getStatusCode(), equalTo(500));
@@ -293,7 +293,7 @@ public class SubmitTest extends HavingTestProperties {
 
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
-        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\",\"appellants\":[{\"name\":\"Max FREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":0},{\"name\":\"MAX SUPERFREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":1}],\"respondents\":[{\"name\":\"Bob NOT SO FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\",\"phone\":\"7783501234\"},\"id\":0,\"selected\":true},{\"name\":\"BOB NOT FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\"},\"id\":1,\"selected\":true}],\"useServiceEmail\":false,\"sendNotifications\":false,\"selectedContactIndex\":0,\"account\":{\"accountId\":111,\"country\":\"Canada\",\"clientId\":1,\"accountName\":\"Beautiful Victoria\",\"city\":\"Victoria\",\"postalCode\":\"V1V0V1\",\"addressLine1\":\"123 Street\",\"addressLine2\":\"Suite 123\"},\"authorizations\":[{\"clientId\":1,\"surname\":\"Bruce\",\"givenName\":\"Batman\",\"isAdmin\":true,\"isActive\":true,\"isEditable\":false},{\"clientId\":2,\"surname\":\"Clark\",\"givenName\":\"Superman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true},{\"clientId\":3,\"surname\":\"Diana\",\"givenName\":\"WonderWoman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true}]}");
 
         post(submitUrl, headers, pdf);
 
@@ -312,7 +312,7 @@ public class SubmitTest extends HavingTestProperties {
         byte[] pdf = named("form2-1.pdf");
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
-        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\",\"appellants\":[{\"name\":\"Max FREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":0},{\"name\":\"MAX SUPERFREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":1}],\"respondents\":[{\"name\":\"Bob NOT SO FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\",\"phone\":\"7783501234\"},\"id\":0,\"selected\":true},{\"name\":\"BOB NOT FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\"},\"id\":1,\"selected\":true}],\"useServiceEmail\":false,\"sendNotifications\":false,\"selectedContactIndex\":0,\"account\":{\"accountId\":111,\"country\":\"Canada\",\"clientId\":1,\"accountName\":\"Beautiful Victoria\",\"city\":\"Victoria\",\"postalCode\":\"V1V0V1\",\"addressLine1\":\"123 Street\",\"addressLine2\":\"Suite 123\"},\"authorizations\":[{\"clientId\":1,\"surname\":\"Bruce\",\"givenName\":\"Batman\",\"isAdmin\":true,\"isActive\":true,\"isEditable\":false},{\"clientId\":2,\"surname\":\"Clark\",\"givenName\":\"Superman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true},{\"clientId\":3,\"surname\":\"Diana\",\"givenName\":\"WonderWoman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true}]}");
         post(submitUrl, headers, pdf);
 
         assertThat(csoSaveFileMethod, equalTo("POST"));
@@ -325,50 +325,79 @@ public class SubmitTest extends HavingTestProperties {
                 "    <soapenv:Body>\n" +
                 "        <cso:saveFiling>\n" +
                 "            <userguid>MAX</userguid>\n" +
-                "            <bcolUserId>?</bcolUserId>\n" +
-                "            <bcolSessionKey>?</bcolSessionKey>\n" +
-                "            <bcolUniqueId>?</bcolUniqueId>\n" +
+                "            <bcolUserId></bcolUserId>\n" +
+                "            <bcolSessionKey></bcolSessionKey>\n" +
+                "            <bcolUniqueId></bcolUniqueId>\n" +
                 "            <efilingPackage>\n" +
-                "                <cfcsa>?</cfcsa>\n" +
-                "                <classCd>?</classCd>\n" +
-                "                <clientRefNo>?</clientRefNo>\n" +
-                "                <comments>?</comments>\n" +
+                "                <cfcsa></cfcsa>\n" +
+                "                <classCd></classCd>\n" +
+                "                <clientRefNo></clientRefNo>\n" +
+                "                <comments></comments>\n" +
                 "                <courtFileNumber>CA12345</courtFileNumber>\n" +
-                "                <divisionCd>?</divisionCd>\n" +
+                "                <divisionCd></divisionCd>\n" +
                 "                <documents>\n" +
-                "                    <documentType>?</documentType>\n" +
-                "                    <filename>?</filename>\n" +
-                "                    <initiatingYn>?</initiatingYn>\n" +
-                "                    <orderDocument>?</orderDocument>\n" +
+                "                    <documentType></documentType>\n" +
+                "                    <filename>form2.pdf</filename>\n" +
+                "                    <initiatingYn>N</initiatingYn>\n" +
+                "                    <orderDocument></orderDocument>\n" +
                 "                </documents>\n" +
-                "                <existingFile>?</existingFile>\n" +
-                "                <indigent>?</indigent>\n" +
+                "                <existingFile></existingFile>\n" +
+                "                <indigent></indigent>\n" +
                 "                <invoiceNo>invoice-number-from-payment-call</invoiceNo>\n" +
-                "                <levelCd>?</levelCd>\n" +
-                "                <locationCd>?</locationCd>\n" +
-                "                <notificationEmail>?</notificationEmail>\n" +
+                "                <levelCd></levelCd>\n" +
+                "                <locationCd></locationCd>\n" +
+                "                <notificationEmail></notificationEmail>\n" +
                 "                <parties>\n" +
-                "                    <firstGivenName>?</firstGivenName>\n" +
-                "                    <organizationName>?</organizationName>\n" +
-                "                    <partyType>?</partyType>\n" +
-                "                    <roleType>?</roleType>\n" +
-                "                    <secondGivenName>?</secondGivenName>\n" +
-                "                    <surnameName>?</surnameName>\n" +
-                "                    <thirdGivenName>?</thirdGivenName>\n" +
+                "                    <party>\n" +
+                "                        <firstGivenName>Max FREE</firstGivenName>\n" +
+                "                        <organizationName></organizationName>\n" +
+                "                        <partyType></partyType>\n" +
+                "                        <roleType></roleType>\n" +
+                "                        <secondGivenName></secondGivenName>\n" +
+                "                        <surnameName></surnameName>\n" +
+                "                        <thirdGivenName></thirdGivenName>\n" +
+                "                    </party>\n" +
+                "                    <party>\n" +
+                "                        <firstGivenName>MAX SUPERFREE</firstGivenName>\n" +
+                "                        <organizationName></organizationName>\n" +
+                "                        <partyType></partyType>\n" +
+                "                        <roleType></roleType>\n" +
+                "                        <secondGivenName></secondGivenName>\n" +
+                "                        <surnameName></surnameName>\n" +
+                "                        <thirdGivenName></thirdGivenName>\n" +
+                "                    </party>\n" +
+                "                    <party>\n" +
+                "                        <firstGivenName>Bob NOT SO FREE</firstGivenName>\n" +
+                "                        <organizationName></organizationName>\n" +
+                "                        <partyType></partyType>\n" +
+                "                        <roleType></roleType>\n" +
+                "                        <secondGivenName></secondGivenName>\n" +
+                "                        <surnameName></surnameName>\n" +
+                "                        <thirdGivenName></thirdGivenName>\n" +
+                "                    </party>\n" +
+                "                    <party>\n" +
+                "                        <firstGivenName>BOB NOT FREE</firstGivenName>\n" +
+                "                        <organizationName></organizationName>\n" +
+                "                        <partyType></partyType>\n" +
+                "                        <roleType></roleType>\n" +
+                "                        <secondGivenName></secondGivenName>\n" +
+                "                        <surnameName></surnameName>\n" +
+                "                        <thirdGivenName></thirdGivenName>\n" +
+                "                    </party>\n" +
                 "                </parties>\n" +
-                "                <por>?</por>\n" +
-                "                <prevFileNumber>?</prevFileNumber>\n" +
-                "                <processingComplete>?</processingComplete>\n" +
-                "                <resubmission>?</resubmission>\n" +
-                "                <rush>?</rush>\n" +
-                "                <serviceId>?</serviceId>\n" +
-                "                <submittedDtm>?</submittedDtm>\n" +
+                "                <por></por>\n" +
+                "                <prevFileNumber></prevFileNumber>\n" +
+                "                <processingComplete></processingComplete>\n" +
+                "                <resubmission></resubmission>\n" +
+                "                <rush></rush>\n" +
+                "                <serviceId></serviceId>\n" +
+                "                <submittedDtm></submittedDtm>\n" +
                 "                <userAccess>\n" +
-                "                    <accountId>?</accountId>\n" +
-                "                    <clientId>?</clientId>\n" +
-                "                    <privilegeCd>?</privilegeCd>\n" +
+                "                    <accountId></accountId>\n" +
+                "                    <clientId></clientId>\n" +
+                "                    <privilegeCd></privilegeCd>\n" +
                 "                </userAccess>\n" +
-                "                <eNotification>?</eNotification>\n" +
+                "                <eNotification></eNotification>\n" +
                 "            </efilingPackage>\n" +
                 "        </cso:saveFiling>\n" +
                 "    </soapenv:Body>\n" +
@@ -382,7 +411,7 @@ public class SubmitTest extends HavingTestProperties {
 
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
-        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\",\"appellants\":[{\"name\":\"Max FREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":0},{\"name\":\"MAX SUPERFREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":1}],\"respondents\":[{\"name\":\"Bob NOT SO FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\",\"phone\":\"7783501234\"},\"id\":0,\"selected\":true},{\"name\":\"BOB NOT FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\"},\"id\":1,\"selected\":true}],\"useServiceEmail\":false,\"sendNotifications\":false,\"selectedContactIndex\":0,\"account\":{\"accountId\":111,\"country\":\"Canada\",\"clientId\":1,\"accountName\":\"Beautiful Victoria\",\"city\":\"Victoria\",\"postalCode\":\"V1V0V1\",\"addressLine1\":\"123 Street\",\"addressLine2\":\"Suite 123\"},\"authorizations\":[{\"clientId\":1,\"surname\":\"Bruce\",\"givenName\":\"Batman\",\"isAdmin\":true,\"isActive\":true,\"isEditable\":false},{\"clientId\":2,\"surname\":\"Clark\",\"givenName\":\"Superman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true},{\"clientId\":3,\"surname\":\"Diana\",\"givenName\":\"WonderWoman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true}]}");
 
         post(submitUrl, headers, pdf);
 
@@ -427,7 +456,7 @@ public class SubmitTest extends HavingTestProperties {
 
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
-        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\",\"appellants\":[{\"name\":\"Max FREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":0},{\"name\":\"MAX SUPERFREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":1}],\"respondents\":[{\"name\":\"Bob NOT SO FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\",\"phone\":\"7783501234\"},\"id\":0,\"selected\":true},{\"name\":\"BOB NOT FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\"},\"id\":1,\"selected\":true}],\"useServiceEmail\":false,\"sendNotifications\":false,\"selectedContactIndex\":0,\"account\":{\"accountId\":111,\"country\":\"Canada\",\"clientId\":1,\"accountName\":\"Beautiful Victoria\",\"city\":\"Victoria\",\"postalCode\":\"V1V0V1\",\"addressLine1\":\"123 Street\",\"addressLine2\":\"Suite 123\"},\"authorizations\":[{\"clientId\":1,\"surname\":\"Bruce\",\"givenName\":\"Batman\",\"isAdmin\":true,\"isActive\":true,\"isEditable\":false},{\"clientId\":2,\"surname\":\"Clark\",\"givenName\":\"Superman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true},{\"clientId\":3,\"surname\":\"Diana\",\"givenName\":\"WonderWoman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true}]}");
 
         HttpResponse response = post(submitUrl, headers, pdf);
 
@@ -476,7 +505,7 @@ public class SubmitTest extends HavingTestProperties {
         byte[] pdf = named("form2-1.pdf");
         assertThat(pdf.length, equalTo(22186));
         Map<String, String> headers = new HashMap<>();
-        headers.put("data", "{\"formSevenNumber\":\"CA12345\"}");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\",\"appellants\":[{\"name\":\"Max FREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":0},{\"name\":\"MAX SUPERFREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":1}],\"respondents\":[{\"name\":\"Bob NOT SO FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\",\"phone\":\"7783501234\"},\"id\":0,\"selected\":true},{\"name\":\"BOB NOT FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\"},\"id\":1,\"selected\":true}],\"useServiceEmail\":false,\"sendNotifications\":false,\"selectedContactIndex\":0,\"account\":{\"accountId\":111,\"country\":\"Canada\",\"clientId\":1,\"accountName\":\"Beautiful Victoria\",\"city\":\"Victoria\",\"postalCode\":\"V1V0V1\",\"addressLine1\":\"123 Street\",\"addressLine2\":\"Suite 123\"},\"authorizations\":[{\"clientId\":1,\"surname\":\"Bruce\",\"givenName\":\"Batman\",\"isAdmin\":true,\"isActive\":true,\"isEditable\":false},{\"clientId\":2,\"surname\":\"Clark\",\"givenName\":\"Superman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true},{\"clientId\":3,\"surname\":\"Diana\",\"givenName\":\"WonderWoman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true}]}");
 
         HttpResponse response = post(submitUrl, headers, pdf);
 
