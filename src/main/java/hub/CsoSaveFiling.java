@@ -8,9 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.Base64;
-import java.util.TimeZone;
 import java.util.logging.Logger;
 
 @Named

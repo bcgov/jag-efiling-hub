@@ -5,13 +5,9 @@ import org.junit.Test;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
-
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedType;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ApplicationConfigTest {

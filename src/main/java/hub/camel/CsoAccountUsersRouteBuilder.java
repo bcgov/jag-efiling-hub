@@ -1,7 +1,5 @@
 package hub.camel;
 
-import hub.IsAuthorized;
-import hub.helper.Stringify;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
@@ -10,7 +8,6 @@ import org.json.JSONObject;
 
 import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

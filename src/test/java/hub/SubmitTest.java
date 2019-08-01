@@ -7,7 +7,6 @@ import hub.helper.Environment;
 import hub.helper.HttpResponse;
 import hub.helper.Stringify;
 import hub.support.HavingTestProperties;
-import jdk.nashorn.internal.runtime.ListAdapter;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +19,6 @@ import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static hub.support.GetRequest.get;
 import static hub.support.PostRequest.post;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;

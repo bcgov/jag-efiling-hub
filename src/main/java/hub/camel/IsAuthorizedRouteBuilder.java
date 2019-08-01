@@ -1,6 +1,5 @@
 package hub.camel;
 
-import hub.CsoAccountInfo;
 import hub.IsAuthorized;
 import hub.helper.Stringify;
 import org.apache.camel.Exchange;

@@ -11,7 +11,6 @@ import org.apache.camel.dataformat.xmljson.XmlJsonDataFormat;
 import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

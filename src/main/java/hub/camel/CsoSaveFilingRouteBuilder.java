@@ -1,14 +1,10 @@
 package hub.camel;
 
 import hub.CsoSaveFiling;
-import hub.WebcatsUpdate;
 import hub.XmlExtractor;
-import hub.helper.Stringify;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
-import org.apache.camel.dataformat.xmljson.XmlJsonDataFormat;
-import org.json.JSONObject;
 
 import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;

@@ -1,7 +1,6 @@
 package hub.helper;
 
 import javax.inject.Named;
-import javax.xml.soap.SOAPException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,8 +1,6 @@
 package hub.camel;
 
 import hub.CsoAccountInfo;
-import hub.CsoSearch;
-import hub.helper.Combine;
 import hub.helper.Stringify;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
