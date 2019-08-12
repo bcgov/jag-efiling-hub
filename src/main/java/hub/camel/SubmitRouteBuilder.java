@@ -42,6 +42,7 @@ public class SubmitRouteBuilder extends RouteBuilder {
                 exchange.getProperties().put("pdf", pdf);
                 exchange.getProperties().put("userguid", userguid);
                 exchange.getProperties().put("data", data);
+                LOGGER.log(Level.INFO, "data="+data);
             })
             .to("direct:payment")
             .to("direct:objectRepository")

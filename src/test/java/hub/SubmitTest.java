@@ -329,23 +329,23 @@ public class SubmitTest extends HavingTestProperties {
                 "            <bcolSessionKey></bcolSessionKey>\n" +
                 "            <bcolUniqueId></bcolUniqueId>\n" +
                 "            <efilingPackage>\n" +
-                "                <cfcsa></cfcsa>\n" +
-                "                <classCd></classCd>\n" +
+                "                <cfcsa>false</cfcsa>\n" +
+                "                <classCd>O</classCd>\n" +
                 "                <clientRefNo></clientRefNo>\n" +
                 "                <comments></comments>\n" +
                 "                <courtFileNumber>CA12345</courtFileNumber>\n" +
-                "                <divisionCd></divisionCd>\n" +
+                "                <divisionCd>I</divisionCd>\n" +
                 "                <documents>\n" +
                 "                    <documentType></documentType>\n" +
                 "                    <filename>form2.pdf</filename>\n" +
                 "                    <initiatingYn>N</initiatingYn>\n" +
                 "                    <orderDocument></orderDocument>\n" +
                 "                </documents>\n" +
-                "                <existingFile></existingFile>\n" +
-                "                <indigent></indigent>\n" +
+                "                <existingFile>false</existingFile>\n" +
+                "                <indigent>false</indigent>\n" +
                 "                <invoiceNo>invoice-number-from-payment-call</invoiceNo>\n" +
-                "                <levelCd></levelCd>\n" +
-                "                <locationCd></locationCd>\n" +
+                "                <levelCd>A</levelCd>\n" +
+                "                <locationCd>COA</locationCd>\n" +
                 "                <notificationEmail></notificationEmail>\n" +
                 "                <parties>\n" +
                 "                    <party>\n" +
@@ -385,11 +385,11 @@ public class SubmitTest extends HavingTestProperties {
                 "                        <thirdGivenName></thirdGivenName>\n" +
                 "                    </party>\n" +
                 "                </parties>\n" +
-                "                <por></por>\n" +
+                "                <por>false</por>\n" +
                 "                <prevFileNumber></prevFileNumber>\n" +
-                "                <processingComplete></processingComplete>\n" +
-                "                <resubmission></resubmission>\n" +
-                "                <rush></rush>\n" +
+                "                <processingComplete>true</processingComplete>\n" +
+                "                <resubmission>false</resubmission>\n" +
+                "                <rush>false</rush>\n" +
                 "                <serviceId>service-id-from-payment-call</serviceId>\n" +
                 "                <submittedDtm></submittedDtm>\n" +
                 "                <userAccess>\n" +
