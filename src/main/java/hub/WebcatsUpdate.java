@@ -51,13 +51,10 @@ public class WebcatsUpdate {
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("templates/webcats-update.xml");
         String template = stringify.inputStream(inputStream);
-        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String now = dateFormatGmt.format(clock.now());
 
         return template
                 .replace("<dat:CaseNumber>?</dat:CaseNumber>", "<dat:CaseNumber>"+caseNumber+"</dat:CaseNumber>")
-                .replace("<dat:DateFiled>?</dat:DateFiled>", "<dat:DateFiled>"+now+"</dat:DateFiled>")
+                .replace("<dat:DateFiled>?</dat:DateFiled>", "<dat:DateFiled>"+clock.nowAsString()+"</dat:DateFiled>")
                 .replace("<dat:DocumentGUID>?</dat:DocumentGUID>", "<dat:DocumentGUID>"+guid+"</dat:DocumentGUID>")
                 ;
     }

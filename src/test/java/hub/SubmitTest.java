@@ -336,10 +336,17 @@ public class SubmitTest extends HavingTestProperties {
                 "                <courtFileNumber>CA12345</courtFileNumber>\n" +
                 "                <divisionCd>I</divisionCd>\n" +
                 "                <documents>\n" +
-                "                    <documentType></documentType>\n" +
-                "                    <filename>form2.pdf</filename>\n" +
-                "                    <initiatingYn>N</initiatingYn>\n" +
-                "                    <orderDocument></orderDocument>\n" +
+                "                    <documentDescriptionTxt></documentDescriptionTxt>\n" +
+                "                    <documentStatusTypeCd>FILE</documentStatusTypeCd>\n" +
+                "                    <documentSubTypeCd>ODOC</documentSubTypeCd>\n" +
+                "                    <documentTypeCd>NAA</documentTypeCd>\n" +
+                "                    <feeExempt>false</feeExempt>\n" +
+                "                    <filenameTxt>NoticeOfAppeal</filenameTxt>\n" +
+                "                    <initiating>false</initiating>\n" +
+                "                    <orderDocument>false</orderDocument>\n" +
+                "                    <statusDtm>"+now()+"</statusDtm>\n" +
+                "                    <uploadStateCd>CMPL</uploadStateCd>\n" +
+                "                    <uploadedToApplicationCd>WEBCATS</uploadedToApplicationCd>\n" +
                 "                </documents>\n" +
                 "                <existingFile>false</existingFile>\n" +
                 "                <indigent>false</indigent>\n" +
@@ -389,7 +396,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                <resubmission>false</resubmission>\n" +
                 "                <rush>false</rush>\n" +
                 "                <serviceId>service-id-from-payment-call</serviceId>\n" +
-                "                <submittedDtm></submittedDtm>\n" +
+                "                <submittedDtm>"+now()+"</submittedDtm>\n" +
                 "                <userAccess>\n" +
                 "                    <accountId></accountId>\n" +
                 "                    <clientId></clientId>\n" +

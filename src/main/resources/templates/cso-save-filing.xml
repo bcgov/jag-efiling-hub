@@ -14,10 +14,17 @@
                 <courtFileNumber>?</courtFileNumber>
                 <divisionCd>?</divisionCd>
                 <documents>
-                    <documentType>?</documentType>
-                    <filename>?</filename>
-                    <initiatingYn>?</initiatingYn>
+                    <documentDescriptionTxt>?</documentDescriptionTxt>
+                    <documentStatusTypeCd>?</documentStatusTypeCd>
+                    <documentSubTypeCd>?</documentSubTypeCd>
+                    <documentTypeCd>?</documentTypeCd>
+                    <feeExempt>?</feeExempt>
+                    <filenameTxt>?</filenameTxt>
+                    <initiating>?</initiating>
                     <orderDocument>?</orderDocument>
+                    <statusDtm>?</statusDtm>
+                    <uploadStateCd>?</uploadStateCd>
+                    <uploadedToApplicationCd>?</uploadedToApplicationCd>
                 </documents>
                 <existingFile>?</existingFile>
                 <indigent>?</indigent>

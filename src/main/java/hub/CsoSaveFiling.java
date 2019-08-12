@@ -26,6 +26,9 @@ public class CsoSaveFiling {
     @Inject
     XmlExtractor extract;
 
+    @Inject
+    Clock clock;
+
     public String user() {
         return environment.getValue("CSO_USER");
     }
@@ -84,12 +87,19 @@ public class CsoSaveFiling {
                 .replace("<resubmission>?</resubmission>", "<resubmission>false</resubmission>")
                 .replace("<rush>?</rush>", "<rush>false</rush>")
                 .replace("<serviceId>?</serviceId>", "<serviceId>"+serviceId+"</serviceId>")
-                .replace("<submittedDtm>?</submittedDtm>", "<submittedDtm></submittedDtm>")
+                .replace("<submittedDtm>?</submittedDtm>", "<submittedDtm>"+clock.nowAsString()+"</submittedDtm>")
 
-                .replace("<documentType>?</documentType>", "<documentType></documentType>")
-                .replace("<filename>?</filename>", "<filename>form2.pdf</filename>")
-                .replace("<initiatingYn>?</initiatingYn>", "<initiatingYn>N</initiatingYn>")
-                .replace("<orderDocument>?</orderDocument>", "<orderDocument></orderDocument>")
+                .replace("<documentDescriptionTxt>?</documentDescriptionTxt>", "<documentDescriptionTxt></documentDescriptionTxt>")
+                .replace("<documentStatusTypeCd>?</documentStatusTypeCd>", "<documentStatusTypeCd>FILE</documentStatusTypeCd>")
+                .replace("<documentSubTypeCd>?</documentSubTypeCd>", "<documentSubTypeCd>ODOC</documentSubTypeCd>")
+                .replace("<documentTypeCd>?</documentTypeCd>", "<documentTypeCd>NAA</documentTypeCd>")
+                .replace("<feeExempt>?</feeExempt>", "<feeExempt>false</feeExempt>")
+                .replace("<filenameTxt>?</filenameTxt>", "<filenameTxt>NoticeOfAppeal</filenameTxt>")
+                .replace("<initiating>?</initiating>", "<initiating>false</initiating>")
+                .replace("<orderDocument>?</orderDocument>", "<orderDocument>false</orderDocument>")
+                .replace("<statusDtm>?</statusDtm>", "<statusDtm>"+clock.nowAsString()+"</statusDtm>")
+                .replace("<uploadStateCd>?</uploadStateCd>", "<uploadStateCd>CMPL</uploadStateCd>")
+                .replace("<uploadedToApplicationCd>?</uploadedToApplicationCd>", "<uploadedToApplicationCd>WEBCATS</uploadedToApplicationCd>")
 
                 .replace(partyTemplate, parties)
 
