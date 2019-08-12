@@ -26,15 +26,13 @@
                 <locationCd>?</locationCd>
                 <notificationEmail>?</notificationEmail>
                 <parties>
-                    <party>
-                        <firstGivenName>?</firstGivenName>
-                        <organizationName>?</organizationName>
-                        <partyType>?</partyType>
-                        <roleType>?</roleType>
-                        <secondGivenName>?</secondGivenName>
-                        <surnameName>?</surnameName>
-                        <thirdGivenName>?</thirdGivenName>
-                    </party>
+                    <firstGivenName>?</firstGivenName>
+                    <organizationName>?</organizationName>
+                    <partyType>?</partyType>
+                    <roleType>?</roleType>
+                    <secondGivenName>?</secondGivenName>
+                    <surnameName>?</surnameName>
+                    <thirdGivenName>?</thirdGivenName>
                 </parties>
                 <por>?</por>
                 <prevFileNumber>?</prevFileNumber>

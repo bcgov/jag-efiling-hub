@@ -55,7 +55,7 @@ public class CsoSaveFiling {
         JSONObject jo = new JSONObject(data);
         String courtFileNumber = (String) jo.get(("formSevenNumber"));
 
-        String partyTemplate = extract.outerTag("party", template);
+        String partyTemplate = extract.outerTag("parties", template);
         String parties = buildParties(jo, partyTemplate);
 
         return template

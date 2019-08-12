@@ -348,42 +348,40 @@ public class SubmitTest extends HavingTestProperties {
                 "                <locationCd>COA</locationCd>\n" +
                 "                <notificationEmail></notificationEmail>\n" +
                 "                <parties>\n" +
-                "                    <party>\n" +
-                "                        <firstGivenName>Max FREE</firstGivenName>\n" +
-                "                        <organizationName></organizationName>\n" +
-                "                        <partyType></partyType>\n" +
-                "                        <roleType></roleType>\n" +
-                "                        <secondGivenName></secondGivenName>\n" +
-                "                        <surnameName></surnameName>\n" +
-                "                        <thirdGivenName></thirdGivenName>\n" +
-                "                    </party>\n" +
-                "                    <party>\n" +
-                "                        <firstGivenName>MAX SUPERFREE</firstGivenName>\n" +
-                "                        <organizationName></organizationName>\n" +
-                "                        <partyType></partyType>\n" +
-                "                        <roleType></roleType>\n" +
-                "                        <secondGivenName></secondGivenName>\n" +
-                "                        <surnameName></surnameName>\n" +
-                "                        <thirdGivenName></thirdGivenName>\n" +
-                "                    </party>\n" +
-                "                    <party>\n" +
-                "                        <firstGivenName>Bob NOT SO FREE</firstGivenName>\n" +
-                "                        <organizationName></organizationName>\n" +
-                "                        <partyType></partyType>\n" +
-                "                        <roleType></roleType>\n" +
-                "                        <secondGivenName></secondGivenName>\n" +
-                "                        <surnameName></surnameName>\n" +
-                "                        <thirdGivenName></thirdGivenName>\n" +
-                "                    </party>\n" +
-                "                    <party>\n" +
-                "                        <firstGivenName>BOB NOT FREE</firstGivenName>\n" +
-                "                        <organizationName></organizationName>\n" +
-                "                        <partyType></partyType>\n" +
-                "                        <roleType></roleType>\n" +
-                "                        <secondGivenName></secondGivenName>\n" +
-                "                        <surnameName></surnameName>\n" +
-                "                        <thirdGivenName></thirdGivenName>\n" +
-                "                    </party>\n" +
+                "                    <firstGivenName>Max FREE</firstGivenName>\n" +
+                "                    <organizationName></organizationName>\n" +
+                "                    <partyType></partyType>\n" +
+                "                    <roleType></roleType>\n" +
+                "                    <secondGivenName></secondGivenName>\n" +
+                "                    <surnameName></surnameName>\n" +
+                "                    <thirdGivenName></thirdGivenName>\n" +
+                "                </parties>\n" +
+                "                <parties>\n" +
+                "                    <firstGivenName>MAX SUPERFREE</firstGivenName>\n" +
+                "                    <organizationName></organizationName>\n" +
+                "                    <partyType></partyType>\n" +
+                "                    <roleType></roleType>\n" +
+                "                    <secondGivenName></secondGivenName>\n" +
+                "                    <surnameName></surnameName>\n" +
+                "                    <thirdGivenName></thirdGivenName>\n" +
+                "                </parties>\n" +
+                "                <parties>\n" +
+                "                    <firstGivenName>Bob NOT SO FREE</firstGivenName>\n" +
+                "                    <organizationName></organizationName>\n" +
+                "                    <partyType></partyType>\n" +
+                "                    <roleType></roleType>\n" +
+                "                    <secondGivenName></secondGivenName>\n" +
+                "                    <surnameName></surnameName>\n" +
+                "                    <thirdGivenName></thirdGivenName>\n" +
+                "                </parties>\n" +
+                "                <parties>\n" +
+                "                    <firstGivenName>BOB NOT FREE</firstGivenName>\n" +
+                "                    <organizationName></organizationName>\n" +
+                "                    <partyType></partyType>\n" +
+                "                    <roleType></roleType>\n" +
+                "                    <secondGivenName></secondGivenName>\n" +
+                "                    <surnameName></surnameName>\n" +
+                "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <por>false</por>\n" +
                 "                <prevFileNumber></prevFileNumber>\n" +
