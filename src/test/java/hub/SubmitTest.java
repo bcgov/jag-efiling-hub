@@ -47,7 +47,7 @@ public class SubmitTest extends HavingTestProperties {
 
     private Headers paymentHeaders;
     private int paymentResponseStatus = 200;
-    private String paymentAnswer = "<return><answer>ok</answer><invoiceNo>invoice-number-from-payment-call</invoiceNo></return>";
+    private String paymentAnswer = "<return><answer>ok</answer><invoiceNumber>invoice-number-from-payment-call</invoiceNumber><serviceId>service-id-from-payment-call</serviceId></return>";
     private String paymentMethod;
     private String paymentBody;
 
@@ -390,7 +390,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                <processingComplete></processingComplete>\n" +
                 "                <resubmission></resubmission>\n" +
                 "                <rush></rush>\n" +
-                "                <serviceId></serviceId>\n" +
+                "                <serviceId>service-id-from-payment-call</serviceId>\n" +
                 "                <submittedDtm></submittedDtm>\n" +
                 "                <userAccess>\n" +
                 "                    <accountId></accountId>\n" +

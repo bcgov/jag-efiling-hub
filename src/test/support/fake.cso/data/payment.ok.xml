@@ -3,7 +3,8 @@
       <ns2:paymentResponse xmlns:ns2="http://csoextws.jag.gov.bc.ca/">
          <return>
             <status>ok</status>
-            <invoiceNo>123456789</invoiceNo>
+            <invoiceNumber>123456789</invoiceNumber>
+            <serviceId>23747</serviceId>
          </return>
       </ns2:paymentResponse>
    </soap:Body>

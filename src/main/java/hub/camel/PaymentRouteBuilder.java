@@ -72,10 +72,13 @@ public class PaymentRouteBuilder extends RouteBuilder {
                 .otherwise()
                     .process(exchange -> {
                         String body = exchange.getIn().getBody(String.class);
-                        String invoiceNumber = extract.valueFromTag("invoiceNo", body);
+                        String invoiceNumber = extract.valueFromTag("invoiceNumber", body);
                         LOGGER.log(Level.INFO, "invoice number="+invoiceNumber);
+                        String serviceId = extract.valueFromTag("serviceId", body);
+                        LOGGER.log(Level.INFO, "service id="+serviceId);
 
                         exchange.getProperties().put("invoiceNumber", invoiceNumber);
+                        exchange.getProperties().put("serviceId", serviceId);
                     })
         ;
     }
