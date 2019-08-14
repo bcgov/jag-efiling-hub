@@ -43,9 +43,10 @@ public class CsoSaveFilingRouteBuilder extends RouteBuilder {
                 String userguid = (String) exchange.getProperties().get("userguid");
                 String invoiceNumber = (String) exchange.getProperties().get("invoiceNumber");
                 String serviceId = (String) exchange.getProperties().get("serviceId");
+                String objectguid = (String) exchange.getProperties().get("objectguid");
                 String data = (String) exchange.getProperties().get("data");
 
-                String message = csoSaveFiling.message(userguid, invoiceNumber, serviceId, data);
+                String message = csoSaveFiling.message(userguid, invoiceNumber, serviceId, objectguid, data);
                 LOGGER.log(Level.INFO, "cso save filing message="+message);
                 exchange.getOut().setBody(message);
             })
@@ -58,7 +59,7 @@ public class CsoSaveFilingRouteBuilder extends RouteBuilder {
                 String answer = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, "answer of cso update="+answer);
 
-                exchange.getProperties().put("packageNumber", extract.valueFromTag("packageNumber", answer));
+                exchange.getProperties().put("packageNumber", extract.valueFromTag("packageId", answer));
             })
         ;
     }

@@ -53,7 +53,7 @@ public class SubmitTest extends HavingTestProperties {
 
     private Headers csoSaveFileHeaders;
     private int csoSaveFileResponseStatus = 200;
-    private String csoSaveFileAnswer = "<return><save>ok</save><packageNumber>package-number-from-save-filing-call</packageNumber></return>";
+    private String csoSaveFileAnswer = "<return><save>ok</save><packageId>package-number-from-save-filing-call</packageId></return>";
     private String csoSaveFileMethod;
     private String csoSaveFileBody;
 
@@ -312,7 +312,7 @@ public class SubmitTest extends HavingTestProperties {
         byte[] pdf = named("form2-1.pdf");
         Map<String, String> headers = new HashMap<>();
         headers.put("smgov_userguid", "MAX");
-        headers.put("data", "{\"formSevenNumber\":\"CA12345\",\"appellants\":[{\"name\":\"Max FREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":0},{\"name\":\"MAX SUPERFREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":1}],\"respondents\":[{\"name\":\"Bob NOT SO FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\",\"phone\":\"7783501234\"},\"id\":0,\"selected\":true},{\"name\":\"BOB NOT FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\"},\"id\":1,\"selected\":true}],\"useServiceEmail\":false,\"sendNotifications\":false,\"selectedContactIndex\":0,\"account\":{\"accountId\":111,\"country\":\"Canada\",\"clientId\":1,\"accountName\":\"Beautiful Victoria\",\"city\":\"Victoria\",\"postalCode\":\"V1V0V1\",\"addressLine1\":\"123 Street\",\"addressLine2\":\"Suite 123\"},\"authorizations\":[{\"clientId\":1,\"surname\":\"Bruce\",\"givenName\":\"Batman\",\"isAdmin\":true,\"isActive\":true,\"isEditable\":false},{\"clientId\":2,\"surname\":\"Clark\",\"givenName\":\"Superman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true},{\"clientId\":3,\"surname\":\"Diana\",\"givenName\":\"WonderWoman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true}]}");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\",\"appellants\":[{\"name\":\"Max FREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":0},{\"name\":\"MAX SUPERFREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":1}],\"respondents\":[{\"name\":\"Bob NOT SO FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\",\"phone\":\"7783501234\"},\"id\":0,\"selected\":true},{\"name\":\"BOB NOT FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\"},\"id\":1,\"selected\":true}],\"useServiceEmail\":false,\"sendNotifications\":false,\"selectedContactIndex\":0,\"account\":{\"accountId\":111,\"country\":\"Canada\",\"clientId\":1,\"accountName\":\"Beautiful Victoria\",\"city\":\"Victoria\",\"postalCode\":\"V1V0V1\",\"addressLine1\":\"123 Street\",\"addressLine2\":\"Suite 123\"},\"authorizations\":[{\"clientId\":1,\"surname\":\"Bruce\",\"givenName\":\"Batman\",\"isAdmin\":true,\"isActive\":true,\"isEditable\":false},{\"clientId\":2,\"surname\":\"Clark\",\"givenName\":\"Superman\",\"isAdmin\":false,\"isActive\":true,\"isEditable\":true},{\"clientId\":3,\"surname\":\"Diana\",\"givenName\":\"WonderWoman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true}]}");
         post(submitUrl, headers, pdf);
 
         assertThat(csoSaveFileMethod, equalTo("POST"));
@@ -336,6 +336,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                <courtFileNumber>CA12345</courtFileNumber>\n" +
                 "                <divisionCd>I</divisionCd>\n" +
                 "                <documents>\n" +
+                "                    <objectGUID>this-GUID</objectGUID>\n" +
                 "                    <documentDescriptionTxt></documentDescriptionTxt>\n" +
                 "                    <documentStatusTypeCd>FILE</documentStatusTypeCd>\n" +
                 "                    <documentSubTypeCd>ODOC</documentSubTypeCd>\n" +
@@ -355,39 +356,39 @@ public class SubmitTest extends HavingTestProperties {
                 "                <locationCd>COA</locationCd>\n" +
                 "                <notificationEmail></notificationEmail>\n" +
                 "                <parties>\n" +
-                "                    <firstGivenName>Max FREE</firstGivenName>\n" +
+                "                    <firstGivenName>Max</firstGivenName>\n" +
                 "                    <organizationName></organizationName>\n" +
-                "                    <partyType></partyType>\n" +
-                "                    <roleType></roleType>\n" +
+                "                    <partyType>IND</partyType>\n" +
+                "                    <roleType>APL</roleType>\n" +
                 "                    <secondGivenName></secondGivenName>\n" +
-                "                    <surnameName></surnameName>\n" +
+                "                    <surnameName>FREE</surnameName>\n" +
                 "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <parties>\n" +
-                "                    <firstGivenName>MAX SUPERFREE</firstGivenName>\n" +
+                "                    <firstGivenName>MAX</firstGivenName>\n" +
                 "                    <organizationName></organizationName>\n" +
-                "                    <partyType></partyType>\n" +
-                "                    <roleType></roleType>\n" +
+                "                    <partyType>IND</partyType>\n" +
+                "                    <roleType>APL</roleType>\n" +
                 "                    <secondGivenName></secondGivenName>\n" +
-                "                    <surnameName></surnameName>\n" +
+                "                    <surnameName>SUPERFREE</surnameName>\n" +
                 "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <parties>\n" +
-                "                    <firstGivenName>Bob NOT SO FREE</firstGivenName>\n" +
+                "                    <firstGivenName>Bob</firstGivenName>\n" +
                 "                    <organizationName></organizationName>\n" +
-                "                    <partyType></partyType>\n" +
-                "                    <roleType></roleType>\n" +
+                "                    <partyType>IND</partyType>\n" +
+                "                    <roleType>RES</roleType>\n" +
                 "                    <secondGivenName></secondGivenName>\n" +
-                "                    <surnameName></surnameName>\n" +
+                "                    <surnameName>NOT SO FREE</surnameName>\n" +
                 "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <parties>\n" +
-                "                    <firstGivenName>BOB NOT FREE</firstGivenName>\n" +
+                "                    <firstGivenName>BOB</firstGivenName>\n" +
                 "                    <organizationName></organizationName>\n" +
-                "                    <partyType></partyType>\n" +
-                "                    <roleType></roleType>\n" +
+                "                    <partyType>IND</partyType>\n" +
+                "                    <roleType>RES</roleType>\n" +
                 "                    <secondGivenName></secondGivenName>\n" +
-                "                    <surnameName></surnameName>\n" +
+                "                    <surnameName>NOT FREE</surnameName>\n" +
                 "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <por>false</por>\n" +
@@ -398,11 +399,16 @@ public class SubmitTest extends HavingTestProperties {
                 "                <serviceId>service-id-from-payment-call</serviceId>\n" +
                 "                <submittedDtm>"+now()+"</submittedDtm>\n" +
                 "                <userAccess>\n" +
-                "                    <accountId></accountId>\n" +
-                "                    <clientId></clientId>\n" +
-                "                    <privilegeCd></privilegeCd>\n" +
+                "                    <accountId>111</accountId>\n" +
+                "                    <clientId>1</clientId>\n" +
+                "                    <privilegeCd>UPDT</privilegeCd>\n" +
                 "                </userAccess>\n" +
-                "                <eNotification></eNotification>\n" +
+                "                <userAccess>\n" +
+                "                    <accountId>111</accountId>\n" +
+                "                    <clientId>2</clientId>\n" +
+                "                    <privilegeCd>READ</privilegeCd>\n" +
+                "                </userAccess>\n" +
+                "                <eNotification>false</eNotification>\n" +
                 "            </efilingPackage>\n" +
                 "        </cso:saveFiling>\n" +
                 "    </soapenv:Body>\n" +

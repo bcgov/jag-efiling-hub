@@ -1,1 +1,11 @@
-<return><save>ok</save><packageNumber>987654321</packageNumber></return>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:saveFilingResponse xmlns:ns2="http://csoextws.jag.gov.bc.ca/">
+         <return>
+            <packageId>7181</packageId>
+            <resultCode>0</resultCode>
+            <resultMessage>Success</resultMessage>
+         </return>
+      </ns2:saveFilingResponse>
+   </soap:Body>
+</soap:Envelope>

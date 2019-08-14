@@ -14,6 +14,7 @@
                 <courtFileNumber>?</courtFileNumber>
                 <divisionCd>?</divisionCd>
                 <documents>
+                    <objectGUID>?</objectGUID>
                     <documentDescriptionTxt>?</documentDescriptionTxt>
                     <documentStatusTypeCd>?</documentStatusTypeCd>
                     <documentSubTypeCd>?</documentSubTypeCd>
