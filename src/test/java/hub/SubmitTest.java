@@ -31,7 +31,7 @@ public class SubmitTest extends HavingTestProperties {
 
     private HttpServer saveServer;
     private Headers saveHeaders;
-    private String saveAnswer = "{ \"Object_GUID\":\"this-GUID\" }";
+    private String saveAnswer = "{ \"Object_GUID\":\"this-GUID_please\" }";
     private String saveMethod;
     private byte[] saveBody;
     private String saveUri;
@@ -206,7 +206,7 @@ public class SubmitTest extends HavingTestProperties {
         assertThat(saveUri, equalTo("/?AppTicket=ticket-value&MimeType=application&MimeSubType=pdf&Filename=form2.pdf&RetentionPeriod=-1"));
         assertThat(saveHeaders.getFirst("Authorization"), equalTo(expectedBasicAuth));
         assertThat(saveBody, equalTo(named("form2-1.pdf")));
-        assertThat(saveResponse.getBody(), equalTo("{ \"Object_GUID\":\"this-GUID\" }"));
+        assertThat(saveResponse.getBody(), equalTo("{ \"Object_GUID\":\"this-GUID_please\" }"));
     }
 
     @Test
@@ -304,7 +304,7 @@ public class SubmitTest extends HavingTestProperties {
 
         assertThat(changeOwnerMethod, equalTo("PUT"));
         assertThat(changeOwnerHeaders.getFirst("Authorization"), equalTo(expectedBasicAuth));
-        assertThat(changeOwnerBody, equalTo("{ \"AppTicket\":\"ticket-value\", \"ObjectGUID\":\"this-GUID\", \"Application\":\"WebCATS\" }"));
+        assertThat(changeOwnerBody, equalTo("{ \"AppTicket\":\"ticket-value\", \"ObjectGUID\":\"this/GUID/please\", \"Application\":\"WebCATS\" }"));
     }
 
     @Test
@@ -336,7 +336,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                <courtFileNumber>CA12345</courtFileNumber>\n" +
                 "                <divisionCd>I</divisionCd>\n" +
                 "                <documents>\n" +
-                "                    <objectGUID>this-GUID</objectGUID>\n" +
+                "                    <objectGUID>this/GUID/please</objectGUID>\n" +
                 "                    <documentDescriptionTxt></documentDescriptionTxt>\n" +
                 "                    <documentStatusTypeCd>FILE</documentStatusTypeCd>\n" +
                 "                    <documentSubTypeCd>ODOC</documentSubTypeCd>\n" +
@@ -440,7 +440,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                <dat:Documents>\n" +
                 "                    <dat:Document>\n" +
                 "                        <dat:DateFiled>"+now()+"</dat:DateFiled>\n" +
-                "                        <dat:DocumentGUID>this-GUID</dat:DocumentGUID>\n" +
+                "                        <dat:DocumentGUID>this/GUID/please</dat:DocumentGUID>\n" +
                 "                        <dat:DocumentName>Notice of Appearance</dat:DocumentName>\n" +
                 "                        <dat:DocumentTypeCode>APP</dat:DocumentTypeCode>\n" +
                 "                        <dat:DocumentTypeDescription>Appearance</dat:DocumentTypeDescription>\n" +
