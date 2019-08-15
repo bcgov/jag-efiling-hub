@@ -35,15 +35,15 @@
                 <notificationEmail>?</notificationEmail>
                 <parties>
                     <firstGivenName>?</firstGivenName>
+                    <nameTypeCd>?</nameTypeCd>
                     <organizationName>?</organizationName>
-                    <partyType>?</partyType>
-                    <roleType>?</roleType>
+                    <partyTypeCd>?</partyTypeCd>
+                    <roleTypeCd>?</roleTypeCd>
                     <secondGivenName>?</secondGivenName>
                     <surnameName>?</surnameName>
                     <thirdGivenName>?</thirdGivenName>
                 </parties>
                 <por>?</por>
-                <prevFileNumber>?</prevFileNumber>
                 <processingComplete>?</processingComplete>
                 <resubmission>?</resubmission>
                 <rush>?</rush>

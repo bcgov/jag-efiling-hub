@@ -361,42 +361,45 @@ public class SubmitTest extends HavingTestProperties {
                 "                <notificationEmail></notificationEmail>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>Max</firstGivenName>\n" +
+                "                    <nameTypeCd></nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
-                "                    <partyType>IND</partyType>\n" +
-                "                    <roleType>APL</roleType>\n" +
+                "                    <partyTypeCd>IND</partyTypeCd>\n" +
+                "                    <roleTypeCd>APL</roleTypeCd>\n" +
                 "                    <secondGivenName></secondGivenName>\n" +
                 "                    <surnameName>FREE</surnameName>\n" +
                 "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>MAX</firstGivenName>\n" +
+                "                    <nameTypeCd></nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
-                "                    <partyType>IND</partyType>\n" +
-                "                    <roleType>APL</roleType>\n" +
+                "                    <partyTypeCd>IND</partyTypeCd>\n" +
+                "                    <roleTypeCd>APL</roleTypeCd>\n" +
                 "                    <secondGivenName></secondGivenName>\n" +
                 "                    <surnameName>SUPERFREE</surnameName>\n" +
                 "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>Bob</firstGivenName>\n" +
+                "                    <nameTypeCd></nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
-                "                    <partyType>IND</partyType>\n" +
-                "                    <roleType>RES</roleType>\n" +
+                "                    <partyTypeCd>IND</partyTypeCd>\n" +
+                "                    <roleTypeCd>RES</roleTypeCd>\n" +
                 "                    <secondGivenName></secondGivenName>\n" +
                 "                    <surnameName>NOT SO FREE</surnameName>\n" +
                 "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>BOB</firstGivenName>\n" +
+                "                    <nameTypeCd></nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
-                "                    <partyType>IND</partyType>\n" +
-                "                    <roleType>RES</roleType>\n" +
+                "                    <partyTypeCd>IND</partyTypeCd>\n" +
+                "                    <roleTypeCd>RES</roleTypeCd>\n" +
                 "                    <secondGivenName></secondGivenName>\n" +
                 "                    <surnameName>NOT FREE</surnameName>\n" +
                 "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <por>false</por>\n" +
-                "                <prevFileNumber></prevFileNumber>\n" +
                 "                <processingComplete>true</processingComplete>\n" +
                 "                <resubmission>false</resubmission>\n" +
                 "                <rush>false</rush>\n" +
@@ -621,42 +624,45 @@ public class SubmitTest extends HavingTestProperties {
                 "                <notificationEmail></notificationEmail>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>Max</firstGivenName>\n" +
+                "                    <nameTypeCd></nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
-                "                    <partyType>IND</partyType>\n" +
-                "                    <roleType>APL</roleType>\n" +
+                "                    <partyTypeCd>IND</partyTypeCd>\n" +
+                "                    <roleTypeCd>APL</roleTypeCd>\n" +
                 "                    <secondGivenName></secondGivenName>\n" +
                 "                    <surnameName>FREE</surnameName>\n" +
                 "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>MAX</firstGivenName>\n" +
+                "                    <nameTypeCd></nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
-                "                    <partyType>IND</partyType>\n" +
-                "                    <roleType>APL</roleType>\n" +
+                "                    <partyTypeCd>IND</partyTypeCd>\n" +
+                "                    <roleTypeCd>APL</roleTypeCd>\n" +
                 "                    <secondGivenName></secondGivenName>\n" +
                 "                    <surnameName>SUPERFREE</surnameName>\n" +
                 "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>Bob</firstGivenName>\n" +
+                "                    <nameTypeCd></nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
-                "                    <partyType>IND</partyType>\n" +
-                "                    <roleType>RES</roleType>\n" +
+                "                    <partyTypeCd>IND</partyTypeCd>\n" +
+                "                    <roleTypeCd>RES</roleTypeCd>\n" +
                 "                    <secondGivenName></secondGivenName>\n" +
                 "                    <surnameName>NOT SO FREE</surnameName>\n" +
                 "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>BOB</firstGivenName>\n" +
+                "                    <nameTypeCd></nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
-                "                    <partyType>IND</partyType>\n" +
-                "                    <roleType>RES</roleType>\n" +
+                "                    <partyTypeCd>IND</partyTypeCd>\n" +
+                "                    <roleTypeCd>RES</roleTypeCd>\n" +
                 "                    <secondGivenName></secondGivenName>\n" +
                 "                    <surnameName>NOT FREE</surnameName>\n" +
                 "                    <thirdGivenName></thirdGivenName>\n" +
                 "                </parties>\n" +
                 "                <por>false</por>\n" +
-                "                <prevFileNumber></prevFileNumber>\n" +
                 "                <processingComplete>true</processingComplete>\n" +
                 "                <resubmission>false</resubmission>\n" +
                 "                <rush>false</rush>\n" +

@@ -85,7 +85,6 @@ public class CsoSaveFiling {
                 .replace("<notificationEmail>?</notificationEmail>", "<notificationEmail></notificationEmail>")
                 .replace("<eNotification>?</eNotification>", "<eNotification>false</eNotification>")
                 .replace("<por>?</por>", "<por>false</por>")
-                .replace("<prevFileNumber>?</prevFileNumber>", "<prevFileNumber></prevFileNumber>")
                 .replace("<processingComplete>?</processingComplete>", "<processingComplete>true</processingComplete>")
                 .replace("<resubmission>?</resubmission>", "<resubmission>false</resubmission>")
                 .replace("<rush>?</rush>", "<rush>false</rush>")
@@ -169,9 +168,10 @@ public class CsoSaveFiling {
             String surname = name.substring(name.indexOf(" ") + 1);
             contribution = contribution
                     .replace("<firstGivenName>?</firstGivenName>", "<firstGivenName>" + firstname + "</firstGivenName>")
+                    .replace("<nameTypeCd>?</nameTypeCd>", "<nameTypeCd></nameTypeCd>")
                     .replace("<organizationName>?</organizationName>", "<organizationName></organizationName>")
-                    .replace("<partyType>?</partyType>", "<partyType>IND</partyType>")
-                    .replace("<roleType>?</roleType>", "<roleType>"+roleType+"</roleType>")
+                    .replace("<partyTypeCd>?</partyTypeCd>", "<partyTypeCd>IND</partyTypeCd>")
+                    .replace("<roleTypeCd>?</roleTypeCd>", "<roleTypeCd>"+roleType+"</roleTypeCd>")
                     .replace("<secondGivenName>?</secondGivenName>", "<secondGivenName></secondGivenName>")
                     .replace("<surnameName>?</surnameName>", "<surnameName>"+ surname +"</surnameName>")
                     .replace("<thirdGivenName>?</thirdGivenName>", "<thirdGivenName></thirdGivenName>")
