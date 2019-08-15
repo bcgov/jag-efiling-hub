@@ -2,6 +2,7 @@ package hub.http;
 
 import hub.XmlExtractor;
 import hub.helper.Bytify;
+import hub.helper.Environment;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.cdi.ContextName;
@@ -34,6 +35,9 @@ public class ORSaveServlet extends HttpServlet {
     @Inject
     XmlExtractor extract;
 
+    @Inject
+    Environment environment;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) {
         try {
@@ -53,8 +57,13 @@ public class ORSaveServlet extends HttpServlet {
             InputStream inputStream = req.getInputStream();
             byte[] pdf = bytify.inputStream(inputStream);
 
+            String userguid = environment.getValue("OVERWRITE_USERGUID_WITH_THIS_VALUE");
+            if (userguid == null || userguid.trim().length() == 0) {
+                userguid = req.getHeader("smgov_userguid");
+            }
+
             Map<String, Object> headers = new HashMap<>();
-            headers.put("smgov_userguid", req.getHeader("smgov_userguid"));
+            headers.put("smgov_userguid", userguid);
             headers.put("data", req.getHeader("data"));
             String result = save(pdf, headers);
 

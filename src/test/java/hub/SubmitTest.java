@@ -94,6 +94,8 @@ public class SubmitTest extends HavingTestProperties {
         System.setProperty("WEBCATS_XMLNS_NS", "this-ns");
         System.setProperty("WEBCATS_XMLNS_DAT", "this-dat");
 
+        System.setProperty("OVERWRITE_USERGUID_WITH_THIS_VALUE", "");
+        
         hub = new Hub(8888);
         hub.start();
     }
@@ -537,5 +539,30 @@ public class SubmitTest extends HavingTestProperties {
         assertThat(response.getStatusCode(), equalTo(400));
         assertThat(response.getContentType(), equalTo("application/json"));
         assertThat(response.getBody(), equalTo("{\"message\":\"form data missing in http header\"}"));
+    }
+
+    @Test
+    public void userguidCanBeOverwriten() throws Exception {
+        System.setProperty("OVERWRITE_USERGUID_WITH_THIS_VALUE", "42");
+
+        byte[] pdf = named("form2-1.pdf");
+        Map<String, String> headers = new HashMap<>();
+        headers.put("smgov_userguid", "MAX");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\",\"appellants\":[{\"name\":\"Max FREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":0},{\"name\":\"MAX SUPERFREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":1}],\"respondents\":[{\"name\":\"Bob NOT SO FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\",\"phone\":\"7783501234\"},\"id\":0,\"selected\":true},{\"name\":\"BOB NOT FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\"},\"id\":1,\"selected\":true}],\"useServiceEmail\":false,\"sendNotifications\":false,\"selectedContactIndex\":0,\"account\":{\"accountId\":111,\"country\":\"Canada\",\"clientId\":1,\"accountName\":\"Beautiful Victoria\",\"city\":\"Victoria\",\"postalCode\":\"V1V0V1\",\"addressLine1\":\"123 Street\",\"addressLine2\":\"Suite 123\"},\"authorizations\":[{\"clientId\":1,\"surname\":\"Bruce\",\"givenName\":\"Batman\",\"isAdmin\":true,\"isActive\":true,\"isEditable\":false},{\"clientId\":2,\"surname\":\"Clark\",\"givenName\":\"Superman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true},{\"clientId\":3,\"surname\":\"Diana\",\"givenName\":\"WonderWoman\",\"isAdmin\":false,\"isActive\":false,\"isEditable\":true}]}");
+        post(submitUrl, headers, pdf);
+
+        assertThat(paymentMethod, equalTo("POST"));
+        assertThat(paymentHeaders.getFirst("Authorization"), equalTo("Basic " + Base64.getEncoder().encodeToString(("cso-user:cso-password").getBytes())));
+        assertThat(paymentHeaders.getFirst("Content-Type"), equalTo("text/xml"));
+        assertThat(paymentHeaders.getFirst("SOAPAction"), equalTo("payment-process-soap-action"));
+        assertThat(paymentBody, containsString("" +
+                "<cso:paymentProcess xmlns:cso=\"http://hub.org\">" +
+                    "<serviceType>EXFL</serviceType>" +
+                    "<serviceDesc>Form 2 Filing payment</serviceDesc>" +
+                    "<userguid>42</userguid>" +
+                    "<bcolUserId/>" +
+                    "<bcolSessionKey/>" +
+                    "<bcolUniqueId/>" +
+                "</cso:paymentProcess>"));
     }
 }
