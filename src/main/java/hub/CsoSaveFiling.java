@@ -168,7 +168,7 @@ public class CsoSaveFiling {
             String surname = name.substring(name.indexOf(" ") + 1);
             contribution = contribution
                     .replace("<firstGivenName>?</firstGivenName>", "<firstGivenName>" + firstname + "</firstGivenName>")
-                    .replace("<nameTypeCd>?</nameTypeCd>", "<nameTypeCd></nameTypeCd>")
+                    .replace("<nameTypeCd>?</nameTypeCd>", "<nameTypeCd>CUR</nameTypeCd>")
                     .replace("<organizationName>?</organizationName>", "<organizationName></organizationName>")
                     .replace("<partyTypeCd>?</partyTypeCd>", "<partyTypeCd>IND</partyTypeCd>")
                     .replace("<roleTypeCd>?</roleTypeCd>", "<roleTypeCd>"+roleType+"</roleTypeCd>")

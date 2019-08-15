@@ -361,7 +361,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                <notificationEmail></notificationEmail>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>Max</firstGivenName>\n" +
-                "                    <nameTypeCd></nameTypeCd>\n" +
+                "                    <nameTypeCd>CUR</nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
                 "                    <partyTypeCd>IND</partyTypeCd>\n" +
                 "                    <roleTypeCd>APL</roleTypeCd>\n" +
@@ -371,7 +371,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                </parties>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>MAX</firstGivenName>\n" +
-                "                    <nameTypeCd></nameTypeCd>\n" +
+                "                    <nameTypeCd>CUR</nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
                 "                    <partyTypeCd>IND</partyTypeCd>\n" +
                 "                    <roleTypeCd>APL</roleTypeCd>\n" +
@@ -381,7 +381,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                </parties>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>Bob</firstGivenName>\n" +
-                "                    <nameTypeCd></nameTypeCd>\n" +
+                "                    <nameTypeCd>CUR</nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
                 "                    <partyTypeCd>IND</partyTypeCd>\n" +
                 "                    <roleTypeCd>RES</roleTypeCd>\n" +
@@ -391,7 +391,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                </parties>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>BOB</firstGivenName>\n" +
-                "                    <nameTypeCd></nameTypeCd>\n" +
+                "                    <nameTypeCd>CUR</nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
                 "                    <partyTypeCd>IND</partyTypeCd>\n" +
                 "                    <roleTypeCd>RES</roleTypeCd>\n" +
@@ -624,7 +624,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                <notificationEmail></notificationEmail>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>Max</firstGivenName>\n" +
-                "                    <nameTypeCd></nameTypeCd>\n" +
+                "                    <nameTypeCd>CUR</nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
                 "                    <partyTypeCd>IND</partyTypeCd>\n" +
                 "                    <roleTypeCd>APL</roleTypeCd>\n" +
@@ -634,7 +634,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                </parties>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>MAX</firstGivenName>\n" +
-                "                    <nameTypeCd></nameTypeCd>\n" +
+                "                    <nameTypeCd>CUR</nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
                 "                    <partyTypeCd>IND</partyTypeCd>\n" +
                 "                    <roleTypeCd>APL</roleTypeCd>\n" +
@@ -644,7 +644,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                </parties>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>Bob</firstGivenName>\n" +
-                "                    <nameTypeCd></nameTypeCd>\n" +
+                "                    <nameTypeCd>CUR</nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
                 "                    <partyTypeCd>IND</partyTypeCd>\n" +
                 "                    <roleTypeCd>RES</roleTypeCd>\n" +
@@ -654,7 +654,7 @@ public class SubmitTest extends HavingTestProperties {
                 "                </parties>\n" +
                 "                <parties>\n" +
                 "                    <firstGivenName>BOB</firstGivenName>\n" +
-                "                    <nameTypeCd></nameTypeCd>\n" +
+                "                    <nameTypeCd>CUR</nameTypeCd>\n" +
                 "                    <organizationName></organizationName>\n" +
                 "                    <partyTypeCd>IND</partyTypeCd>\n" +
                 "                    <roleTypeCd>RES</roleTypeCd>\n" +
