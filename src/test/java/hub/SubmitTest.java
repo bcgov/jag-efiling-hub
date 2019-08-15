@@ -95,7 +95,9 @@ public class SubmitTest extends HavingTestProperties {
         System.setProperty("WEBCATS_XMLNS_DAT", "this-dat");
 
         System.setProperty("OVERWRITE_USERGUID_WITH_THIS_VALUE", "");
-        
+        System.setProperty("OVERWRITE_ACCOUNT_ID_WITH_THIS_VALUE", "");
+        System.setProperty("OVERWRITE_CLIENT_ID_WITH_THIS_VALUE", "");
+
         hub = new Hub(8888);
         hub.start();
     }
@@ -564,5 +566,111 @@ public class SubmitTest extends HavingTestProperties {
                     "<bcolSessionKey/>" +
                     "<bcolUniqueId/>" +
                 "</cso:paymentProcess>"));
+    }
+
+    @Test
+    public void userAccessInfoOfConnectedUserCanBeOverwriten() throws Exception {
+        System.setProperty("OVERWRITE_ACCOUNT_ID_WITH_THIS_VALUE", "666");
+        System.setProperty("OVERWRITE_CLIENT_ID_WITH_THIS_VALUE", "777");
+
+        byte[] pdf = named("form2-1.pdf");
+        Map<String, String> headers = new HashMap<>();
+        headers.put("smgov_userguid", "MAX");
+        headers.put("data", "{\"formSevenNumber\":\"CA12345\",\"appellants\":[{\"name\":\"Max FREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":0},{\"name\":\"MAX SUPERFREE\",\"address\":{\"addressLine1\":\"123 - Nice Street\",\"addressLine2\":\"B201\",\"city\":\"Here\",\"postalCode\":\"V1V 0M0\",\"province\":\"British Columbia\"},\"id\":1}],\"respondents\":[{\"name\":\"Bob NOT SO FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\",\"phone\":\"7783501234\"},\"id\":0,\"selected\":true},{\"name\":\"BOB NOT FREE\",\"address\":{\"addressLine1\":\"456 - Near Street\",\"addressLine2\":\"A2\",\"city\":\"Faraway\",\"postalCode\":\"V2V 0M0\",\"province\":\"British Columbia\"},\"id\":1,\"selected\":true}],\"useServiceEmail\":false,\"sendNotifications\":false,\"selectedContactIndex\":0,\"account\":{},\"authorizations\":[]}");
+        post(submitUrl, headers, pdf);
+
+        assertThat(csoSaveFileMethod, equalTo("POST"));
+        assertThat(csoSaveFileHeaders.getFirst("Authorization"), equalTo("Basic " + Base64.getEncoder().encodeToString(("cso-user:cso-password").getBytes())));
+        assertThat(csoSaveFileHeaders.getFirst("Content-Type"), equalTo("text/xml"));
+        assertThat(csoSaveFileHeaders.getFirst("SOAPAction"), equalTo("cso-save-filing-soap-action"));
+        assertThat(csoSaveFileBody, equalTo("" +
+                "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:cso=\"http://csoextws.jag.gov.bc.ca/\">\n" +
+                "    <soapenv:Header/>\n" +
+                "    <soapenv:Body>\n" +
+                "        <cso:saveFiling>\n" +
+                "            <userguid>MAX</userguid>\n" +
+                "            <bcolUserId></bcolUserId>\n" +
+                "            <bcolSessionKey></bcolSessionKey>\n" +
+                "            <bcolUniqueId></bcolUniqueId>\n" +
+                "            <efilingPackage>\n" +
+                "                <cfcsa>false</cfcsa>\n" +
+                "                <classCd>O</classCd>\n" +
+                "                <clientRefNo></clientRefNo>\n" +
+                "                <comments></comments>\n" +
+                "                <courtFileNumber>CA12345</courtFileNumber>\n" +
+                "                <divisionCd>I</divisionCd>\n" +
+                "                <documents>\n" +
+                "                    <objectGUID>this/GUID/please</objectGUID>\n" +
+                "                    <documentDescriptionTxt></documentDescriptionTxt>\n" +
+                "                    <documentStatusTypeCd>FILE</documentStatusTypeCd>\n" +
+                "                    <documentSubTypeCd>ODOC</documentSubTypeCd>\n" +
+                "                    <documentTypeCd>NAA</documentTypeCd>\n" +
+                "                    <feeExempt>false</feeExempt>\n" +
+                "                    <filenameTxt>NoticeOfAppeal</filenameTxt>\n" +
+                "                    <initiating>false</initiating>\n" +
+                "                    <orderDocument>false</orderDocument>\n" +
+                "                    <statusDtm>"+now()+"</statusDtm>\n" +
+                "                    <uploadStateCd>CMPL</uploadStateCd>\n" +
+                "                    <uploadedToApplicationCd>WEBCATS</uploadedToApplicationCd>\n" +
+                "                </documents>\n" +
+                "                <existingFile>false</existingFile>\n" +
+                "                <indigent>false</indigent>\n" +
+                "                <invoiceNo>invoice-number-from-payment-call</invoiceNo>\n" +
+                "                <levelCd>A</levelCd>\n" +
+                "                <locationCd>COA</locationCd>\n" +
+                "                <notificationEmail></notificationEmail>\n" +
+                "                <parties>\n" +
+                "                    <firstGivenName>Max</firstGivenName>\n" +
+                "                    <organizationName></organizationName>\n" +
+                "                    <partyType>IND</partyType>\n" +
+                "                    <roleType>APL</roleType>\n" +
+                "                    <secondGivenName></secondGivenName>\n" +
+                "                    <surnameName>FREE</surnameName>\n" +
+                "                    <thirdGivenName></thirdGivenName>\n" +
+                "                </parties>\n" +
+                "                <parties>\n" +
+                "                    <firstGivenName>MAX</firstGivenName>\n" +
+                "                    <organizationName></organizationName>\n" +
+                "                    <partyType>IND</partyType>\n" +
+                "                    <roleType>APL</roleType>\n" +
+                "                    <secondGivenName></secondGivenName>\n" +
+                "                    <surnameName>SUPERFREE</surnameName>\n" +
+                "                    <thirdGivenName></thirdGivenName>\n" +
+                "                </parties>\n" +
+                "                <parties>\n" +
+                "                    <firstGivenName>Bob</firstGivenName>\n" +
+                "                    <organizationName></organizationName>\n" +
+                "                    <partyType>IND</partyType>\n" +
+                "                    <roleType>RES</roleType>\n" +
+                "                    <secondGivenName></secondGivenName>\n" +
+                "                    <surnameName>NOT SO FREE</surnameName>\n" +
+                "                    <thirdGivenName></thirdGivenName>\n" +
+                "                </parties>\n" +
+                "                <parties>\n" +
+                "                    <firstGivenName>BOB</firstGivenName>\n" +
+                "                    <organizationName></organizationName>\n" +
+                "                    <partyType>IND</partyType>\n" +
+                "                    <roleType>RES</roleType>\n" +
+                "                    <secondGivenName></secondGivenName>\n" +
+                "                    <surnameName>NOT FREE</surnameName>\n" +
+                "                    <thirdGivenName></thirdGivenName>\n" +
+                "                </parties>\n" +
+                "                <por>false</por>\n" +
+                "                <prevFileNumber></prevFileNumber>\n" +
+                "                <processingComplete>true</processingComplete>\n" +
+                "                <resubmission>false</resubmission>\n" +
+                "                <rush>false</rush>\n" +
+                "                <serviceId>service-id-from-payment-call</serviceId>\n" +
+                "                <submittedDtm>"+now()+"</submittedDtm>\n" +
+                "                <userAccess>\n" +
+                "                    <accountId>666</accountId>\n" +
+                "                    <clientId>777</clientId>\n" +
+                "                    <privilegeCd>UPDT</privilegeCd>\n" +
+                "                </userAccess>\n" +
+                "                <eNotification>false</eNotification>\n" +
+                "            </efilingPackage>\n" +
+                "        </cso:saveFiling>\n" +
+                "    </soapenv:Body>\n" +
+                "</soapenv:Envelope>"));
     }
 }

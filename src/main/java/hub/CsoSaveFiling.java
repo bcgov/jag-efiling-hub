@@ -113,26 +113,36 @@ public class CsoSaveFiling {
 
     private String buildAccesses(JSONObject jo, String template) {
         String accesses = "";
+
         JSONObject account = (JSONObject) jo.get("account");
-        Object accountId = account.get("accountId");
+        String accountId = environment.getValue("OVERWRITE_ACCOUNT_ID_WITH_THIS_VALUE");
+        if (accountId == null || accountId.trim().length() == 0) {
+            accountId = account.get("accountId").toString();
+        }
+        String clientId = environment.getValue("OVERWRITE_CLIENT_ID_WITH_THIS_VALUE");
+        if (clientId == null || clientId.trim().length() == 0) {
+            clientId = account.get("clientId").toString();
+        }
+
         JSONArray authorizations = (JSONArray) jo.get("authorizations");
 
         String contribution = new String(template);
         contribution = contribution
                         .replace("<accountId>?</accountId>","<accountId>"+ accountId +"</accountId>")
-                        .replace("<clientId>?</clientId>","<clientId>"+ account.get("clientId") +"</clientId>")
+                        .replace("<clientId>?</clientId>","<clientId>"+ clientId +"</clientId>")
                         .replace("<privilegeCd>?</privilegeCd>","<privilegeCd>UPDT</privilegeCd>")
         ;
         accesses += contribution;
         for (int i=0 ; i<authorizations.length(); i++) {
             JSONObject authorization = (JSONObject) authorizations.get(i);
             boolean isActive = (boolean) authorization.get("isActive");
-            if (authorization.get("clientId") != account.get("clientId") && isActive) {
+            String otherClientId = authorization.get("clientId").toString();
+            if (!otherClientId.equalsIgnoreCase(clientId) && isActive) {
                 boolean isAdmin = (boolean) authorization.get("isAdmin");
                 String authorizationContribution = new String(template);
                 authorizationContribution = authorizationContribution
                         .replace("<accountId>?</accountId>", "<accountId>" + accountId + "</accountId>")
-                        .replace("<clientId>?</clientId>", "<clientId>" + authorization.get("clientId") + "</clientId>")
+                        .replace("<clientId>?</clientId>", "<clientId>" + otherClientId + "</clientId>")
                         .replace("<privilegeCd>?</privilegeCd>", "<privilegeCd>"+ (isAdmin?"UPDT":"READ") +"</privilegeCd>")
                 ;
                 accesses += authorizationContribution;
