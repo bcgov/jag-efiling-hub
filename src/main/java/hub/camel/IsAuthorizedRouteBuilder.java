@@ -1,6 +1,7 @@
 package hub.camel;
 
 import hub.IsAuthorized;
+import hub.XmlExtractor;
 import hub.helper.Stringify;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
@@ -27,6 +28,9 @@ public class IsAuthorizedRouteBuilder extends RouteBuilder {
     @Inject
     Stringify stringify;
 
+    @Inject
+    XmlExtractor extract;
+
     @Override
     public void configure() {
         XmlJsonDataFormat xmlJsonFormat = new XmlJsonDataFormat();
@@ -47,6 +51,22 @@ public class IsAuthorizedRouteBuilder extends RouteBuilder {
             .process(exchange -> {
                 String userguid = exchange.getIn().getBody(String.class);
                 LOGGER.log(Level.INFO, "userguid="+userguid);
+
+                exchange.getProperties().put("userguid", userguid);
+            })
+            .to("direct:isauthorizedcall")
+            .choice()
+                .when(body().contains("<return/>"))
+                    .setBody(constant("NOT FOUND"))
+                .otherwise()
+                    .marshal(xmlJsonFormat)
+        ;
+
+        from("direct:isauthorizedcall")
+            .process(exchange -> LOGGER.log(Level.INFO, "is authorized call..."))
+            .process(exchange -> {
+                String userguid = (String) exchange.getProperties().get("userguid");
+                LOGGER.log(Level.INFO, "userguid="+userguid);
                 String message = stringify.soapMessage(isAuthorized.byUserguid(userguid));
                 LOGGER.log(Level.INFO, "message="+message);
                 exchange.getOut().setBody(message);
@@ -61,10 +81,13 @@ public class IsAuthorizedRouteBuilder extends RouteBuilder {
                 exchange.getOut().setBody(body);
             })
             .choice()
-                .when(body().contains("<return/>"))
-                    .setBody(constant("NOT FOUND"))
-                .otherwise()
-                    .marshal(xmlJsonFormat);
+                .when(body().not().contains("<return/>"))
+                    .process(exchange -> {
+                        String body = exchange.getIn().getBody(String.class);
+                        exchange.getProperties().put("accountId", extract.valueFromTag("accountId", body));
+                        exchange.getProperties().put("clientId", extract.valueFromTag("clientId", body));
+                    })
+        ;
 
     }
 }
