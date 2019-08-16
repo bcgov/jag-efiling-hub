@@ -1,5 +1,6 @@
 package hub.http;
 
+import hub.helper.Environment;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.cdi.ContextName;
@@ -17,17 +18,25 @@ import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 @WebServlet(name = "CsoAccountUsersServlet", urlPatterns = {"/accountUsers"}, loadOnStartup = 1)
 public class CsoAccountUsersServlet extends HttpServlet {
 
+    private static final Logger LOGGER = Logger.getLogger(CsoAccountUsersServlet.class.getName());
+
     @Inject
     @ContextName("cdi-context")
     private CamelContext context;
 
-    private static final Logger LOGGER = Logger.getLogger(CsoAccountUsersServlet.class.getName());
+    @Inject
+    Environment environment;
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) {
         try {
-            String userguid = req.getParameter("userguid");
-            LOGGER.log(Level.INFO, "received userguid = " + userguid);
+            String userguid = environment.getValue("OVERWRITE_USERGUID_WITH_THIS_VALUE");
+            if (userguid == null || userguid.trim().length() == 0) {
+                userguid = req.getParameter("userguid");
+                LOGGER.log(Level.INFO, "received userguid = " + userguid);
+            }
+            LOGGER.log(Level.INFO, "used userguid = " + userguid);
             if (userguid == null) {
                 res.setHeader(CONTENT_TYPE, "text/plain");
                 res.setStatus(400);
