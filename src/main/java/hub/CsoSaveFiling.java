@@ -64,6 +64,13 @@ public class CsoSaveFiling {
         String userAccessTemplate = extract.outerTag("userAccess", template);
         String accesses = buildAccesses(jo, userAccessTemplate);
 
+        Boolean sendNotifications = (Boolean) jo.get("sendNotifications");
+        Integer selectedContactIndex = (Integer) jo.get("selectedContactIndex");
+        JSONArray respondents = (JSONArray) jo.get("respondents");
+        JSONObject selectedRespondent = (JSONObject) respondents.get(selectedContactIndex);
+        JSONObject address = (JSONObject) selectedRespondent.get("address");
+        String email = address.keySet().contains("email") ? (String) address.get("email") : "";
+
         return template
                 .replace("<userguid>?</userguid>", "<userguid>"+userguid+"</userguid>")
                 .replace("<bcolUserId>?</bcolUserId>", "<bcolUserId></bcolUserId>")
@@ -82,8 +89,8 @@ public class CsoSaveFiling {
                 .replace("<invoiceNo>?</invoiceNo>", "<invoiceNo>"+invoiceNumber+"</invoiceNo>")
                 .replace("<levelCd>?</levelCd>", "<levelCd>A</levelCd>")
                 .replace("<locationCd>?</locationCd>", "<locationCd>COA</locationCd>")
-                .replace("<notificationEmail>?</notificationEmail>", "<notificationEmail></notificationEmail>")
-                .replace("<eNotification>?</eNotification>", "<eNotification>false</eNotification>")
+                .replace("<notificationEmail>?</notificationEmail>", "<notificationEmail>"+ (sendNotifications?email:"") +"</notificationEmail>")
+                .replace("<eNotification>?</eNotification>", "<eNotification>"+ (sendNotifications?"true":"false") +"</eNotification>")
                 .replace("<por>?</por>", "<por>false</por>")
                 .replace("<processingComplete>?</processingComplete>", "<processingComplete>true</processingComplete>")
                 .replace("<resubmission>?</resubmission>", "<resubmission>false</resubmission>")
