@@ -16,7 +16,7 @@
         <jetty-version>9.3.12.v20160915</jetty-version>
         <camel-version>2.21.1</camel-version>
         <activemq-version>5.15.5</activemq-version>
-        <undertow-version>1.4.0.Final</undertow-version>
+        <undertow-version>2.0.27.Final</undertow-version>
     </properties>
 
     <repositories>
